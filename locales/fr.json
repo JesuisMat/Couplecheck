@@ -1,0 +1,173 @@
+{
+  "nav": {
+    "logo": "CoupleCheck",
+    "lang": "EN"
+  },
+  "landing": {
+    "hero": {
+      "badge": "12 847 couples ont déjà fait le test",
+      "headline": "Ton couple est-il vraiment épanoui ?",
+      "subheadline": "Fais le test en 3 min — Résultat immédiat",
+      "cta": "Commencer le test gratuit",
+      "ctaSub": "Gratuit · Sans inscription · Résultat immédiat",
+      "trust": "Basé sur 6 dimensions validées en psychologie relationnelle"
+    },
+    "howItWorks": {
+      "title": "Comment ça marche ?",
+      "steps": [
+        {
+          "number": "01",
+          "title": "Réponds à 15 questions",
+          "description": "En 3 minutes, explore 6 dimensions clés de ta relation"
+        },
+        {
+          "number": "02",
+          "title": "Reçois ton score",
+          "description": "Un score global et par dimension pour identifier tes forces et points fragiles"
+        },
+        {
+          "number": "03",
+          "title": "Débloques ton rapport",
+          "description": "Un rapport PDF personnalisé avec un plan d'action concret généré par IA"
+        }
+      ]
+    },
+    "dimensions": {
+      "title": "Les 6 dimensions analysées",
+      "subtitle": "Notre algorithme évalue chaque pilier d'une relation épanouie",
+      "items": [
+        {
+          "icon": "💬",
+          "title": "Communication",
+          "description": "Qualité des échanges et expression des besoins"
+        },
+        {
+          "icon": "🔒",
+          "title": "Confiance",
+          "description": "Transparence, fidélité et fiabilité"
+        },
+        {
+          "icon": "❤️",
+          "title": "Intimité",
+          "description": "Connexion émotionnelle et physique"
+        },
+        {
+          "icon": "🤝",
+          "title": "Gestion des conflits",
+          "description": "Résolution des désaccords et réconciliation"
+        },
+        {
+          "icon": "🚀",
+          "title": "Projets communs",
+          "description": "Vision du futur et alignement des objectifs"
+        },
+        {
+          "icon": "⚖️",
+          "title": "Équilibre individuel",
+          "description": "Espace personnel et indépendance"
+        }
+      ]
+    },
+    "faq": {
+      "title": "Questions fréquentes",
+      "items": [
+        {
+          "question": "Est-ce que c'est vraiment gratuit ?",
+          "answer": "Oui, le quiz et ton score sont 100% gratuits. Le rapport PDF complet avec analyse approfondie et plan d'action est payant (à partir de 12,90€)."
+        },
+        {
+          "question": "Mes données sont-elles confidentielles ?",
+          "answer": "Absolument. Tes réponses sont anonymisées et ne sont jamais partagées. Nous respectons le RGPD et tes données sont stockées en Europe."
+        },
+        {
+          "question": "Faut-il que mon/ma partenaire fasse le test aussi ?",
+          "answer": "Non, tu peux faire le test seul(e). Le quiz évalue ta perception de la relation. Pour une analyse encore plus complète, vous pouvez le faire chacun de votre côté et comparer."
+        },
+        {
+          "question": "Que contient le rapport complet ?",
+          "answer": "Le rapport PDF (15 pages) inclut : analyse détaillée des 6 dimensions, points forts de ta relation, zones à risque, comparaison avec d'autres couples, et un plan d'action personnalisé généré par IA."
+        },
+        {
+          "question": "Y a-t-il une garantie ?",
+          "answer": "Oui, satisfait ou remboursé sous 7 jours, sans condition."
+        }
+      ]
+    },
+    "footer": {
+      "tagline": "Comprends ta relation. Change ce qui compte.",
+      "links": {
+        "cgv": "CGV",
+        "privacy": "Confidentialité",
+        "legal": "Mentions légales",
+        "contact": "Contact"
+      },
+      "copyright": "© 2026 CoupleCheck. Tous droits réservés."
+    }
+  },
+  "quiz": {
+    "progress": "Question {current} sur {total}",
+    "next": "Continuer",
+    "skip": "Passer",
+    "selectMax": "Sélectionne jusqu'à {max} réponses",
+    "selected": "{count} sélectionné(s)",
+    "textPlaceholder": "Écris ici...",
+    "loading": "Calcul de ton résultat..."
+  },
+  "emailCapture": {
+    "title": "Ton résultat est prêt ! 🎉",
+    "subtitle": "Entre ton email pour recevoir ton score et accéder à ton résultat",
+    "emailLabel": "Ton adresse email",
+    "emailPlaceholder": "prenom@email.com",
+    "firstNameLabel": "Ton prénom",
+    "firstNamePlaceholder": "Prénom",
+    "newsletter": "Je souhaite recevoir des conseils relationnels par email",
+    "cta": "Voir mon résultat →",
+    "privacy": "Tes données sont confidentielles. Pas de spam.",
+    "errors": {
+      "emailRequired": "L'email est requis",
+      "emailInvalid": "Email invalide",
+      "firstNameRequired": "Le prénom est requis"
+    }
+  },
+  "result": {
+    "scoreLabel": "Score global",
+    "strengths": "Tes points forts",
+    "risks": "Zones à surveiller",
+    "risksLocked": "zones à risque identifiées",
+    "risksUnlock": "Débloquer pour voir le détail",
+    "offerBadge": "🎉 OFFRE PRINTEMPS",
+    "offerExpires": "Expire dans",
+    "pricing": {
+      "standard": {
+        "name": "STANDARD",
+        "price": "12,90€",
+        "features": [
+          "Rapport PDF complet (15 pages)",
+          "Analyse des 6 dimensions",
+          "Plan d'action personnalisé",
+          "Ressources recommandées"
+        ],
+        "cta": "Obtenir mon rapport"
+      },
+      "premium": {
+        "name": "PREMIUM",
+        "badge": "⭐ POPULAIRE",
+        "price": "19,90€",
+        "originalPrice": "29,90€",
+        "features": [
+          "Rapport PDF complet (15 pages)",
+          "Analyse des 6 dimensions",
+          "Plan d'action personnalisé",
+          "Ressources recommandées",
+          "Agent IA Coach — 1 mois inclus"
+        ],
+        "cta": "Obtenir mon rapport Premium"
+      }
+    },
+    "trust": [
+      "✓ Paiement sécurisé Stripe",
+      "✓ Satisfait ou remboursé 7j",
+      "✓ Données confidentielles"
+    ]
+  }
+}

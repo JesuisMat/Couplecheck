@@ -1,0 +1,173 @@
+{
+  "nav": {
+    "logo": "CoupleCheck",
+    "lang": "FR"
+  },
+  "landing": {
+    "hero": {
+      "badge": "12,847 couples have already taken the test",
+      "headline": "Is your relationship truly thriving?",
+      "subheadline": "Take the 3-min test — Instant result",
+      "cta": "Start the free test",
+      "ctaSub": "Free · No sign-up · Instant result",
+      "trust": "Based on 6 dimensions validated in relationship psychology"
+    },
+    "howItWorks": {
+      "title": "How does it work?",
+      "steps": [
+        {
+          "number": "01",
+          "title": "Answer 15 questions",
+          "description": "In 3 minutes, explore 6 key dimensions of your relationship"
+        },
+        {
+          "number": "02",
+          "title": "Receive your score",
+          "description": "A global and per-dimension score to identify your strengths and weaknesses"
+        },
+        {
+          "number": "03",
+          "title": "Unlock your report",
+          "description": "A personalized PDF report with a concrete AI-generated action plan"
+        }
+      ]
+    },
+    "dimensions": {
+      "title": "The 6 dimensions analyzed",
+      "subtitle": "Our algorithm evaluates every pillar of a fulfilling relationship",
+      "items": [
+        {
+          "icon": "💬",
+          "title": "Communication",
+          "description": "Quality of exchanges and expression of needs"
+        },
+        {
+          "icon": "🔒",
+          "title": "Trust",
+          "description": "Transparency, fidelity and reliability"
+        },
+        {
+          "icon": "❤️",
+          "title": "Intimacy",
+          "description": "Emotional and physical connection"
+        },
+        {
+          "icon": "🤝",
+          "title": "Conflict Management",
+          "description": "Resolving disagreements and reconciliation"
+        },
+        {
+          "icon": "🚀",
+          "title": "Shared Goals",
+          "description": "Vision for the future and alignment of life goals"
+        },
+        {
+          "icon": "⚖️",
+          "title": "Individual Balance",
+          "description": "Personal space and independence"
+        }
+      ]
+    },
+    "faq": {
+      "title": "Frequently asked questions",
+      "items": [
+        {
+          "question": "Is it really free?",
+          "answer": "Yes, the quiz and your score are 100% free. The complete PDF report with in-depth analysis and action plan is paid (from €12.90)."
+        },
+        {
+          "question": "Is my data confidential?",
+          "answer": "Absolutely. Your answers are anonymized and never shared. We comply with GDPR and your data is stored in Europe."
+        },
+        {
+          "question": "Does my partner need to take the test too?",
+          "answer": "No, you can take the test alone. The quiz evaluates your perception of the relationship. For an even more complete analysis, you can each take it separately and compare."
+        },
+        {
+          "question": "What's included in the full report?",
+          "answer": "The PDF report (15 pages) includes: detailed analysis of 6 dimensions, relationship strengths, risk areas, comparison with other couples, and a personalized AI-generated action plan."
+        },
+        {
+          "question": "Is there a guarantee?",
+          "answer": "Yes, full refund within 7 days, no questions asked."
+        }
+      ]
+    },
+    "footer": {
+      "tagline": "Understand your relationship. Change what matters.",
+      "links": {
+        "cgv": "Terms",
+        "privacy": "Privacy",
+        "legal": "Legal",
+        "contact": "Contact"
+      },
+      "copyright": "© 2026 CoupleCheck. All rights reserved."
+    }
+  },
+  "quiz": {
+    "progress": "Question {current} of {total}",
+    "next": "Continue",
+    "skip": "Skip",
+    "selectMax": "Select up to {max} answers",
+    "selected": "{count} selected",
+    "textPlaceholder": "Write here...",
+    "loading": "Calculating your result..."
+  },
+  "emailCapture": {
+    "title": "Your result is ready! 🎉",
+    "subtitle": "Enter your email to receive your score and access your result",
+    "emailLabel": "Your email address",
+    "emailPlaceholder": "name@email.com",
+    "firstNameLabel": "Your first name",
+    "firstNamePlaceholder": "First name",
+    "newsletter": "I'd like to receive relationship tips by email",
+    "cta": "See my result →",
+    "privacy": "Your data is confidential. No spam.",
+    "errors": {
+      "emailRequired": "Email is required",
+      "emailInvalid": "Invalid email",
+      "firstNameRequired": "First name is required"
+    }
+  },
+  "result": {
+    "scoreLabel": "Overall score",
+    "strengths": "Your strengths",
+    "risks": "Areas to watch",
+    "risksLocked": "risk areas identified",
+    "risksUnlock": "Unlock to see details",
+    "offerBadge": "🎉 SPRING OFFER",
+    "offerExpires": "Expires in",
+    "pricing": {
+      "standard": {
+        "name": "STANDARD",
+        "price": "€12.90",
+        "features": [
+          "Complete PDF report (15 pages)",
+          "Analysis of 6 dimensions",
+          "Personalized action plan",
+          "Recommended resources"
+        ],
+        "cta": "Get my report"
+      },
+      "premium": {
+        "name": "PREMIUM",
+        "badge": "⭐ POPULAR",
+        "price": "€19.90",
+        "originalPrice": "€29.90",
+        "features": [
+          "Complete PDF report (15 pages)",
+          "Analysis of 6 dimensions",
+          "Personalized action plan",
+          "Recommended resources",
+          "AI Coach Agent — 1 month included"
+        ],
+        "cta": "Get my Premium report"
+      }
+    },
+    "trust": [
+      "✓ Secure Stripe payment",
+      "✓ 7-day money-back guarantee",
+      "✓ Confidential data"
+    ]
+  }
+}
