@@ -1,21 +1,22 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { MessageCircle, ShieldCheck, Heart, Handshake, Rocket, Scale } from "lucide-react";
+import { MessageCircle, ShieldCheck, Heart, Scale, Feather, Rocket, Infinity } from "lucide-react";
 
 const dimensionIcons = [
   <MessageCircle size={24} strokeWidth={1.5} className="text-[#AA2C32]" />,
   <ShieldCheck size={24} strokeWidth={1.5} className="text-[#AA2C32]" />,
   <Heart size={24} strokeWidth={1.5} className="text-[#AA2C32]" />,
-  <Handshake size={24} strokeWidth={1.5} className="text-[#AA2C32]" />,
-  <Rocket size={24} strokeWidth={1.5} className="text-[#AA2C32]" />,
   <Scale size={24} strokeWidth={1.5} className="text-[#AA2C32]" />,
+  <Feather size={24} strokeWidth={1.5} className="text-[#AA2C32]" />,
+  <Rocket size={24} strokeWidth={1.5} className="text-[#AA2C32]" />,
+  <Infinity size={24} strokeWidth={1.5} className="text-[#AA2C32]" />,
 ];
 
 export function Dimensions() {
   const t = useTranslations("landing.dimensions");
 
-  const items = Array.from({ length: 6 }, (_, i) => ({
+  const items = Array.from({ length: 7 }, (_, i) => ({
     title: t(`items.${i}.title`),
     description: t(`items.${i}.description`),
   }));
@@ -37,7 +38,7 @@ export function Dimensions() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {items.map((item, i) => (
             <div
               key={i}

@@ -7,18 +7,18 @@
     "hero": {
       "badge": "12,847 couples have already taken the test",
       "headline": "Is your relationship truly thriving?",
-      "subheadline": "Take the 3-min test — Instant result",
+      "subheadline": "Take the 5-min test — Instant result",
       "cta": "Start the free test",
       "ctaSub": "Free · No sign-up · Instant result",
-      "trust": "Based on 6 dimensions validated in relationship psychology"
+      "trust": "Based on 7 dimensions validated in relationship psychology"
     },
     "howItWorks": {
       "title": "How does it work?",
       "steps": [
         {
           "number": "01",
-          "title": "Answer 15 questions",
-          "description": "In 3 minutes, explore 6 key dimensions of your relationship"
+          "title": "Answer 20 questions",
+          "description": "In 5 minutes, explore 7 key dimensions of your relationship"
         },
         {
           "number": "02",
@@ -33,7 +33,7 @@
       ]
     },
     "dimensions": {
-      "title": "The 6 dimensions analyzed",
+      "title": "The 7 dimensions analyzed",
       "subtitle": "Our algorithm evaluates every pillar of a fulfilling relationship",
       "items": [
         {
@@ -42,7 +42,7 @@
           "description": "Quality of exchanges and expression of needs"
         },
         {
-          "icon": "🔒",
+          "icon": "🛡️",
           "title": "Trust",
           "description": "Transparency, fidelity and reliability"
         },
@@ -52,9 +52,14 @@
           "description": "Emotional and physical connection"
         },
         {
-          "icon": "🤝",
+          "icon": "⚖️",
           "title": "Conflict Management",
           "description": "Resolving disagreements and reconciliation"
+        },
+        {
+          "icon": "🕊️",
+          "title": "Forgiveness & Resilience",
+          "description": "Ability to forgive and move past hurts"
         },
         {
           "icon": "🚀",
@@ -85,7 +90,7 @@
         },
         {
           "question": "What's included in the full report?",
-          "answer": "The PDF report (15 pages) includes: detailed analysis of 6 dimensions, relationship strengths, risk areas, comparison with other couples, and a personalized AI-generated action plan."
+          "answer": "The PDF report (15 pages) includes: detailed analysis of 7 dimensions, relationship strengths, risk areas, comparison with other couples, and a personalized AI-generated action plan."
         },
         {
           "question": "Is there a guarantee?",
@@ -111,10 +116,14 @@
     "selectMax": "Select up to {max} answers",
     "selected": "{count} selected",
     "textPlaceholder": "Write here...",
-    "loading": "Calculating your result..."
+    "loading": "Calculating your result...",
+    "tipLabel": "Expert tip",
+    "finishQuiz": "Finish quiz",
+    "openTextLabel": "If you could change ONE thing in your relationship, what would it be?",
+    "openTextPlaceholder": "Describe in a few words what you'd like to improve..."
   },
   "emailCapture": {
-    "title": "Your result is ready! 🎉",
+    "title": "Your result is ready!",
     "subtitle": "Enter your email to receive your score and access your result",
     "emailLabel": "Your email address",
     "emailPlaceholder": "name@email.com",
@@ -135,7 +144,7 @@
     "risks": "Areas to watch",
     "risksLocked": "risk areas identified",
     "risksUnlock": "Unlock to see details",
-    "offerBadge": "🎉 SPRING OFFER",
+    "offerBadge": "SPRING OFFER",
     "offerExpires": "Expires in",
     "pricing": {
       "standard": {
@@ -143,7 +152,7 @@
         "price": "€12.90",
         "features": [
           "Complete PDF report (15 pages)",
-          "Analysis of 6 dimensions",
+          "Analysis of 7 dimensions",
           "Personalized action plan",
           "Recommended resources"
         ],
@@ -151,12 +160,12 @@
       },
       "premium": {
         "name": "PREMIUM",
-        "badge": "⭐ POPULAR",
+        "badge": "POPULAR",
         "price": "€19.90",
         "originalPrice": "€29.90",
         "features": [
           "Complete PDF report (15 pages)",
-          "Analysis of 6 dimensions",
+          "Analysis of 7 dimensions",
           "Personalized action plan",
           "Recommended resources",
           "AI Coach Agent — 1 month included"
@@ -165,9 +174,9 @@
       }
     },
     "trust": [
-      "✓ Secure Stripe payment",
-      "✓ 7-day money-back guarantee",
-      "✓ Confidential data"
+      "Secure Stripe payment",
+      "7-day money-back guarantee",
+      "Confidential data"
     ]
   }
 }

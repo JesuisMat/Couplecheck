@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
+import { Sparkles } from "lucide-react";
 import { trackEvent, EVENTS } from "@/lib/posthog";
 
 interface EmailCaptureProps {
@@ -73,7 +74,7 @@ export function EmailCapture({ sessionId, onSuccess }: EmailCaptureProps) {
       <div className="w-full max-w-[390px] animate-fade-up">
         {/* Icon */}
         <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#AA2C32] to-[#FF7574] flex items-center justify-center mx-auto mb-6 shadow-[0_8px_24px_rgba(170,44,50,0.25)]">
-          <span className="text-2xl">🎉</span>
+          <Sparkles size={28} strokeWidth={1.5} className="text-white" />
         </div>
 
         <h1 className="font-display font-bold text-[26px] text-[#2E2F2D] text-center mb-2 tracking-[-0.02em]">

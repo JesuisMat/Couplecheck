@@ -1,6 +1,6 @@
 export type Locale = "fr" | "en";
 
-export type QuestionType = "single" | "multi" | "text" | "slider";
+export type QuestionType = "single" | "multi" | "text" | "slider" | "combined";
 
 export interface QuizOption {
   text: { fr: string; en: string };
@@ -28,6 +28,7 @@ export type DimensionKey =
   | "trust"
   | "intimacy"
   | "conflict"
+  | "forgiveness"
   | "projects"
   | "balance";
 
@@ -36,6 +37,7 @@ export interface DimensionScores {
   trust: number;
   intimacy: number;
   conflict: number;
+  forgiveness: number;
   projects: number;
   balance: number;
 }
@@ -47,7 +49,12 @@ export interface ScoreResult {
   color: string;
 }
 
-export type QuizAnswer = string | string[] | number;
+export interface CombinedAnswer {
+  multiSelect: string[];
+  text: string;
+}
+
+export type QuizAnswer = string | string[] | number | CombinedAnswer;
 
 export interface QuizState {
   sessionId: string;

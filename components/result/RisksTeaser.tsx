@@ -4,6 +4,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { DimensionScores } from "@/types/quiz";
 import { classifyDimension } from "@/lib/scoring";
 import { dimensions } from "@/config/dimensions";
+import { DimensionIcon } from "@/components/icons/DimensionIcon";
 
 interface RisksTeaserProps {
   scores: DimensionScores;
@@ -54,8 +55,9 @@ export function RisksTeaser({ scores }: RisksTeaserProps) {
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-1">
-                    <span className="font-semibold text-[14px] text-[#2E2F2D]">
-                      {dim.icon} {dim.label[locale]}
+                    <span className="font-semibold text-[14px] text-[#2E2F2D] flex items-center gap-1.5">
+                      <DimensionIcon dimensionKey={dim.key} size={14} className="text-[#F59E0B]" />
+                      {dim.label[locale]}
                     </span>
                     <span className="text-[13px] font-bold text-[#F59E0B]">
                       {scores[dim.key]}%

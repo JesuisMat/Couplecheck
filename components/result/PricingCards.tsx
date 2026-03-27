@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useLocale, useTranslations } from "next-intl";
+import { Tag, Star, Check, ShieldCheck, RotateCcw, Lock } from "lucide-react";
 import { trackEvent, EVENTS } from "@/lib/posthog";
 
 interface PricingCardsProps {
@@ -41,6 +42,8 @@ function useCountdown(durationHours = 168) {
 
   return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
 }
+
+const trustIcons = [ShieldCheck, RotateCcw, Lock];
 
 export function PricingCards({ sessionId, leadId }: PricingCardsProps) {
   const locale = useLocale() as "fr" | "en";
@@ -83,9 +86,12 @@ export function PricingCards({ sessionId, leadId }: PricingCardsProps) {
     <section className="px-5 pb-8">
       {/* Offer banner */}
       <div className="bg-gradient-to-r from-[#AA2C32] to-[#FF7574] rounded-[20px] p-4 mb-5 flex items-center justify-between shadow-[0_4px_16px_rgba(170,44,50,0.2)]">
-        <span className="font-display font-bold text-[13px] text-white">
-          {t("offerBadge")}
-        </span>
+        <div className="flex items-center gap-2">
+          <Tag size={14} strokeWidth={2} className="text-white" />
+          <span className="font-display font-bold text-[13px] text-white">
+            {t("offerBadge")}
+          </span>
+        </div>
         <div className="flex items-center gap-2">
           <span className="text-[11px] text-white/80">{t("offerExpires")}</span>
           <span className="font-mono font-bold text-[13px] text-white bg-white/20 px-2 py-0.5 rounded-full">
@@ -109,9 +115,7 @@ export function PricingCards({ sessionId, leadId }: PricingCardsProps) {
           <ul className="space-y-2 mb-5">
             {features.standard.map((f, i) => (
               <li key={i} className="flex items-center gap-2 text-[13px] text-[#5B5C59]">
-                <svg width="14" height="11" viewBox="0 0 14 11" fill="none" className="flex-shrink-0">
-                  <path d="M1 5.5l3.5 3.5L13 1" stroke="#10B981" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+                <Check size={13} strokeWidth={2.5} className="text-[#10B981] flex-shrink-0" />
                 {f}
               </li>
             ))}
@@ -128,11 +132,12 @@ export function PricingCards({ sessionId, leadId }: PricingCardsProps) {
         {/* Premium */}
         <div className="bg-gradient-to-br from-[#AA2C32] to-[#FF7574] rounded-[24px] p-5 shadow-[0_8px_24px_rgba(170,44,50,0.25)] relative overflow-hidden">
           {/* Badge */}
-          <div className="absolute top-4 right-4 bg-white/20 text-white text-[11px] font-bold px-3 py-1 rounded-full">
+          <div className="absolute top-4 right-4 flex items-center gap-1 bg-white/20 text-white text-[11px] font-bold px-3 py-1 rounded-full">
+            <Star size={10} strokeWidth={2} className="fill-white text-white" />
             {t("pricing.premium.badge")}
           </div>
 
-          <div className="flex items-center justify-between mb-4 pr-20">
+          <div className="flex items-center justify-between mb-4 pr-24">
             <span className="text-[11px] font-bold text-white/80 tracking-[0.05em] uppercase">
               {t("pricing.premium.name")}
             </span>
@@ -149,9 +154,7 @@ export function PricingCards({ sessionId, leadId }: PricingCardsProps) {
           <ul className="space-y-2 mb-5">
             {features.premium.map((f, i) => (
               <li key={i} className="flex items-center gap-2 text-[13px] text-white">
-                <svg width="14" height="11" viewBox="0 0 14 11" fill="none" className="flex-shrink-0">
-                  <path d="M1 5.5l3.5 3.5L13 1" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+                <Check size={13} strokeWidth={2.5} className="text-white flex-shrink-0" />
                 {f}
               </li>
             ))}
@@ -168,14 +171,17 @@ export function PricingCards({ sessionId, leadId }: PricingCardsProps) {
       </div>
 
       {/* Trust signals */}
-      <div className="flex flex-wrap items-center justify-center gap-3 mt-5">
-        {Array.from({ length: 3 }, (_, i) => t(`trust.${i}`)).map(
-          (trust, i) => (
-            <span key={i} className="text-[11px] text-[#777774]">
-              {trust}
+      <div className="flex flex-wrap items-center justify-center gap-4 mt-5">
+        {Array.from({ length: 3 }, (_, i) => {
+          const Icon = trustIcons[i];
+          const text = t(`trust.${i}`);
+          return (
+            <span key={i} className="flex items-center gap-1.5 text-[11px] text-[#777774]">
+              <Icon size={12} strokeWidth={2} className="text-[#10B981] flex-shrink-0" />
+              {text}
             </span>
-          )
-        )}
+          );
+        })}
       </div>
     </section>
   );

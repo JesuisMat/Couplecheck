@@ -7,18 +7,18 @@
     "hero": {
       "badge": "12 847 couples ont déjà fait le test",
       "headline": "Ton couple est-il vraiment épanoui ?",
-      "subheadline": "Fais le test en 3 min — Résultat immédiat",
+      "subheadline": "Fais le test en 5 min — Résultat immédiat",
       "cta": "Commencer le test gratuit",
       "ctaSub": "Gratuit · Sans inscription · Résultat immédiat",
-      "trust": "Basé sur 6 dimensions validées en psychologie relationnelle"
+      "trust": "Basé sur 7 dimensions validées en psychologie relationnelle"
     },
     "howItWorks": {
       "title": "Comment ça marche ?",
       "steps": [
         {
           "number": "01",
-          "title": "Réponds à 15 questions",
-          "description": "En 3 minutes, explore 6 dimensions clés de ta relation"
+          "title": "Réponds à 20 questions",
+          "description": "En 5 minutes, explore 7 dimensions clés de ta relation"
         },
         {
           "number": "02",
@@ -27,13 +27,13 @@
         },
         {
           "number": "03",
-          "title": "Débloques ton rapport",
+          "title": "Débloque ton rapport",
           "description": "Un rapport PDF personnalisé avec un plan d'action concret généré par IA"
         }
       ]
     },
     "dimensions": {
-      "title": "Les 6 dimensions analysées",
+      "title": "Les 7 dimensions analysées",
       "subtitle": "Notre algorithme évalue chaque pilier d'une relation épanouie",
       "items": [
         {
@@ -42,7 +42,7 @@
           "description": "Qualité des échanges et expression des besoins"
         },
         {
-          "icon": "🔒",
+          "icon": "🛡️",
           "title": "Confiance",
           "description": "Transparence, fidélité et fiabilité"
         },
@@ -52,9 +52,14 @@
           "description": "Connexion émotionnelle et physique"
         },
         {
-          "icon": "🤝",
+          "icon": "⚖️",
           "title": "Gestion des conflits",
           "description": "Résolution des désaccords et réconciliation"
+        },
+        {
+          "icon": "🕊️",
+          "title": "Pardon & Résilience",
+          "description": "Capacité à pardonner et dépasser les blessures"
         },
         {
           "icon": "🚀",
@@ -62,7 +67,7 @@
           "description": "Vision du futur et alignement des objectifs"
         },
         {
-          "icon": "⚖️",
+          "icon": "☯️",
           "title": "Équilibre individuel",
           "description": "Espace personnel et indépendance"
         }
@@ -85,7 +90,7 @@
         },
         {
           "question": "Que contient le rapport complet ?",
-          "answer": "Le rapport PDF (15 pages) inclut : analyse détaillée des 6 dimensions, points forts de ta relation, zones à risque, comparaison avec d'autres couples, et un plan d'action personnalisé généré par IA."
+          "answer": "Le rapport PDF (15 pages) inclut : analyse détaillée des 7 dimensions, points forts de ta relation, zones à risque, comparaison avec d'autres couples, et un plan d'action personnalisé généré par IA."
         },
         {
           "question": "Y a-t-il une garantie ?",
@@ -111,10 +116,14 @@
     "selectMax": "Sélectionne jusqu'à {max} réponses",
     "selected": "{count} sélectionné(s)",
     "textPlaceholder": "Écris ici...",
-    "loading": "Calcul de ton résultat..."
+    "loading": "Calcul de ton résultat...",
+    "tipLabel": "Conseil d'expert",
+    "finishQuiz": "Terminer le quiz",
+    "openTextLabel": "Si tu pouvais changer UNE chose dans ta relation, ce serait quoi ?",
+    "openTextPlaceholder": "Décris en quelques mots ce que tu aimerais améliorer..."
   },
   "emailCapture": {
-    "title": "Ton résultat est prêt ! 🎉",
+    "title": "Ton résultat est prêt !",
     "subtitle": "Entre ton email pour recevoir ton score et accéder à ton résultat",
     "emailLabel": "Ton adresse email",
     "emailPlaceholder": "prenom@email.com",
@@ -135,7 +144,7 @@
     "risks": "Zones à surveiller",
     "risksLocked": "zones à risque identifiées",
     "risksUnlock": "Débloquer pour voir le détail",
-    "offerBadge": "🎉 OFFRE PRINTEMPS",
+    "offerBadge": "OFFRE PRINTEMPS",
     "offerExpires": "Expire dans",
     "pricing": {
       "standard": {
@@ -143,7 +152,7 @@
         "price": "12,90€",
         "features": [
           "Rapport PDF complet (15 pages)",
-          "Analyse des 6 dimensions",
+          "Analyse des 7 dimensions",
           "Plan d'action personnalisé",
           "Ressources recommandées"
         ],
@@ -151,12 +160,12 @@
       },
       "premium": {
         "name": "PREMIUM",
-        "badge": "⭐ POPULAIRE",
+        "badge": "POPULAIRE",
         "price": "19,90€",
         "originalPrice": "29,90€",
         "features": [
           "Rapport PDF complet (15 pages)",
-          "Analyse des 6 dimensions",
+          "Analyse des 7 dimensions",
           "Plan d'action personnalisé",
           "Ressources recommandées",
           "Agent IA Coach — 1 mois inclus"
@@ -165,9 +174,9 @@
       }
     },
     "trust": [
-      "✓ Paiement sécurisé Stripe",
-      "✓ Satisfait ou remboursé 7j",
-      "✓ Données confidentielles"
+      "Paiement sécurisé Stripe",
+      "Satisfait ou remboursé 7j",
+      "Données confidentielles"
     ]
   }
 }

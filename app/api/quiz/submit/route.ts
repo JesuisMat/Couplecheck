@@ -35,19 +35,25 @@ export async function POST(request: NextRequest) {
       relationship_status: answers.Q4 as string | undefined,
     };
 
-    // Extract pain points (Q14 multi-select)
-    const painPoints = Array.isArray(answers.Q14) ? answers.Q14 : [];
+    // Extract pain points from Q20 (combined question: multiSelect + text)
+    const q20 = answers.Q20;
+    const painPoints =
+      q20 && typeof q20 === "object" && "multiSelect" in (q20 as object)
+        ? ((q20 as { multiSelect: string[] }).multiSelect ?? [])
+        : [];
     const changeWish =
-      typeof answers.Q15 === "string" ? answers.Q15 : undefined;
+      q20 && typeof q20 === "object" && "text" in (q20 as object)
+        ? ((q20 as { text: string }).text ?? undefined)
+        : undefined;
 
     const supabase = createAdminClient();
 
-    // Upsert quiz session
+    // Upsert quiz session — store raw answers for teaser personalization
     const { error } = await supabase.from("quiz_sessions").upsert({
       id: sessionId,
       locale,
       ...segmentation,
-      answers: resolvedAnswers,
+      answers,
       pain_points: painPoints,
       change_wish: changeWish,
       scores,

@@ -8,9 +8,10 @@ import { ProgressBar } from "./ProgressBar";
 import { OptionCard } from "./OptionCard";
 import { MultiSelectCard } from "./MultiSelectCard";
 import { SliderQuestion } from "./SliderQuestion";
-import { InfoTooltip } from "./InfoTooltip";
+import { TipCard } from "./TipCard";
+import { CombinedQuestion } from "./CombinedQuestion";
 import { EmailCapture } from "./EmailCapture";
-import { QuizAnswer } from "@/types/quiz";
+import { QuizAnswer, CombinedAnswer } from "@/types/quiz";
 
 export function QuizContainer() {
   const locale = useLocale() as "fr" | "en";
@@ -74,6 +75,18 @@ export function QuizContainer() {
     [answerQuestion]
   );
 
+  // Combined question submit (Q20)
+  const handleCombinedSubmit = useCallback(
+    async (selectedOptions: string[], textValue: string) => {
+      const combined: CombinedAnswer = { multiSelect: selectedOptions, text: textValue };
+      answerQuestion(combined);
+      setAnimDirection("left");
+      setAnimKey((k) => k + 1);
+      await nextQuestion();
+    },
+    [answerQuestion, nextQuestion]
+  );
+
   const handleNext = useCallback(async () => {
     setAnimDirection("left");
     setAnimKey((k) => k + 1);
@@ -98,19 +111,17 @@ export function QuizContainer() {
   if (!currentQuestion) return null;
 
   const selectedValues = (currentAnswer as string[]) || [];
+
   const needsContinue =
     currentQuestion.type === "multi" ||
     currentQuestion.type === "text" ||
     currentQuestion.type === "slider";
+  // "combined" excluded — CombinedQuestion has its own submit button
 
   const sliderValue =
     currentQuestion.type === "slider"
       ? (currentAnswer as number | undefined)
       : undefined;
-
-  // Default slider to midpoint so it's always "answered"
-  const sliderHasValue =
-    currentQuestion.type !== "slider" || sliderValue !== undefined;
 
   return (
     <div className="min-h-screen bg-[#F8F6F2] flex flex-col">
@@ -139,15 +150,10 @@ export function QuizContainer() {
           key={animKey}
           className={`animate-${animDirection === "left" ? "slide-left" : "slide-right"}`}
         >
-          {/* Question text + tooltip */}
-          <div className="flex items-start mb-6">
-            <h2 className="font-display font-semibold text-[20px] text-[#2E2F2D] leading-[1.3] tracking-[-0.01em]">
-              {currentQuestion.text[locale]}
-            </h2>
-            {currentQuestion.hint && (
-              <InfoTooltip hint={currentQuestion.hint[locale]} />
-            )}
-          </div>
+          {/* Question text */}
+          <h2 className="font-display font-semibold text-[20px] text-[#2E2F2D] leading-[1.3] tracking-[-0.01em] mb-6">
+            {currentQuestion.text[locale]}
+          </h2>
 
           {/* Single select */}
           {currentQuestion.type === "single" && currentQuestion.options && (
@@ -157,7 +163,10 @@ export function QuizContainer() {
                   key={opt.value}
                   text={opt.text[locale]}
                   value={opt.value}
-                  selected={currentAnswer === opt.value || currentAnswer === opt.score}
+                  selected={
+                    currentAnswer !== undefined &&
+                    (currentAnswer === opt.value || currentAnswer === opt.score)
+                  }
                   onSelect={handleSingleSelect}
                   index={i}
                 />
@@ -202,24 +211,56 @@ export function QuizContainer() {
             />
           )}
 
-          {/* Text */}
+          {/* Text — tip above textarea */}
           {currentQuestion.type === "text" && (
             <div>
-              <textarea
-                value={(currentAnswer as string) || ""}
-                onChange={(e) => answerQuestion(e.target.value)}
-                placeholder={currentQuestion.placeholder?.[locale] || t("textPlaceholder")}
-                maxLength={currentQuestion.maxLength || 500}
-                rows={5}
-                className="w-full bg-[#FFFFFF] rounded-[20px] p-4 text-[14px] text-[#2E2F2D] placeholder:text-[#AEADAA] resize-none outline-none focus:ring-2 focus:ring-[#AA2C32]/20 shadow-[0_2px_8px_rgba(0,0,0,0.04)] leading-[1.6]"
-              />
-              <div className="text-right mt-1">
-                <span className="text-[11px] text-[#AEADAA]">
-                  {((currentAnswer as string) || "").length}/{currentQuestion.maxLength || 500}
-                </span>
+              {currentQuestion.hint && (
+                <TipCard
+                  label={t("tipLabel")}
+                  text={currentQuestion.hint[locale]}
+                  variant="quote"
+                />
+              )}
+              <div className="mt-4">
+                <textarea
+                  value={(currentAnswer as string) || ""}
+                  onChange={(e) => answerQuestion(e.target.value)}
+                  placeholder={currentQuestion.placeholder?.[locale] || t("textPlaceholder")}
+                  maxLength={currentQuestion.maxLength || 500}
+                  rows={5}
+                  className="w-full bg-[#FFFFFF] rounded-[20px] p-4 text-[14px] text-[#2E2F2D] placeholder:text-[#AEADAA] resize-none outline-none focus:ring-2 focus:ring-[#AA2C32]/20 shadow-[0_2px_8px_rgba(0,0,0,0.04)] leading-[1.6]"
+                />
+                <div className="text-right mt-1">
+                  <span className="text-[11px] text-[#AEADAA]">
+                    {((currentAnswer as string) || "").length}/{currentQuestion.maxLength || 500}
+                  </span>
+                </div>
               </div>
             </div>
           )}
+
+          {/* Combined (Q20) */}
+          {currentQuestion.type === "combined" && (
+            <CombinedQuestion
+              question={currentQuestion}
+              locale={locale}
+              onSubmit={handleCombinedSubmit}
+              isSubmitting={isSubmitting}
+            />
+          )}
+
+          {/* Tip card — below options for single/multi/slider */}
+          {currentQuestion.type !== "text" &&
+            currentQuestion.type !== "combined" &&
+            currentQuestion.hint && (
+              <div className="mt-5">
+                <TipCard
+                  label={t("tipLabel")}
+                  text={currentQuestion.hint[locale]}
+                  variant="conseil"
+                />
+              </div>
+            )}
         </div>
 
         {error && (

@@ -9,7 +9,7 @@ export const dimensions: Dimension[] = [
       en: "Quality of exchanges, active listening and expression of needs",
     },
     icon: "💬",
-    questions: ["Q5", "Q6"],
+    questions: ["Q5", "Q6", "Q7"],
   },
   {
     key: "trust",
@@ -18,8 +18,8 @@ export const dimensions: Dimension[] = [
       fr: "Transparence, fidélité, jalousie et fiabilité dans la relation",
       en: "Transparency, fidelity, jealousy and reliability in the relationship",
     },
-    icon: "🔒",
-    questions: ["Q7", "Q8"],
+    icon: "🛡️",
+    questions: ["Q8", "Q9"],
   },
   {
     key: "intimacy",
@@ -29,7 +29,7 @@ export const dimensions: Dimension[] = [
       en: "Emotional and physical connection between partners",
     },
     icon: "❤️",
-    questions: ["Q9"],
+    questions: ["Q10", "Q11"],
   },
   {
     key: "conflict",
@@ -38,8 +38,18 @@ export const dimensions: Dimension[] = [
       fr: "Manière de gérer les désaccords et de se réconcilier",
       en: "How disagreements are handled and resolved",
     },
-    icon: "🤝",
-    questions: ["Q10", "Q11"],
+    icon: "⚖️",
+    questions: ["Q12", "Q13"],
+  },
+  {
+    key: "forgiveness",
+    label: { fr: "Pardon & Résilience", en: "Forgiveness & Resilience" },
+    description: {
+      fr: "Capacité à pardonner et à dépasser les blessures ensemble",
+      en: "Ability to forgive and move past hurts together",
+    },
+    icon: "🕊️",
+    questions: ["Q14", "Q15"],
   },
   {
     key: "projects",
@@ -49,7 +59,7 @@ export const dimensions: Dimension[] = [
       en: "Shared vision for the future and alignment of life goals",
     },
     icon: "🚀",
-    questions: ["Q12"],
+    questions: ["Q16", "Q17"],
   },
   {
     key: "balance",
@@ -58,7 +68,7 @@ export const dimensions: Dimension[] = [
       fr: "Espace personnel, indépendance et épanouissement individuel",
       en: "Personal space, independence and individual fulfillment",
     },
-    icon: "⚖️",
-    questions: ["Q13"],
+    icon: "☯️",
+    questions: ["Q18", "Q19"],
   },
 ];
