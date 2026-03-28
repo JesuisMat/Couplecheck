@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { Heart } from "lucide-react";
 
 export function Header() {
   const locale = useLocale();
@@ -10,28 +9,38 @@ export function Header() {
   const otherLocale = locale === "fr" ? "en" : "fr";
 
   return (
-    <header className="glass fixed top-0 left-0 right-0 z-50">
-      <div className="max-w-5xl mx-auto px-5 h-14 flex items-center justify-between">
+    <header className="header-flat fixed top-0 left-0 right-0 z-50">
+      <div className="max-w-5xl mx-auto px-5 h-[62px] flex items-center justify-between">
         <Link
           href={`/${locale}`}
-          className="flex items-center gap-2 font-display font-bold text-[18px] text-[#AA2C32] tracking-tight"
+          className="font-display font-normal italic text-[19px] text-[#1A1916] tracking-tight leading-none"
         >
-          <Heart size={16} strokeWidth={2.5} fill="#AA2C32" className="text-[#AA2C32]" />
-          {t("logo")}
+          CoupleCheck
         </Link>
-        <div className="flex items-center gap-3">
+
+        <div className="flex items-center gap-5">
           <Link
             href={`/${locale}/quiz`}
-            className="hidden md:block text-[13px] font-semibold text-[#AA2C32] hover:opacity-80 transition-opacity"
+            className="hidden md:block text-[13px] font-medium text-[#AA2C32] hover:text-[#922226] transition-colors"
           >
-            Commencer le test
+            {locale === "fr" ? "Commencer le test" : "Start the test"}
           </Link>
-          <Link
-            href={`/${otherLocale}`}
-            className="text-[13px] font-medium text-[#5B5C59] bg-[#DEDDD8] rounded-full px-3 py-1.5 hover:bg-[#E3E2DE] transition-colors"
-          >
-            {t("lang")}
-          </Link>
+
+          <div className="flex items-center gap-0 text-[12px] font-medium text-[#8A8880]">
+            <Link
+              href="/fr"
+              className={`px-2 py-1 transition-colors ${locale === "fr" ? "text-[#1A1916] font-semibold" : "hover:text-[#5A5854]"}`}
+            >
+              FR
+            </Link>
+            <span className="text-[#D0CEC8]">|</span>
+            <Link
+              href="/en"
+              className={`px-2 py-1 transition-colors ${locale === "en" ? "text-[#1A1916] font-semibold" : "hover:text-[#5A5854]"}`}
+            >
+              EN
+            </Link>
+          </div>
         </div>
       </div>
     </header>

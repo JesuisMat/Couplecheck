@@ -35,10 +35,10 @@ export function ScoreGauge({ score }: ScoreGaugeProps) {
   return (
     <div className="flex flex-col items-center py-8">
       {/* Circle gauge */}
-      <div className="relative w-[140px] h-[140px]">
+      <div className="relative w-[160px] h-[160px]">
         <svg
           viewBox="0 0 120 120"
-          className="w-full h-full -rotate-90"
+          className="relative w-full h-full -rotate-90"
           aria-label={`Score: ${score}/100`}
         >
           {/* Background track */}
@@ -47,8 +47,8 @@ export function ScoreGauge({ score }: ScoreGaugeProps) {
             cy="60"
             r={radius}
             fill="none"
-            stroke="#E9E8E4"
-            strokeWidth="10"
+            stroke="#E0DDD6"
+            strokeWidth="8"
           />
           {/* Progress arc */}
           <circle
@@ -56,34 +56,28 @@ export function ScoreGauge({ score }: ScoreGaugeProps) {
             cy="60"
             r={radius}
             fill="none"
-            stroke="url(#gaugeGrad)"
-            strokeWidth="10"
+            stroke={color}
+            strokeWidth="8"
             strokeLinecap="round"
             strokeDasharray={circumference}
             strokeDashoffset={offset}
             style={{ transition: "stroke-dashoffset 0.05s linear" }}
           />
-          <defs>
-            <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#AA2C32" />
-              <stop offset="100%" stopColor="#FF7574" />
-            </linearGradient>
-          </defs>
         </svg>
 
         {/* Score text */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="font-display font-bold text-[36px] text-[#2E2F2D] leading-none">
+          <span className="font-display font-normal text-[48px] text-[#1A1916] leading-none tabular-nums">
             {animatedScore}
           </span>
-          <span className="text-[12px] text-[#5B5C59]">/100</span>
+          <span className="text-[13px] text-[#A8A6A2]">/100</span>
         </div>
       </div>
 
-      {/* Label badge */}
+      {/* Label */}
       <div
-        className="mt-4 px-4 py-1.5 rounded-full text-[13px] font-semibold"
-        style={{ background: `${color}20`, color }}
+        className="mt-5 px-4 py-1.5 rounded-[8px] text-[13px] font-semibold tracking-wide"
+        style={{ background: `${color}15`, color }}
       >
         {label[locale]}
       </div>

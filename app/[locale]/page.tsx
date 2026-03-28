@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 export default function LandingPage() {
   return (
-    <main className="min-h-screen bg-[#F8F6F2]">
+    <main className="min-h-screen bg-[#F5F2EC]">
       <Header />
       <Hero />
       <HowItWorks />

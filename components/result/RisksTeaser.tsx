@@ -5,6 +5,7 @@ import { DimensionScores } from "@/types/quiz";
 import { classifyDimension } from "@/lib/scoring";
 import { dimensions } from "@/config/dimensions";
 import { DimensionIcon } from "@/components/icons/DimensionIcon";
+import { Lock } from "lucide-react";
 
 interface RisksTeaserProps {
   scores: DimensionScores;
@@ -28,44 +29,43 @@ export function RisksTeaser({ scores }: RisksTeaserProps) {
 
   return (
     <section className="px-5 mb-6">
-      <h2 className="font-display font-bold text-[18px] text-[#2E2F2D] mb-4">
+      <h2 className="font-display font-normal text-[19px] text-[#1A1916] mb-4 tracking-[-0.01em]">
         {t("risks")}
       </h2>
 
       <div className="relative">
-        {/* Locked cards */}
-        <div className="space-y-3">
+        <div className="space-y-2.5">
           {toShow.map((dim, i) => (
             <div
               key={dim.key}
-              className={`bg-[#FFFFFF] rounded-[20px] p-4 shadow-[0_2px_8px_rgba(0,0,0,0.04)] ${
+              className={`bg-white border border-[#E0DDD6] rounded-[12px] p-4 ${
                 i >= 1 ? "blur-sm select-none pointer-events-none" : ""
               }`}
             >
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-[#FEF3C7] flex items-center justify-center flex-shrink-0">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <div className="w-7 h-7 rounded-[7px] bg-[#FEF3C7] flex items-center justify-center flex-shrink-0">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                     <path
-                      d="M7 1v6M7 10v1"
-                      stroke="#F59E0B"
-                      strokeWidth="2"
+                      d="M6 1.5v5M6 9v.5"
+                      stroke="#E08A2A"
+                      strokeWidth="1.75"
                       strokeLinecap="round"
                     />
                   </svg>
                 </div>
                 <div className="flex-1">
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="font-semibold text-[14px] text-[#2E2F2D] flex items-center gap-1.5">
-                      <DimensionIcon dimensionKey={dim.key} size={14} className="text-[#F59E0B]" />
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="font-medium text-[13px] text-[#1A1916] flex items-center gap-1.5">
+                      <DimensionIcon dimensionKey={dim.key} size={13} className="text-[#E08A2A]" />
                       {dim.label[locale]}
                     </span>
-                    <span className="text-[13px] font-bold text-[#F59E0B]">
+                    <span className="text-[12px] font-semibold text-[#E08A2A] tabular-nums">
                       {scores[dim.key]}%
                     </span>
                   </div>
-                  <div className="h-1.5 bg-[#F2F1EC] rounded-full overflow-hidden">
+                  <div className="h-[3px] bg-[#E0DDD6] rounded-full overflow-hidden">
                     <div
-                      className="h-full rounded-full bg-gradient-to-r from-[#F59E0B] to-[#FCD34D]"
+                      className="h-full rounded-full bg-[#E08A2A]"
                       style={{ width: `${scores[dim.key]}%` }}
                     />
                   </div>
@@ -77,25 +77,10 @@ export function RisksTeaser({ scores }: RisksTeaserProps) {
 
         {/* Lock overlay */}
         {toShow.length > 1 && (
-          <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#F8F6F2] to-transparent rounded-b-[20px] flex items-end justify-center pb-4">
-            <div className="flex items-center gap-2 bg-[#FFFFFF] rounded-full px-4 py-2 shadow-[0_4px_16px_rgba(0,0,0,0.08)]">
-              <svg width="14" height="16" viewBox="0 0 14 16" fill="none">
-                <rect
-                  x="1"
-                  y="7"
-                  width="12"
-                  height="8"
-                  rx="2"
-                  stroke="#5B5C59"
-                  strokeWidth="1.5"
-                />
-                <path
-                  d="M4 7V5a3 3 0 016 0v2"
-                  stroke="#5B5C59"
-                  strokeWidth="1.5"
-                />
-              </svg>
-              <span className="text-[13px] font-semibold text-[#5B5C59]">
+          <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#F5F2EC] to-transparent flex items-end justify-center pb-3">
+            <div className="flex items-center gap-1.5 bg-white border border-[#E0DDD6] rounded-[8px] px-3.5 py-2">
+              <Lock size={12} strokeWidth={1.75} className="text-[#8A8880]" />
+              <span className="text-[12px] font-medium text-[#5A5854]">
                 {toShow.length} {t("risksLocked")}
               </span>
             </div>

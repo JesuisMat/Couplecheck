@@ -57,9 +57,9 @@ const config: Config = {
         "coral-light": "#FFE5E5",
       },
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
-        display: ["Plus Jakarta Sans", "system-ui", "sans-serif"],
-        headline: ["Plus Jakarta Sans", "system-ui", "sans-serif"],
+        sans: ["var(--font-dm-sans)", "system-ui", "sans-serif"],
+        display: ["var(--font-fraunces)", "Georgia", "serif"],
+        headline: ["var(--font-fraunces)", "Georgia", "serif"],
       },
       borderRadius: {
         lg: "var(--radius)",

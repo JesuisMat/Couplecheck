@@ -4,171 +4,161 @@ import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { ArrowRight, FlaskConical } from "lucide-react";
 import { trackEvent, EVENTS } from "@/lib/posthog";
+import { Reveal } from "@/components/ui/Reveal";
 
 export function Hero() {
   const locale = useLocale();
   const t = useTranslations("landing.hero");
 
   return (
-    <section className="pt-20 md:pt-28 pb-12 px-5 max-w-5xl mx-auto">
-      <div className="md:grid md:grid-cols-2 md:gap-16 md:items-center">
+    <section className="pt-24 md:pt-32 pb-16 px-5 max-w-5xl mx-auto">
+      <div className="md:grid md:grid-cols-[1fr_380px] md:gap-20 md:items-center">
 
         {/* Left column — text */}
         <div className="text-center md:text-left">
-          {/* Social proof badge */}
-          <div className="inline-flex items-center gap-2.5 bg-[#FFFFFF] rounded-full px-4 py-2 mb-7 shadow-[0_2px_12px_rgba(0,0,0,0.06)]">
-            {/* Avatar stack */}
-            <div className="flex -space-x-1.5">
-              {[
-                { bg: "#FFD6D6", text: "#AA2C32", initials: "JD" },
-                { bg: "#D6E8FF", text: "#2C5FAA", initials: "AL" },
-                { bg: "#D6F5E3", text: "#2CAA6A", initials: "M" },
-              ].map((a) => (
-                <div
-                  key={a.initials}
-                  className="w-6 h-6 rounded-full border-2 border-white flex items-center justify-center text-[8px] font-bold"
-                  style={{ background: a.bg, color: a.text }}
-                >
-                  {a.initials}
-                </div>
-              ))}
-            </div>
-            <span className="text-[12px] text-[#5B5C59] font-semibold tracking-wide">
-              {t("badge")}
-            </span>
-          </div>
+          {/* Eyebrow */}
+          <p className="text-[11px] font-semibold tracking-[0.16em] uppercase text-[#8A8880] mb-6">
+            {locale === "fr" ? "Diagnostic de couple" : "Relationship diagnostic"}
+          </p>
 
           {/* Headline */}
-          <h1 className="font-display font-extrabold text-[36px] md:text-[52px] leading-[1.1] tracking-[-0.025em] text-[#2E2F2D] mb-5">
+          <h1 className="font-display font-normal text-[46px] md:text-[58px] leading-[1.08] tracking-[-0.02em] text-[#1A1916] mb-6">
             {locale === "fr" ? (
               <>
-                Ton couple est-il{" "}
-                <br className="hidden md:block" />
-                vraiment{" "}
-                <em className="not-italic text-transparent bg-clip-text"
-                  style={{ backgroundImage: "linear-gradient(135deg, #AA2C32, #FF7574)" }}>
-                  épanoui ?
-                </em>
+                Votre relation<br />
+                est-elle vraiment{" "}
+                <em className="italic text-[#AA2C32]">florissante&nbsp;?</em>
               </>
             ) : (
               <>
-                Is your relationship{" "}
-                <br className="hidden md:block" />
+                Is your relationship<br />
                 truly{" "}
-                <em className="not-italic text-transparent bg-clip-text"
-                  style={{ backgroundImage: "linear-gradient(135deg, #AA2C32, #FF7574)" }}>
-                  thriving?
-                </em>
+                <em className="italic text-[#AA2C32]">flourishing&nbsp;?</em>
               </>
             )}
           </h1>
 
           {/* Subheadline */}
-          <p className="text-[16px] md:text-[18px] text-[#5B5C59] leading-[1.6] mb-8 max-w-md mx-auto md:mx-0">
+          <p className="text-[16px] text-[#5A5854] leading-[1.65] mb-9 max-w-sm mx-auto md:mx-0">
             {t("subheadline")}
           </p>
 
           {/* CTA */}
-          <Link
-            href={`/${locale}/quiz`}
-            onClick={() => trackEvent(EVENTS.QUIZ_STARTED)}
-            className="btn-gradient inline-flex items-center gap-3 text-white font-bold text-[16px] py-4 px-8 rounded-full shadow-[0_6px_28px_rgba(170,44,50,0.35)] active:scale-[0.97] hover:shadow-[0_8px_36px_rgba(170,44,50,0.45)] transition-all duration-200"
-          >
-            {t("cta")}
-            <ArrowRight size={18} />
-          </Link>
-          <p className="mt-3 text-[12px] text-[#AEADAA] text-center md:text-left">{t("ctaSub")}</p>
+          <div className="flex flex-col md:flex-row items-center md:items-start gap-4">
+            <Link
+              href={`/${locale}/quiz`}
+              onClick={() => trackEvent(EVENTS.QUIZ_STARTED)}
+              className="inline-flex items-center gap-3 bg-[#AA2C32] hover:bg-[#922226] text-white font-semibold text-[15px] py-3.5 px-7 rounded-[10px] transition-colors duration-150"
+            >
+              {t("cta")}
+              <ArrowRight size={16} strokeWidth={2} />
+            </Link>
+            <p className="text-[12px] text-[#A8A6A2]">{t("ctaSub")}</p>
+          </div>
 
-          {/* Trust */}
-          <p className="mt-5 text-[12px] text-[#777774] flex items-center justify-center md:justify-start gap-1.5">
-            <FlaskConical size={13} className="text-[#AA2C32] flex-shrink-0" />
-            <span>{t("trust")}</span>
-          </p>
+          {/* Trust + Stats */}
+          <div className="mt-8 flex flex-col md:flex-row items-center md:items-start gap-4">
+            <p className="text-[12px] text-[#8A8880] flex items-center gap-1.5">
+              <FlaskConical size={12} className="text-[#AA2C32] flex-shrink-0" />
+              <span>{t("trust")}</span>
+            </p>
+            <span className="hidden md:block text-[#D0CEC8]">·</span>
+            <p className="text-[12px] text-[#8A8880]">
+              {locale === "fr" ? "12 347 couples analysés" : "12,347 couples analyzed"}
+            </p>
+          </div>
         </div>
 
-        {/* Right column — score card visual */}
-        <div className="mt-10 md:mt-0">
-          <div className="bg-white rounded-[28px] shadow-[0_16px_48px_rgba(0,0,0,0.08)] p-6 relative overflow-hidden">
-            {/* Background blob */}
-            <div className="absolute -top-8 -right-8 w-40 h-40 rounded-full opacity-10"
-              style={{ background: "radial-gradient(circle, #FF7574, transparent)" }} />
+        {/* Right column — diagnostic card */}
+        <Reveal direction="left" delay={200} className="mt-14 md:mt-0">
+          <div className="bg-white border border-[#E0DDD6] rounded-[16px] overflow-hidden">
+            {/* Card header */}
+            <div className="px-6 pt-6 pb-5 border-b border-[#F0EDE7]">
+              <p className="text-[10px] font-semibold tracking-[0.14em] uppercase text-[#8A8880] mb-4">
+                {locale === "fr" ? "Rapport diagnostique" : "Diagnostic report"}
+              </p>
 
-            <div className="flex items-center justify-between mb-5">
-              <div>
-                <p className="text-[11px] font-bold text-[#AEADAA] tracking-[0.1em] uppercase mb-0.5">
-                  Score global
-                </p>
-                <p className="font-display font-bold text-[13px] text-[#AA2C32] bg-[#FFE5E5] px-2.5 py-1 rounded-full inline-block">
-                  Relation stable
-                </p>
-              </div>
-              {/* Mini gauge */}
-              <div className="relative w-[72px] h-[72px]">
-                <svg viewBox="0 0 72 72" className="w-full h-full -rotate-90">
-                  <circle cx="36" cy="36" r="28" fill="none" stroke="#F2F1EC" strokeWidth="8" />
-                  <circle cx="36" cy="36" r="28" fill="none"
-                    stroke="url(#heroGrad)" strokeWidth="8" strokeLinecap="round"
-                    strokeDasharray={`${2 * Math.PI * 28 * 0.74} ${2 * Math.PI * 28}`}
-                  />
-                  <defs>
-                    <linearGradient id="heroGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#AA2C32" />
-                      <stop offset="100%" stopColor="#FF7574" />
-                    </linearGradient>
-                  </defs>
-                </svg>
-                <span className="absolute inset-0 flex items-center justify-center font-display font-bold text-[20px] text-[#2E2F2D]">
-                  74
-                </span>
+              <div className="flex items-end justify-between">
+                <div>
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="font-display font-normal text-[64px] leading-none text-[#1A1916]">74</span>
+                    <span className="text-[18px] text-[#C8C5BF] font-light mb-2">/100</span>
+                  </div>
+                  <span className="inline-block text-[11px] font-semibold text-[#AA2C32] bg-[#F6EEEE] px-2.5 py-1 rounded-[6px] mt-1">
+                    {locale === "fr" ? "Relation stable" : "Stable relationship"}
+                  </span>
+                </div>
+
+                {/* Mini circular indicator */}
+                <div className="relative w-[60px] h-[60px] mb-1">
+                  <svg viewBox="0 0 60 60" className="w-full h-full -rotate-90">
+                    <circle cx="30" cy="30" r="24" fill="none" stroke="#F0EDE7" strokeWidth="6" />
+                    <circle cx="30" cy="30" r="24" fill="none"
+                      stroke="#AA2C32" strokeWidth="6" strokeLinecap="round"
+                      strokeDasharray={`${2 * Math.PI * 24 * 0.74} ${2 * Math.PI * 24}`}
+                    />
+                  </svg>
+                </div>
               </div>
             </div>
 
             {/* Dimension bars */}
-            <div className="space-y-3">
+            <div className="px-6 py-5 space-y-3.5">
               {[
-                { label: "Communication", value: 80, color: "#10B981" },
-                { label: "Confiance", value: 65, color: "#F59E0B" },
-                { label: "Intimité", value: 70, color: "#AA2C32" },
-                { label: "Gestion des conflits", value: 55, color: "#F59E0B" },
+                { label: locale === "fr" ? "Communication" : "Communication", value: 80 },
+                { label: locale === "fr" ? "Confiance" : "Trust", value: 65 },
+                { label: locale === "fr" ? "Intimité" : "Intimacy", value: 70 },
+                { label: locale === "fr" ? "Conflits" : "Conflict", value: 55 },
               ].map((dim) => (
                 <div key={dim.label} className="flex items-center gap-3">
-                  <span className="text-[11px] text-[#5B5C59] w-32 flex-shrink-0">{dim.label}</span>
-                  <div className="flex-1 h-1.5 bg-[#F2F1EC] rounded-full overflow-hidden">
+                  <span className="text-[11px] text-[#8A8880] w-24 flex-shrink-0">{dim.label}</span>
+                  <div className="flex-1 h-[3px] bg-[#F0EDE7] rounded-full overflow-hidden">
                     <div
-                      className="h-full rounded-full transition-all duration-700"
+                      className="h-full rounded-full"
                       style={{
                         width: `${dim.value}%`,
-                        background: dim.color,
+                        background: dim.value >= 70 ? "#2A9D68" : dim.value >= 55 ? "#E08A2A" : "#AA2C32",
                       }}
                     />
                   </div>
-                  <span className="text-[11px] font-semibold w-8 text-right" style={{ color: dim.color }}>
-                    {dim.value}%
+                  <span className="text-[11px] font-semibold text-[#5A5854] w-8 text-right tabular-nums">
+                    {dim.value}
                   </span>
                 </div>
               ))}
             </div>
 
-            {/* Blurred risks teaser */}
-            <div className="mt-4 pt-4 border-t border-[#F2F1EC]">
-              <div className="flex items-center justify-between">
-                <p className="text-[12px] text-[#5B5C59] font-semibold">3 zones à surveiller</p>
-                <div className="flex items-center gap-1 bg-[#F2F1EC] rounded-full px-2.5 py-1">
-                  <svg width="10" height="12" viewBox="0 0 10 12" fill="none">
-                    <rect x="1" y="5" width="8" height="6" rx="1.5" stroke="#777774" strokeWidth="1.2" />
-                    <path d="M3 5V4a2 2 0 014 0v1" stroke="#777774" strokeWidth="1.2" />
+            {/* Locked section */}
+            <div className="px-6 pb-6 pt-1 border-t border-[#F0EDE7]">
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-[11px] font-semibold text-[#5A5854]">
+                  {locale === "fr" ? "3 zones à surveiller" : "3 areas to watch"}
+                </p>
+                <div className="flex items-center gap-1.5">
+                  <svg width="9" height="11" viewBox="0 0 9 11" fill="none">
+                    <rect x="0.75" y="4.5" width="7.5" height="5.75" rx="1.25" stroke="#A8A6A2" strokeWidth="1" />
+                    <path d="M2.5 4.5V3.5a2 2 0 014 0v1" stroke="#A8A6A2" strokeWidth="1" />
                   </svg>
-                  <span className="text-[10px] text-[#777774] font-medium">Débloque</span>
+                  <span className="text-[10px] text-[#A8A6A2] font-medium">
+                    {locale === "fr" ? "Débloqué après le test" : "Unlocked after test"}
+                  </span>
                 </div>
               </div>
-              <div className="mt-2 space-y-1.5 blur-[3px] select-none pointer-events-none">
-                {["Projets communs", "Équilibre individuel"].map((r) => (
-                  <div key={r} className="h-6 bg-[#F2F1EC] rounded-full w-3/4" />
+              <div className="space-y-2 select-none pointer-events-none">
+                {["▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓", "▓▓▓▓▓▓▓▓▓▓▓"].map((r, i) => (
+                  <div key={i} className="h-[28px] bg-[#F5F2EC] rounded-[6px] flex items-center px-3">
+                    <span className="text-[11px] text-[#E0DDD6] tracking-widest select-none">{r}</span>
+                  </div>
                 ))}
               </div>
             </div>
           </div>
-        </div>
+
+          {/* Caption under card */}
+          <p className="text-center text-[11px] text-[#A8A6A2] mt-3">
+            {locale === "fr" ? "Exemple de rapport — vos scores seront personnalisés" : "Sample report — your scores will be personalized"}
+          </p>
+        </Reveal>
 
       </div>
     </section>

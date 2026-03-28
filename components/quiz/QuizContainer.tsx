@@ -124,16 +124,13 @@ export function QuizContainer() {
       : undefined;
 
   return (
-    <div className="min-h-screen bg-[#F8F6F2] flex flex-col">
+    <div className="min-h-screen bg-[#F5F2EC] flex flex-col">
       {/* Header */}
       <div className="glass fixed top-0 left-0 right-0 z-50">
         <div className="max-w-[520px] mx-auto">
           <div className="px-5 pt-4 pb-1 flex items-center justify-between">
-            <span className="font-display font-bold text-[16px] text-[#AA2C32]">
+            <span className="font-display font-normal italic text-[17px] text-[#1A1916]">
               CoupleCheck
-            </span>
-            <span className="text-[12px] text-[#777774]">
-              {state.currentQuestion + 1}/{totalQuestions}
             </span>
           </div>
           <ProgressBar
@@ -151,7 +148,7 @@ export function QuizContainer() {
           className={`animate-${animDirection === "left" ? "slide-left" : "slide-right"}`}
         >
           {/* Question text */}
-          <h2 className="font-display font-semibold text-[20px] text-[#2E2F2D] leading-[1.3] tracking-[-0.01em] mb-6">
+          <h2 className="font-display font-normal text-[22px] text-[#1A1916] leading-[1.3] tracking-[-0.02em] mb-6">
             {currentQuestion.text[locale]}
           </h2>
 
@@ -228,7 +225,7 @@ export function QuizContainer() {
                   placeholder={currentQuestion.placeholder?.[locale] || t("textPlaceholder")}
                   maxLength={currentQuestion.maxLength || 500}
                   rows={5}
-                  className="w-full bg-[#FFFFFF] rounded-[20px] p-4 text-[14px] text-[#2E2F2D] placeholder:text-[#AEADAA] resize-none outline-none focus:ring-2 focus:ring-[#AA2C32]/20 shadow-[0_2px_8px_rgba(0,0,0,0.04)] leading-[1.6]"
+                  className="w-full bg-white border border-[#E0DDD6] focus:border-[#AA2C32] rounded-[10px] p-4 text-[14px] text-[#1A1916] placeholder:text-[#C8C5BF] resize-none outline-none transition-colors duration-150 leading-[1.65]"
                 />
                 <div className="text-right mt-1">
                   <span className="text-[11px] text-[#AEADAA]">
@@ -270,11 +267,11 @@ export function QuizContainer() {
 
       {/* Continue button for non-auto-advance types */}
       {needsContinue && (
-        <div className="sticky bottom-0 px-5 pb-8 pt-4 bg-gradient-to-t from-[#F8F6F2] via-[#F8F6F2] to-transparent max-w-[520px] mx-auto w-full">
+        <div className="sticky bottom-0 px-5 pb-8 pt-4 bg-gradient-to-t from-[#F5F2EC] via-[#F5F2EC] to-transparent max-w-[520px] mx-auto w-full">
           <button
             onClick={handleNext}
             disabled={isSubmitting}
-            className="btn-gradient w-full text-white font-semibold text-[16px] py-4 rounded-full shadow-[0_4px_20px_rgba(170,44,50,0.3)] disabled:opacity-50 active:scale-[0.98] transition-all"
+            className="w-full bg-[#AA2C32] hover:bg-[#922226] text-white font-semibold text-[15px] py-3.5 rounded-[10px] disabled:opacity-40 transition-colors duration-150"
           >
             {isSubmitting ? t("loading") : t("next")}
           </button>

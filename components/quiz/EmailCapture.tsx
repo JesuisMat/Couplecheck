@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { trackEvent, EVENTS } from "@/lib/posthog";
 
 interface EmailCaptureProps {
@@ -70,24 +70,25 @@ export function EmailCapture({ sessionId, onSuccess }: EmailCaptureProps) {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8F6F2] flex flex-col items-center justify-center px-5 py-12">
+    <div className="min-h-screen bg-[#F5F2EC] flex flex-col items-center justify-center px-5 py-12">
       <div className="w-full max-w-[390px] animate-fade-up">
-        {/* Icon */}
-        <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#AA2C32] to-[#FF7574] flex items-center justify-center mx-auto mb-6 shadow-[0_8px_24px_rgba(170,44,50,0.25)]">
-          <Sparkles size={28} strokeWidth={1.5} className="text-white" />
+        {/* Header */}
+        <div className="mb-8 text-center">
+          <p className="text-[10px] font-semibold tracking-[0.16em] uppercase text-[#8A8880] mb-4">
+            {locale === "fr" ? "Résultats prêts" : "Results ready"}
+          </p>
+          <h1 className="font-display font-normal text-[30px] text-[#1A1916] mb-3 tracking-[-0.02em] leading-[1.15]">
+            {t("title")}
+          </h1>
+          <p className="text-[14px] text-[#6E6C67] leading-[1.6]">
+            {t("subtitle")}
+          </p>
         </div>
-
-        <h1 className="font-display font-bold text-[26px] text-[#2E2F2D] text-center mb-2 tracking-[-0.02em]">
-          {t("title")}
-        </h1>
-        <p className="text-[14px] text-[#5B5C59] text-center mb-8 leading-[1.5]">
-          {t("subtitle")}
-        </p>
 
         <form onSubmit={handleSubmit} className="space-y-4" noValidate>
           {/* First name */}
           <div>
-            <label className="text-[13px] font-semibold text-[#2E2F2D] block mb-1.5">
+            <label className="text-[12px] font-semibold text-[#5A5854] block mb-1.5 tracking-wide">
               {t("firstNameLabel")}
             </label>
             <input
@@ -95,17 +96,17 @@ export function EmailCapture({ sessionId, onSuccess }: EmailCaptureProps) {
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               placeholder={t("firstNamePlaceholder")}
-              className="w-full bg-[#FFFFFF] rounded-[16px] px-4 py-3.5 text-[14px] text-[#2E2F2D] placeholder:text-[#AEADAA] outline-none focus:ring-2 focus:ring-[#AA2C32]/20 shadow-[0_2px_8px_rgba(0,0,0,0.04)]"
+              className="w-full bg-white border border-[#E0DDD6] focus:border-[#AA2C32] rounded-[10px] px-4 py-3 text-[14px] text-[#1A1916] placeholder:text-[#C8C5BF] outline-none transition-colors duration-150"
               autoComplete="given-name"
             />
             {errors.firstName && (
-              <p className="text-[12px] text-red-500 mt-1">{errors.firstName}</p>
+              <p className="text-[12px] text-[#AA2C32] mt-1">{errors.firstName}</p>
             )}
           </div>
 
           {/* Email */}
           <div>
-            <label className="text-[13px] font-semibold text-[#2E2F2D] block mb-1.5">
+            <label className="text-[12px] font-semibold text-[#5A5854] block mb-1.5 tracking-wide">
               {t("emailLabel")}
             </label>
             <input
@@ -113,29 +114,29 @@ export function EmailCapture({ sessionId, onSuccess }: EmailCaptureProps) {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder={t("emailPlaceholder")}
-              className="w-full bg-[#FFFFFF] rounded-[16px] px-4 py-3.5 text-[14px] text-[#2E2F2D] placeholder:text-[#AEADAA] outline-none focus:ring-2 focus:ring-[#AA2C32]/20 shadow-[0_2px_8px_rgba(0,0,0,0.04)]"
+              className="w-full bg-white border border-[#E0DDD6] focus:border-[#AA2C32] rounded-[10px] px-4 py-3 text-[14px] text-[#1A1916] placeholder:text-[#C8C5BF] outline-none transition-colors duration-150"
               autoComplete="email"
               inputMode="email"
             />
             {errors.email && (
-              <p className="text-[12px] text-red-500 mt-1">{errors.email}</p>
+              <p className="text-[12px] text-[#AA2C32] mt-1">{errors.email}</p>
             )}
           </div>
 
           {/* Newsletter */}
-          <label className="flex items-start gap-3 cursor-pointer">
+          <label className="flex items-start gap-3 cursor-pointer py-1">
             <div
               onClick={() => setNewsletter(!newsletter)}
-              className={`mt-0.5 w-5 h-5 rounded-[6px] border-2 flex-shrink-0 flex items-center justify-center transition-all ${
+              className={`mt-0.5 w-4 h-4 rounded-[4px] border flex-shrink-0 flex items-center justify-center transition-all ${
                 newsletter
                   ? "border-[#AA2C32] bg-[#AA2C32]"
-                  : "border-[#AEADAA]"
+                  : "border-[#C8C5BF]"
               }`}
             >
               {newsletter && (
-                <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                <svg width="8" height="6" viewBox="0 0 8 6" fill="none">
                   <path
-                    d="M1 4l2.5 2.5L9 1"
+                    d="M1 3l1.8 2L7 1"
                     stroke="white"
                     strokeWidth="1.5"
                     strokeLinecap="round"
@@ -144,25 +145,32 @@ export function EmailCapture({ sessionId, onSuccess }: EmailCaptureProps) {
                 </svg>
               )}
             </div>
-            <span className="text-[13px] text-[#5B5C59] leading-[1.5]">
+            <span className="text-[13px] text-[#6E6C67] leading-[1.5]">
               {t("newsletter")}
             </span>
           </label>
 
           {errors.form && (
-            <p className="text-[13px] text-red-500 text-center">{errors.form}</p>
+            <p className="text-[13px] text-[#AA2C32] text-center">{errors.form}</p>
           )}
 
           {/* Submit */}
           <button
             type="submit"
             disabled={isSubmitting}
-            className="btn-gradient w-full text-white font-semibold text-[16px] py-4 rounded-full shadow-[0_4px_20px_rgba(170,44,50,0.3)] disabled:opacity-50 active:scale-[0.98] transition-all mt-2"
+            className="w-full bg-[#AA2C32] hover:bg-[#922226] text-white font-semibold text-[15px] py-3.5 rounded-[10px] disabled:opacity-40 transition-colors duration-150 flex items-center justify-center gap-2.5 mt-2"
           >
-            {isSubmitting ? "Chargement..." : t("cta")}
+            {isSubmitting ? (
+              <span className="opacity-70">Chargement...</span>
+            ) : (
+              <>
+                {t("cta")}
+                <ArrowRight size={16} strokeWidth={2} />
+              </>
+            )}
           </button>
 
-          <p className="text-[11px] text-[#AEADAA] text-center">
+          <p className="text-[11px] text-[#A8A6A2] text-center">
             {t("privacy")}
           </p>
         </form>

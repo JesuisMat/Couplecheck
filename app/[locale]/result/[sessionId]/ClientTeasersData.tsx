@@ -1,20 +1,27 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { TeasersSection } from '@/components/result/TeasersSection';
 
 interface ClientTeasersDataProps {
   teasers: any[];
   predictionTeaser?: any;
-  onUnlock: () => void;
   locale: 'fr' | 'en';
+  sessionId: string;
 }
 
-export function ClientTeasersData({ teasers, predictionTeaser, onUnlock, locale }: ClientTeasersDataProps) {
+export function ClientTeasersData({ teasers, predictionTeaser, locale, sessionId }: ClientTeasersDataProps) {
+  const router = useRouter();
+
+  const handleUnlock = () => {
+    router.push(`/${locale}/result/${sessionId}/unlock`);
+  };
+
   return (
     <TeasersSection
       teasers={teasers}
-      predictionTeaser={predictionTeaser ? predictionTeaser : undefined}
-      onUnlock={onUnlock}
+      predictionTeaser={predictionTeaser}
+      onUnlock={handleUnlock}
       locale={locale}
     />
   );

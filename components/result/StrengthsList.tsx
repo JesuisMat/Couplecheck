@@ -22,39 +22,39 @@ export function StrengthsList({ scores }: StrengthsListProps) {
 
   return (
     <section className="px-5 mb-6">
-      <h2 className="font-display font-bold text-[18px] text-[#2E2F2D] mb-4">
+      <h2 className="font-display font-normal text-[19px] text-[#1A1916] mb-4 tracking-[-0.01em]">
         {t("strengths")}
       </h2>
-      <div className="space-y-3">
+      <div className="space-y-2.5">
         {strengths.map((dim) => (
           <div
             key={dim.key}
-            className="bg-[#FFFFFF] rounded-[20px] p-4 flex items-start gap-3 shadow-[0_2px_8px_rgba(0,0,0,0.04)] animate-fade-up"
+            className="bg-white border border-[#E0DDD6] rounded-[12px] p-4 flex items-start gap-3 animate-fade-up"
           >
-            <div className="w-8 h-8 rounded-full bg-[#DCFCE7] flex items-center justify-center flex-shrink-0">
-              <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
+            <div className="w-7 h-7 rounded-[7px] bg-[#DCFCE7] flex items-center justify-center flex-shrink-0 mt-0.5">
+              <svg width="12" height="9" viewBox="0 0 12 9" fill="none">
                 <path
-                  d="M1 5.5l3.5 3.5L13 1"
-                  stroke="#10B981"
-                  strokeWidth="2"
+                  d="M1 4.5l3 3L11 1"
+                  stroke="#2A9D68"
+                  strokeWidth="1.75"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
               </svg>
             </div>
             <div className="flex-1">
-              <div className="flex items-center justify-between mb-1">
-                <span className="font-semibold text-[14px] text-[#2E2F2D] flex items-center gap-1.5">
-                  <DimensionIcon dimensionKey={dim.key} size={14} className="text-[#10B981]" />
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-medium text-[13px] text-[#1A1916] flex items-center gap-1.5">
+                  <DimensionIcon dimensionKey={dim.key} size={13} className="text-[#2A9D68]" />
                   {dim.label[locale]}
                 </span>
-                <span className="text-[13px] font-bold text-[#10B981]">
+                <span className="text-[12px] font-semibold text-[#2A9D68] tabular-nums">
                   {scores[dim.key]}%
                 </span>
               </div>
-              <div className="h-1.5 bg-[#F2F1EC] rounded-full overflow-hidden">
+              <div className="h-[3px] bg-[#E0DDD6] rounded-full overflow-hidden">
                 <div
-                  className="h-full rounded-full bg-gradient-to-r from-[#10B981] to-[#34D399] transition-all duration-700"
+                  className="h-full rounded-full bg-[#2A9D68] transition-all duration-700"
                   style={{ width: `${scores[dim.key]}%` }}
                 />
               </div>

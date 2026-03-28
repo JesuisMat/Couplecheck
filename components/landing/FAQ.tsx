@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Plus } from "lucide-react";
+import { Plus, Minus } from "lucide-react";
+import { Reveal } from "@/components/ui/Reveal";
 
 export function FAQ() {
   const t = useTranslations("landing.faq");
@@ -14,45 +15,48 @@ export function FAQ() {
   }));
 
   return (
-    <section className="py-14 bg-[#F2F1EC]/50">
-      <div className="px-5 max-w-3xl mx-auto">
-        <h2 className="font-display font-bold text-[26px] md:text-[32px] text-[#2E2F2D] tracking-[-0.02em] mb-8 text-center">
-          {t("title")}
-        </h2>
+    <section className="py-16 bg-[#EEEADF]">
+      <div className="px-5 max-w-2xl mx-auto">
+        <Reveal className="mb-10">
+          <p className="text-[10px] font-semibold tracking-[0.16em] uppercase text-[#8A8880] mb-3 text-center">
+            Questions
+          </p>
+          <h2 className="font-display font-normal text-[30px] md:text-[36px] text-[#1A1916] tracking-[-0.02em] text-center leading-[1.15]">
+            {t("title")}
+          </h2>
+        </Reveal>
 
-        <div className="space-y-3">
-          {items.map((item, i) => (
-            <div
-              key={i}
-              className="bg-[#FFFFFF] rounded-[20px] overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.04)]"
-            >
-              <button
-                onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                className="w-full flex items-center justify-between p-5 text-left"
-                aria-expanded={openIndex === i}
-              >
-                <span className="font-semibold text-[14px] text-[#2E2F2D] pr-4 leading-[1.4]">
-                  {item.question}
-                </span>
-                <span
-                  className={`flex-shrink-0 w-7 h-7 rounded-full bg-[#F2F1EC] flex items-center justify-center transition-transform duration-300 ${
-                    openIndex === i ? "rotate-45" : ""
-                  }`}
+        <Reveal direction="up" delay={100}>
+          <div className="border-t border-[#D8D4CC]">
+            {items.map((item, i) => (
+              <div key={i} className="border-b border-[#D8D4CC]">
+                <button
+                  onClick={() => setOpenIndex(openIndex === i ? null : i)}
+                  className="w-full flex items-start justify-between gap-4 py-5 text-left"
+                  aria-expanded={openIndex === i}
                 >
-                  <Plus size={13} strokeWidth={2} className="text-[#5B5C59]" />
-                </span>
-              </button>
+                  <span className="font-medium text-[14px] text-[#1A1916] leading-[1.5]">
+                    {item.question}
+                  </span>
+                  <span className="flex-shrink-0 mt-0.5 text-[#AA2C32]">
+                    {openIndex === i
+                      ? <Minus size={16} strokeWidth={1.75} />
+                      : <Plus size={16} strokeWidth={1.75} />
+                    }
+                  </span>
+                </button>
 
-              {openIndex === i && (
-                <div className="px-5 pb-5 animate-fade-in">
-                  <p className="text-[13px] text-[#5B5C59] leading-[1.6]">
-                    {item.answer}
-                  </p>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
+                {openIndex === i && (
+                  <div className="pb-5 animate-fade-in">
+                    <p className="text-[13px] text-[#6E6C67] leading-[1.7]">
+                      {item.answer}
+                    </p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </Reveal>
       </div>
     </section>
   );

@@ -32,47 +32,44 @@ export function SliderQuestion({
     [onChange]
   );
 
-  // Color based on value
   const getColor = (val: number) => {
     const p = (val - min) / (max - min);
-    if (p >= 0.7) return "#10B981";
-    if (p >= 0.4) return "#F59E0B";
+    if (p >= 0.7) return "#2A9D68";
+    if (p >= 0.4) return "#E08A2A";
     return "#AA2C32";
   };
 
   const color = getColor(current);
 
   return (
-    <div className="mt-2 animate-fade-up">
+    <div className="mt-4 animate-fade-up">
       {/* Value display */}
-      <div className="flex justify-center mb-6">
-        <div
-          className="w-20 h-20 rounded-full flex items-center justify-center shadow-[0_4px_20px_rgba(0,0,0,0.08)] transition-all duration-200"
-          style={{ background: `${color}18`, border: `2px solid ${color}30` }}
-        >
+      <div className="flex justify-center mb-8">
+        <div className="text-center">
           <span
-            className="font-display font-bold text-[36px] leading-none transition-all duration-200"
+            className="font-display font-normal text-[56px] leading-none block transition-all duration-150"
             style={{ color }}
           >
             {current}
           </span>
+          <span className="text-[12px] text-[#A8A6A2]">/ {max}</span>
         </div>
       </div>
 
       {/* Slider track */}
       <div className="relative px-1">
-        <div className="relative h-3 rounded-full bg-[#E9E8E4] overflow-visible">
+        <div className="relative h-[3px] rounded-full bg-[#E0DDD6] overflow-visible">
           {/* Fill */}
           <div
             className="absolute left-0 top-0 h-full rounded-full transition-all duration-100"
             style={{
               width: `${percent}%`,
-              background: `linear-gradient(90deg, #AA2C32, ${color})`,
+              background: color,
             }}
           />
         </div>
 
-        {/* Native range input — hidden but functional */}
+        {/* Native range input */}
         <input
           type="range"
           min={min}
@@ -86,24 +83,22 @@ export function SliderQuestion({
 
         {/* Custom thumb */}
         <div
-          className="absolute top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-white shadow-[0_2px_12px_rgba(0,0,0,0.15)] border-2 transition-all duration-100 pointer-events-none"
+          className="absolute top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-white border transition-all duration-100 pointer-events-none shadow-[0_1px_6px_rgba(0,0,0,0.15)]"
           style={{
-            left: `calc(${percent}% - 14px)`,
+            left: `calc(${percent}% - 10px)`,
             borderColor: color,
           }}
         />
       </div>
 
       {/* Tick marks */}
-      <div className="flex justify-between mt-1 px-1">
+      <div className="flex justify-between mt-3 px-1">
         {Array.from({ length: max - min + 1 }, (_, i) => i + min).map((v) => (
           <button
             key={v}
             onClick={() => onChange(v)}
-            className={`w-1 h-1 rounded-full transition-all ${
-              v === current ? "opacity-100" : "opacity-30"
-            }`}
-            style={{ background: v === current ? color : "#AEADAA" }}
+            className="w-px h-1 rounded-full transition-all"
+            style={{ background: v <= current ? color : "#D0CEC8" }}
             aria-label={`${v}`}
           />
         ))}
@@ -111,11 +106,11 @@ export function SliderQuestion({
 
       {/* Labels */}
       {labels && (
-        <div className="flex justify-between mt-3 px-1">
-          <span className="text-[11px] text-[#777774] max-w-[120px] text-left leading-[1.3]">
+        <div className="flex justify-between mt-4 px-1">
+          <span className="text-[12px] text-[#8A8880] max-w-[120px] text-left leading-[1.4]">
             {labels.min[locale]}
           </span>
-          <span className="text-[11px] text-[#777774] max-w-[120px] text-right leading-[1.3]">
+          <span className="text-[12px] text-[#8A8880] max-w-[120px] text-right leading-[1.4]">
             {labels.max[locale]}
           </span>
         </div>

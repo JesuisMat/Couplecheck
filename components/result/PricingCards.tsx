@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { Tag, Star, Check, ShieldCheck, RotateCcw, Lock } from "lucide-react";
+import { Check, ShieldCheck, RotateCcw, Lock, Clock } from "lucide-react";
 import { trackEvent, EVENTS } from "@/lib/posthog";
 
 interface PricingCardsProps {
@@ -10,7 +10,7 @@ interface PricingCardsProps {
   leadId?: string;
 }
 
-function useCountdown(durationHours = 168) {
+function useCountdown(durationMinutes = 25) {
   const [timeLeft, setTimeLeft] = useState(() => {
     if (typeof window !== "undefined") {
       const stored = localStorage.getItem("cc_offer_deadline");
@@ -20,11 +20,11 @@ function useCountdown(durationHours = 168) {
         if (now < deadline) return Math.floor((deadline - now) / 1000);
         return 0;
       }
-      const deadline = Date.now() + durationHours * 3600 * 1000;
+      const deadline = Date.now() + durationMinutes * 60 * 1000;
       localStorage.setItem("cc_offer_deadline", deadline.toString());
-      return durationHours * 3600;
+      return durationMinutes * 60;
     }
-    return durationHours * 3600;
+    return durationMinutes * 60;
   });
 
   useEffect(() => {
@@ -85,37 +85,37 @@ export function PricingCards({ sessionId, leadId }: PricingCardsProps) {
   return (
     <section className="px-5 pb-8">
       {/* Offer banner */}
-      <div className="bg-gradient-to-r from-[#AA2C32] to-[#FF7574] rounded-[20px] p-4 mb-5 flex items-center justify-between shadow-[0_4px_16px_rgba(170,44,50,0.2)]">
+      <div className="border border-[#E0DDD6] bg-white rounded-[10px] p-3.5 mb-5 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Tag size={14} strokeWidth={2} className="text-white" />
-          <span className="font-display font-bold text-[13px] text-white">
+          <Clock size={13} strokeWidth={1.75} className="text-[#AA2C32]" />
+          <span className="text-[13px] font-semibold text-[#1A1916]">
             {t("offerBadge")}
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-[11px] text-white/80">{t("offerExpires")}</span>
-          <span className="font-mono font-bold text-[13px] text-white bg-white/20 px-2 py-0.5 rounded-full">
+          <span className="text-[11px] text-[#8A8880]">{t("offerExpires")}</span>
+          <span className="font-mono font-semibold text-[13px] text-[#AA2C32] bg-[#F6EEEE] px-2 py-0.5 rounded-[6px]">
             {countdown}
           </span>
         </div>
       </div>
 
       {/* Cards */}
-      <div className="space-y-4">
+      <div className="space-y-3">
         {/* Standard */}
-        <div className="bg-[#FFFFFF] rounded-[24px] p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+        <div className="bg-white border border-[#E0DDD6] rounded-[14px] p-5">
           <div className="flex items-center justify-between mb-4">
-            <span className="text-[11px] font-bold text-[#5B5C59] tracking-[0.05em] uppercase">
+            <span className="text-[11px] font-semibold text-[#8A8880] tracking-[0.1em] uppercase">
               {t("pricing.standard.name")}
             </span>
-            <span className="font-display font-bold text-[24px] text-[#2E2F2D]">
+            <span className="font-display font-normal text-[26px] text-[#1A1916]">
               {t("pricing.standard.price")}
             </span>
           </div>
-          <ul className="space-y-2 mb-5">
+          <ul className="space-y-2.5 mb-5">
             {features.standard.map((f, i) => (
-              <li key={i} className="flex items-center gap-2 text-[13px] text-[#5B5C59]">
-                <Check size={13} strokeWidth={2.5} className="text-[#10B981] flex-shrink-0" />
+              <li key={i} className="flex items-start gap-2.5 text-[13px] text-[#5A5854]">
+                <Check size={13} strokeWidth={2} className="text-[#2A9D68] flex-shrink-0 mt-0.5" />
                 {f}
               </li>
             ))}
@@ -123,38 +123,37 @@ export function PricingCards({ sessionId, leadId }: PricingCardsProps) {
           <button
             onClick={() => handleCheckout("standard")}
             disabled={loading !== null}
-            className="w-full bg-[#F2F1EC] text-[#2E2F2D] font-semibold text-[15px] py-3.5 rounded-full active:scale-[0.98] transition-all disabled:opacity-50"
+            className="w-full border border-[#E0DDD6] bg-[#F5F2EC] hover:bg-[#EEEADF] text-[#1A1916] font-semibold text-[14px] py-3 rounded-[10px] transition-colors duration-150 disabled:opacity-40"
           >
             {loading === "standard" ? "..." : t("pricing.standard.cta")}
           </button>
         </div>
 
         {/* Premium */}
-        <div className="bg-gradient-to-br from-[#AA2C32] to-[#FF7574] rounded-[24px] p-5 shadow-[0_8px_24px_rgba(170,44,50,0.25)] relative overflow-hidden">
+        <div className="bg-[#1A1916] rounded-[14px] p-5 relative overflow-hidden">
           {/* Badge */}
-          <div className="absolute top-4 right-4 flex items-center gap-1 bg-white/20 text-white text-[11px] font-bold px-3 py-1 rounded-full">
-            <Star size={10} strokeWidth={2} className="fill-white text-white" />
+          <div className="absolute top-4 right-4 text-[10px] font-semibold text-[#8A8880] tracking-[0.08em] uppercase border border-[#3E3B37] px-2.5 py-1 rounded-[6px]">
             {t("pricing.premium.badge")}
           </div>
 
-          <div className="flex items-center justify-between mb-4 pr-24">
-            <span className="text-[11px] font-bold text-white/80 tracking-[0.05em] uppercase">
+          <div className="mb-4 pr-20">
+            <span className="text-[11px] font-semibold text-[#6E6C67] tracking-[0.1em] uppercase block mb-2">
               {t("pricing.premium.name")}
             </span>
-            <div className="text-right">
-              <span className="font-display font-bold text-[26px] text-white block leading-none">
+            <div className="flex items-baseline gap-2">
+              <span className="font-display font-normal text-[28px] text-white leading-none">
                 {t("pricing.premium.price")}
               </span>
-              <span className="text-[12px] text-white/60 line-through">
+              <span className="text-[13px] text-[#5A5854] line-through">
                 {t("pricing.premium.originalPrice")}
               </span>
             </div>
           </div>
 
-          <ul className="space-y-2 mb-5">
+          <ul className="space-y-2.5 mb-5">
             {features.premium.map((f, i) => (
-              <li key={i} className="flex items-center gap-2 text-[13px] text-white">
-                <Check size={13} strokeWidth={2.5} className="text-white flex-shrink-0" />
+              <li key={i} className="flex items-start gap-2.5 text-[13px] text-[#C8C5BF]">
+                <Check size={13} strokeWidth={2} className="text-[#AA2C32] flex-shrink-0 mt-0.5" />
                 {f}
               </li>
             ))}
@@ -163,7 +162,7 @@ export function PricingCards({ sessionId, leadId }: PricingCardsProps) {
           <button
             onClick={() => handleCheckout("premium")}
             disabled={loading !== null}
-            className="w-full bg-white text-[#AA2C32] font-bold text-[15px] py-3.5 rounded-full shadow-[0_4px_16px_rgba(0,0,0,0.15)] active:scale-[0.98] transition-all disabled:opacity-50"
+            className="w-full bg-white hover:bg-[#F5F2EC] text-[#1A1916] font-semibold text-[14px] py-3 rounded-[10px] transition-colors duration-150 disabled:opacity-40"
           >
             {loading === "premium" ? "..." : t("pricing.premium.cta")}
           </button>
@@ -171,13 +170,13 @@ export function PricingCards({ sessionId, leadId }: PricingCardsProps) {
       </div>
 
       {/* Trust signals */}
-      <div className="flex flex-wrap items-center justify-center gap-4 mt-5">
+      <div className="flex flex-wrap items-center justify-center gap-5 mt-5">
         {Array.from({ length: 3 }, (_, i) => {
           const Icon = trustIcons[i];
           const text = t(`trust.${i}`);
           return (
-            <span key={i} className="flex items-center gap-1.5 text-[11px] text-[#777774]">
-              <Icon size={12} strokeWidth={2} className="text-[#10B981] flex-shrink-0" />
+            <span key={i} className="flex items-center gap-1.5 text-[11px] text-[#8A8880]">
+              <Icon size={12} strokeWidth={1.75} className="text-[#8A8880] flex-shrink-0" />
               {text}
             </span>
           );

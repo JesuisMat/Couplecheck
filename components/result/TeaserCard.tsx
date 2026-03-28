@@ -1,7 +1,6 @@
 'use client';
 
-import { useState } from 'react';
-import { Lock, ChevronRight } from 'lucide-react';
+import { Lock, ArrowRight, MessageCircle, AlertTriangle, Layers, Repeat, Eye, User, TrendingUp } from 'lucide-react';
 import type { GeneratedTeaser } from '@/lib/teasers/generator';
 
 interface TeaserCardProps {
@@ -9,56 +8,64 @@ interface TeaserCardProps {
   onUnlock: () => void;
 }
 
+const typeIcons: Record<GeneratedTeaser['type'], React.ComponentType<{ size?: number; strokeWidth?: number; className?: string }>> = {
+  response: MessageCircle,
+  pain_point: AlertTriangle,
+  combination: Layers,
+  paradox: Repeat,
+  hidden_insight: Eye,
+  profile: User,
+  prediction: TrendingUp,
+};
+
 export function TeaserCard({ teaser, onUnlock }: TeaserCardProps) {
-  const [isHovered, setIsHovered] = useState(false);
+  const Icon = typeIcons[teaser.type] ?? Eye;
 
   return (
-    <div
-      className="relative bg-white rounded-xl border border-gray-200 p-5 shadow-sm hover:shadow-md transition-all duration-300"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {/* Header */}
-      <div className="flex items-start gap-3 mb-3">
-        <span className="text-2xl">{teaser.icon}</span>
-        <h3 className="font-semibold text-gray-900 text-lg">{teaser.title}</h3>
-      </div>
+    <div className="bg-white rounded-[12px] overflow-hidden border border-[#E0DDD6]">
+      <div className="p-5">
+        {/* Icon + Title */}
+        <div className="flex items-start gap-3 mb-4">
+          <div className="w-9 h-9 rounded-[8px] border border-[#E0DDD6] bg-[#F5F2EC] flex items-center justify-center flex-shrink-0">
+            <Icon size={16} strokeWidth={1.75} className="text-[#AA2C32]" />
+          </div>
+          <h3 className="font-display font-normal text-[16px] text-[#1A1916] leading-snug pt-1 flex-1">
+            {teaser.title}
+          </h3>
+        </div>
 
-      {/* Preview Text */}
-      <p className="text-gray-700 text-sm leading-relaxed mb-2">
-        {teaser.previewText}
-      </p>
-
-      {/* Locked Text (blurred) */}
-      <div className="relative mb-4">
-        <p className="text-gray-700 text-sm leading-relaxed blur-[6px] select-none pointer-events-none">
-          {teaser.lockedText}
+        {/* Preview text */}
+        <p className="text-[13px] text-[#5A5854] leading-relaxed mb-4">
+          {teaser.previewText}
         </p>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="bg-white/90 backdrop-blur-sm px-4 py-1.5 rounded-full flex items-center gap-2 text-sm text-gray-600 shadow-sm">
-            <Lock className="w-3.5 h-3.5" />
-            <span>Suite dans le rapport</span>
+
+        {/* Locked section */}
+        <div className="relative rounded-[8px] overflow-hidden mb-4 bg-[#F5F2EC] border border-[#E0DDD6]">
+          <p className="text-[13px] text-[#5A5854] leading-relaxed p-4 blur-[5px] select-none pointer-events-none">
+            {teaser.lockedText}
+          </p>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="flex items-center gap-1.5 bg-white border border-[#E0DDD6] rounded-[8px] px-3.5 py-2">
+              <Lock size={12} strokeWidth={1.75} className="text-[#AA2C32]" />
+              <span className="text-[12px] font-semibold text-[#1A1916]">Réservé au rapport</span>
+            </div>
           </div>
         </div>
+
+        {/* Emotional hook */}
+        <p className="text-[12px] italic text-[#AA2C32] text-center mb-4 leading-relaxed px-2">
+          &ldquo;{teaser.emotionalHook}&rdquo;
+        </p>
+
+        {/* CTA */}
+        <button
+          onClick={onUnlock}
+          className="w-full bg-[#AA2C32] hover:bg-[#922226] text-white font-semibold text-[14px] py-3 rounded-[10px] flex items-center justify-center gap-2 transition-colors duration-150"
+        >
+          {teaser.ctaText}
+          <ArrowRight size={15} strokeWidth={2} />
+        </button>
       </div>
-
-      {/* Emotional Hook */}
-      <p className="text-primary font-medium text-sm italic mb-4">
-        "{teaser.emotionalHook}"
-      </p>
-
-      {/* CTA */}
-      <button
-        onClick={onUnlock}
-        className={`w-full py-2.5 px-4 rounded-lg flex items-center justify-center gap-2 text-sm font-medium transition-all duration-300 ${
-          isHovered
-            ? 'bg-primary text-white shadow-lg shadow-primary/25'
-            : 'bg-primary/10 text-primary hover:bg-primary/20'
-        }`}
-      >
-        {teaser.ctaText}
-        <ChevronRight className={`w-4 h-4 transition-transform ${isHovered ? 'translate-x-1' : ''}`} />
-      </button>
     </div>
   );
 }
