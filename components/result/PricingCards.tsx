@@ -65,8 +65,8 @@ export function PricingCards({ sessionId, leadId }: PricingCardsProps) {
         body: JSON.stringify({ sessionId, leadId, offerType, locale }),
       });
       const data = await res.json();
-      if (data.checkoutUrl) {
-        window.location.href = data.checkoutUrl;
+      if (data.url) {
+        window.location.href = data.url;
       }
     } catch {
       setLoading(null);

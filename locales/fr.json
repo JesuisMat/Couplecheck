@@ -78,7 +78,7 @@
       "items": [
         {
           "question": "Est-ce que c'est vraiment gratuit ?",
-          "answer": "Oui, le quiz et ton score sont 100% gratuits. Le rapport PDF complet avec analyse approfondie et plan d'action est payant (à partir de 12,90€)."
+          "answer": "Oui, le quiz et ton score sont 100% gratuits. Le rapport PDF complet avec analyse approfondie et plan d'action est payant (à partir de 3,99€)."
         },
         {
           "question": "Mes données sont-elles confidentielles ?",
@@ -149,7 +149,7 @@
     "pricing": {
       "standard": {
         "name": "STANDARD",
-        "price": "12,90€",
+        "price": "3,99€",
         "features": [
           "Rapport PDF complet (15 pages)",
           "Analyse des 7 dimensions",
@@ -161,8 +161,8 @@
       "premium": {
         "name": "PREMIUM",
         "badge": "POPULAIRE",
-        "price": "19,90€",
-        "originalPrice": "29,90€",
+        "price": "5,99€",
+        "originalPrice": "12,90€",
         "features": [
           "Rapport PDF complet (15 pages)",
           "Analyse des 7 dimensions",
