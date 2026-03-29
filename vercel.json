@@ -1,0 +1,28 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "next build",
+  "devCommand": "next dev",
+  "installCommand": "npm install",
+  "functions": {
+    "app/api/stripe/webhook/route.ts": {
+      "maxDuration": 120
+    },
+    "app/api/report/generate/route.ts": {
+      "maxDuration": 120
+    }
+  },
+  "headers": [
+    {
+      "source": "/api/stripe/webhook",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
+    }
+  ],
+  "env": {
+    "NEXT_PUBLIC_APP_URL": "https://couplecheck.app"
+  }
+}
