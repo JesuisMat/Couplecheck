@@ -1,10 +1,11 @@
 import { Suspense } from 'react';
 import Link from 'next/link';
 import { CheckCircle, Download, ArrowRight, Sparkles } from 'lucide-react';
+import { PurchaseTracker } from '@/components/checkout/PurchaseTracker';
 
 interface Props {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ quiz_session?: string; session_id?: string }>;
+  searchParams: Promise<{ quiz_session?: string; session_id?: string; offer_type?: string }>;
 }
 
 const labels = {
@@ -42,11 +43,16 @@ const labels = {
 
 export default async function CheckoutSuccessPage({ params, searchParams }: Props) {
   const { locale } = await params;
-  const { quiz_session } = await searchParams;
+  const { quiz_session, offer_type } = await searchParams;
   const l = labels[locale === 'en' ? 'en' : 'fr'];
 
   return (
     <div className="min-h-screen bg-[#F5F2EC] flex flex-col items-center justify-center px-5 py-12">
+      {quiz_session && (
+        <Suspense fallback={null}>
+          <PurchaseTracker sessionId={quiz_session} offerType={offer_type} />
+        </Suspense>
+      )}
       {/* Success icon */}
       <div className="w-20 h-20 rounded-full bg-[#2A7A4A] flex items-center justify-center mb-6 shadow-lg">
         <CheckCircle className="w-10 h-10 text-white" strokeWidth={1.5} />

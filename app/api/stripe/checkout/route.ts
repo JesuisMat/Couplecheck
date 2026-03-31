@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
           quantity: 1,
         },
       ],
-      success_url: `${appUrl}/${localePrefix}/checkout/success?session_id={CHECKOUT_SESSION_ID}&quiz_session=${sessionId}`,
+      success_url: `${appUrl}/${localePrefix}/checkout/success?session_id={CHECKOUT_SESSION_ID}&quiz_session=${sessionId}&offer_type=${offerType}`,
       cancel_url: `${appUrl}/${localePrefix}/result/${sessionId}/unlock`,
       customer_email: lead?.email || undefined,
       metadata: {

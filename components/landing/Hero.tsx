@@ -5,10 +5,67 @@ import { useLocale, useTranslations } from "next-intl";
 import { ArrowRight, FlaskConical } from "lucide-react";
 import { trackEvent, EVENTS } from "@/lib/posthog";
 import { Reveal } from "@/components/ui/Reveal";
+import { useFeatureFlag } from "@/hooks/useFeatureFlag";
+
+// Headline variants for A/B test
+// PostHog flag: "headline_variant" → "control" | "variant_b" | "variant_c"
+const HEADLINES: Record<string, { fr: React.ReactNode; en: React.ReactNode }> = {
+  control: {
+    fr: (
+      <>
+        Votre relation<br />
+        est-elle vraiment{" "}
+        <em className="italic text-[#AA2C32]">florissante&nbsp;?</em>
+      </>
+    ),
+    en: (
+      <>
+        Is your relationship<br />
+        truly{" "}
+        <em className="italic text-[#AA2C32]">flourishing&nbsp;?</em>
+      </>
+    ),
+  },
+  variant_b: {
+    fr: (
+      <>
+        Découvrez ce qui renforce<br />
+        <em className="italic text-[#AA2C32]">— ou fragilise —</em> votre couple
+      </>
+    ),
+    en: (
+      <>
+        Discover what strengthens<br />
+        <em className="italic text-[#AA2C32]">— or weakens —</em> your relationship
+      </>
+    ),
+  },
+  variant_c: {
+    fr: (
+      <>
+        Le test que votre couple<br />
+        <em className="italic text-[#AA2C32]">mérite</em> — résultat en 3 min
+      </>
+    ),
+    en: (
+      <>
+        The test your relationship<br />
+        <em className="italic text-[#AA2C32]">deserves</em> — result in 3 min
+      </>
+    ),
+  },
+};
 
 export function Hero() {
   const locale = useLocale();
   const t = useTranslations("landing.hero");
+  const headlineVariant = useFeatureFlag("headline_variant");
+
+  const resolvedVariant =
+    typeof headlineVariant === "string" && headlineVariant in HEADLINES
+      ? headlineVariant
+      : "control";
+  const headline = HEADLINES[resolvedVariant][locale as "fr" | "en"];
 
   return (
     <section className="pt-24 md:pt-32 pb-16 px-5 max-w-5xl mx-auto">
@@ -21,21 +78,9 @@ export function Hero() {
             {locale === "fr" ? "Diagnostic de couple" : "Relationship diagnostic"}
           </p>
 
-          {/* Headline */}
+          {/* Headline — driven by PostHog A/B flag "headline_variant" */}
           <h1 className="font-display font-normal text-[46px] md:text-[58px] leading-[1.08] tracking-[-0.02em] text-[#1A1916] mb-6">
-            {locale === "fr" ? (
-              <>
-                Votre relation<br />
-                est-elle vraiment{" "}
-                <em className="italic text-[#AA2C32]">florissante&nbsp;?</em>
-              </>
-            ) : (
-              <>
-                Is your relationship<br />
-                truly{" "}
-                <em className="italic text-[#AA2C32]">flourishing&nbsp;?</em>
-              </>
-            )}
+            {headline}
           </h1>
 
           {/* Subheadline */}

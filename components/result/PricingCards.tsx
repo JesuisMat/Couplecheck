@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Check, ShieldCheck, RotateCcw, Lock, Clock } from "lucide-react";
 import { trackEvent, EVENTS } from "@/lib/posthog";
+import { useFeatureFlag } from "@/hooks/useFeatureFlag";
 
 interface PricingCardsProps {
   sessionId: string;
@@ -51,11 +52,25 @@ export function PricingCards({ sessionId, leadId }: PricingCardsProps) {
   const countdown = useCountdown();
   const [loading, setLoading] = useState<"standard" | "premium" | null>(null);
 
+  // A/B test: pricing_variant
+  // PostHog flag: "pricing_variant" → "control" (12.90/19.90) | "low" (9.90/15.90) | "high" (14.90/22.90)
+  const pricingVariant = useFeatureFlag("pricing_variant");
+  const resolvedPricingVariant =
+    typeof pricingVariant === "string" ? pricingVariant : "control";
+
+  const PRICING: Record<string, { standard: string; premium: string; originalPremium: string }> = {
+    control: { standard: "12,90€", premium: "19,90€", originalPremium: "29,90€" },
+    low:     { standard: "9,90€",  premium: "15,90€", originalPremium: "24,90€" },
+    high:    { standard: "14,90€", premium: "22,90€", originalPremium: "34,90€" },
+  };
+  const prices = PRICING[resolvedPricingVariant] ?? PRICING.control;
+
   async function handleCheckout(offerType: "standard" | "premium") {
     setLoading(offerType);
     trackEvent(EVENTS.CHECKOUT_INITIATED, {
       offer_type: offerType,
       session_id: sessionId,
+      pricing_variant: resolvedPricingVariant,
     });
 
     try {
@@ -109,7 +124,7 @@ export function PricingCards({ sessionId, leadId }: PricingCardsProps) {
               {t("pricing.standard.name")}
             </span>
             <span className="font-display font-normal text-[26px] text-[#1A1916]">
-              {t("pricing.standard.price")}
+              {prices.standard}
             </span>
           </div>
           <ul className="space-y-2.5 mb-5">
@@ -142,10 +157,10 @@ export function PricingCards({ sessionId, leadId }: PricingCardsProps) {
             </span>
             <div className="flex items-baseline gap-2">
               <span className="font-display font-normal text-[28px] text-white leading-none">
-                {t("pricing.premium.price")}
+                {prices.premium}
               </span>
               <span className="text-[13px] text-[#5A5854] line-through">
-                {t("pricing.premium.originalPrice")}
+                {prices.originalPremium}
               </span>
             </div>
           </div>
