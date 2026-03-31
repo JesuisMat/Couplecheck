@@ -19,19 +19,61 @@
 
 ## 1. SendGrid — Templates + Délivrabilité
 
-### Comment la locale est gérée — à lire en premier
+### Architecture email — à lire en premier
 
-Le système distingue deux catégories d'emails selon qui les envoie :
+#### Comment les emails sont déclenchés
+
+```
+Utilisateur soumet email (EmailCapture.tsx)
+  └─→ POST /api/leads/capture
+        ├─ Enregistre le lead dans Supabase (table "leads")
+        ├─ Met à jour quiz_sessions.email_captured = true
+        └─ ⚠️ NE déclenche PAS encore l'email Welcome ni n8n
+              ↓
+        Tu dois brancher sendWelcomeEmail() + triggerEmailSequence()
+        dans cette route (voir section 1.6 ci-dessous)
+```
+
+```
+Utilisateur complète un achat Stripe
+  └─→ Webhook Stripe → POST /api/stripe/webhook
+        ├─ Crée/met à jour la table "purchases" (status = completed)
+        ├─ Génère le rapport PDF (OpenRouter + react-pdf)
+        ├─ Upload le PDF dans Supabase Storage
+        ├─ Met à jour leads.converted = true  ← ce flag arrête la séquence n8n
+        └─ Envoie l'email rapport via sendReportEmail() (inline HTML, bilingue natif)
+```
+
+#### Les deux catégories d'emails
 
 **Catégorie A — Emails envoyés directement par le code Next.js** (Welcome J+0 et Rapport post-achat)
 - La locale (`fr` ou `en`) est connue au moment de l'envoi
-- Le code choisit automatiquement le bon template selon la locale : `locale === 'fr' → SENDGRID_TEMPLATE_RESULT_FR`, sinon `SENDGRID_TEMPLATE_RESULT_EN`
-- **Si le template n'est pas configuré dans `.env`** : un email HTML inline bilingue est envoyé à la place (fallback intégré dans le code). Ces emails fonctionnent donc même sans templates SendGrid.
+- Welcome : le code choisit automatiquement `SENDGRID_TEMPLATE_RESULT_FR` ou `SENDGRID_TEMPLATE_RESULT_EN` selon `locale`
+- **Si le template n'est pas configuré** : fallback HTML inline bilingue — les emails fonctionnent même sans templates
+- Rapport : **aucun template SendGrid** — le code construit directement le HTML avec `labels = { fr: {...}, en: {...} }`, les deux locales dans le même code
 
 **Catégorie B — Emails envoyés par n8n** (séquence relance J+2, J+5, J+7, J+14)
 - n8n reçoit le champ `locale` dans le payload webhook (`"fr"` ou `"en"`)
 - n8n doit lui-même router vers le bon template selon cette valeur
 - C'est pourquoi il faut créer des templates FR **et** EN, et configurer un nœud IF dans n8n (détaillé section 2)
+
+#### Les tables Supabase impliquées
+
+| Table | Colonnes clés | Usage |
+|-------|--------------|-------|
+| `leads` | `id`, `email`, `first_name`, `locale`, `session_id`, `converted`, `unsubscribed`, `last_email_at` | Un lead par email. `converted=true` → n8n stoppe la séquence. `unsubscribed=true` → même effet. |
+| `quiz_sessions` | `id`, `locale`, `global_score`, `scores`, `pain_points`, `email_captured`, `completed` | Une session par passage du quiz |
+| `purchases` | `session_id`, `lead_id`, `offer_type`, `status`, `report_url`, `report_sent_at` | Créée par le webhook Stripe. `offer_type` = `standard` ou `premium` |
+
+> **Comment n8n sait quand s'arrêter** : avant chaque envoi de la séquence, n8n appelle `GET /api/leads/{leadId}/status`. Cette route lit les colonnes `converted` et `unsubscribed` de la table `leads` et retourne `{ shouldSendEmail: true/false }`. Si `false`, n8n arrête le workflow.
+
+#### L'expéditeur
+
+Le code `lib/sendgrid.ts` utilise `process.env.SENDGRID_FROM_EMAIL` avec le nom `CoupleCheck` (pas le nom fondateur). Configure donc :
+```
+SENDGRID_FROM_EMAIL=matthieu@couplecheck.app
+```
+Le nom affiché dans `FROM` est `CoupleCheck` côté code — tu peux le modifier dans `lib/sendgrid.ts` ligne 10 si tu veux afficher "Matthieu de CoupleCheck".
 
 ---
 
@@ -74,17 +116,17 @@ Le système distingue deux catégories d'emails selon qui les envoie :
 
 ---
 
-#### Groupe A — Emails directs (code Next.js) — Catégorie A
+#### Groupe A — Email Welcome (code Next.js) — Catégorie A
 
-Ces 4 templates sont **optionnels** (le code a un fallback inline), mais recommandés pour un meilleur branding.
+Ces **2 templates** sont **optionnels** (le code a un fallback HTML inline), mais recommandés pour le branding.
+Les emails de rapport post-achat (Standard / Premium) n'ont **pas** de templates — le code les construit directement en bilingue.
 
 | Variable `.env` | Nom template | Langue | Contenu dans `docs/EMAIL.md` | Variables dynamiques |
 |-----------------|--------------|--------|------------------------------|----------------------|
 | `SENDGRID_TEMPLATE_RESULT_FR` | CoupleCheck - Résultat FR | 🇫🇷 FR | Section 2 — Version FR | `firstName`, `globalScore`, `scoreLabel`, `strengths[]`, `risksCount`, `resultUrl` |
 | `SENDGRID_TEMPLATE_RESULT_EN` | CoupleCheck - Result EN | 🇬🇧 EN | Section 2 — Version EN | `firstName`, `globalScore`, `scoreLabel`, `strengths[]`, `risksCount`, `resultUrl` |
 
-> **Pourquoi pas de version EN pour les rapports ?**
-> La fonction `sendReportEmail` dans `lib/sendgrid.ts` **ne lit jamais de template ID**. Elle construit directement du HTML inline avec `const labels = { fr: {...}, en: {...} }` et sélectionne la langue via `const l = labels[locale]`. Les deux locales sont gérées dans le même code — aucun template SendGrid n'est nécessaire pour les rapports, ni FR ni EN. Les variables `SENDGRID_TEMPLATE_REPORT_STD_FR` / `SENDGRID_TEMPLATE_REPORT_PREM_FR` ci-dessus n'existent pas dans le code — **ne crée pas ces templates**.
+> **Emails rapport post-achat (Standard / Premium)** — entièrement gérés dans `lib/sendgrid.ts` via `sendReportEmail()`. Le HTML est généré en code, bilingue natif (FR/EN dans le même fichier), aligné sur le design system des autres communications (DM Serif Display, DM Sans, fond `#FAF8F5`, rouge `#AA2C32`, signature Matthieu). **Aucun template SendGrid à créer pour les rapports.**
 
 ---
 
@@ -103,11 +145,19 @@ Ces 8 templates sont **obligatoires** pour que la séquence n8n fonctionne. Sans
 | `SENDGRID_TEMPLATE_RELANCE_J14_FR` | CoupleCheck - Relance J+14 FR | 🇫🇷 FR | Section 3 — Email J+14 FR | `firstName` |
 | `SENDGRID_TEMPLATE_RELANCE_J14_EN` | CoupleCheck - Relance J+14 EN | 🇬🇧 EN | *(adapte la version FR en anglais)* | `firstName` |
 
-**Pour les versions EN** : `docs/EMAIL.md` documente uniquement le contenu FR pour les emails de relance. Traduis simplement le corps de chaque email en adaptant le ton. Les sujets EN suggérés :
-- J+2 EN : *"The #1 tip from couples who last 💡"*
-- J+5 EN : *"⏰ -20% on your report (48h only)"*
-- J+7 EN : *"{{firstName}}, last chance for your report"*
-- J+14 EN : *"3 signs a relationship will last (according to science)"*
+**Pour les versions EN** : `docs/EMAIL.md` contient les textes complets EN pour les 4 emails de relance (sections 2.2 à 2.5). Utilise directement ces versions — elles sont déjà rédigées et prêtes à coller dans les templates SendGrid.
+
+---
+
+### 1.6 ✅ Branchement email Welcome + déclenchement n8n — déjà fait
+
+`app/api/leads/capture/route.ts` appelle maintenant `sendWelcomeEmail()` et `triggerEmailSequence()` automatiquement après chaque capture d'email. Les deux appels sont non-bloquants (les erreurs sont loggées sans faire échouer la réponse HTTP).
+
+**Ce qui se passe désormais à la capture d'email :**
+1. Lead upsert en base (`leads`)
+2. `quiz_sessions.email_captured = true`
+3. Email Welcome envoyé (template SendGrid si configuré, sinon HTML inline)
+4. Séquence n8n déclenchée (si `N8N_WEBHOOK_SEQUENCE_URL` est configuré)
 
 ---
 
@@ -237,7 +287,7 @@ Fais ça **en premier**, avant de créer les nœuds SendGrid.
 
 **Nœud 5a : SendGrid — Email J+2 FR**
 - Credentials : `SendGrid CoupleCheck`
-- From : `hello@couplecheck.app` / Name : `CoupleCheck`
+- From : `matthieu@couplecheck.app` / Name : `Matthieu de CoupleCheck`
 - To : `{{ $('Webhook').item.json.email }}`
 - Template ID : *(colle ici l'ID de `SENDGRID_TEMPLATE_RELANCE_J2_FR`)*
 - Dynamic Template Data :
@@ -476,7 +526,7 @@ Vérifie dans n8n → **Executions** que le workflow s'est déclenché et que le
 4. **Variants** :
    | Variant key | Standard | Premium | % de rollout |
    |-------------|----------|---------|-------------|
-   | `control` | 12,90€ | 19,90€ | 34% |
+   | `control` | 9,90€ | 14,90€ | 34% |
    | `low` | 9,90€ | 15,90€ | 33% |
    | `high` | 14,90€ | 22,90€ | 33% |
 5. **Rollout** : 100% des utilisateurs
@@ -671,11 +721,10 @@ OPENROUTER_MODEL=anthropic/claude-3-5-sonnet
 SENDGRID_API_KEY=SG.xxx
 SENDGRID_FROM_EMAIL=hello@couplecheck.app
 
-# Groupe A — Emails directs (optionnels, fallback HTML inline si absent)
+# Groupe A — Email Welcome (optionnels, fallback HTML inline si absent)
+# Les emails de rapport post-achat ne lisent PAS de template — HTML inline bilingue dans le code
 SENDGRID_TEMPLATE_RESULT_FR=d-xxx        # Welcome J+0 FR
 SENDGRID_TEMPLATE_RESULT_EN=d-xxx        # Welcome J+0 EN
-SENDGRID_TEMPLATE_REPORT_STD_FR=d-xxx    # Post-achat Standard FR
-SENDGRID_TEMPLATE_REPORT_PREM_FR=d-xxx   # Post-achat Premium FR
 
 # Groupe B — Séquence relance n8n (obligatoires pour la séquence)
 SENDGRID_TEMPLATE_RELANCE_J2_FR=d-xxx    # J+2 Conseil gratuit FR
@@ -712,6 +761,7 @@ NEXT_PUBLIC_APP_URL=https://couplecheck.app
 
 ### Bloquants absolus (ne pas lancer sans ça)
 
+**Infrastructure :**
 - [ ] `STRIPE_SECRET_KEY` et `STRIPE_WEBHOOK_SECRET` passés en **live** dans Vercel
 - [ ] Webhook Stripe live configuré sur `https://couplecheck.app/api/stripe/webhook`
 - [ ] `N8N_WEBHOOK_SEQUENCE_URL` renseigné dans Vercel

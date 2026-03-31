@@ -26,7 +26,7 @@ L'agent n'est pas un chatbot générique. Il connaît le profil de la relation (
 | Agent IA = feature Premium one-shot | Agent IA = cœur du produit abonnement |
 | Contexte = données quiz uniquement | Contexte = quiz + onboarding + checkups + historique |
 | Landing = acquisition quiz | Landing = vitrine plateforme + acquisition quiz |
-| Revenu one-shot 3,99€–19,90€ | Revenu récurrent 7,99€/mois |
+| Revenu one-shot 9,90€–14,90€ | Revenu récurrent 7,99€/mois |
 
 ### 1.3 Objectifs business
 
@@ -47,8 +47,8 @@ L'agent n'est pas un chatbot générique. Il connaît le profil de la relation (
 ```
 couplecheck.app (landing plateforme)
   → CTA "Faire le quiz gratuit" → couplecheck.app/quiz
-       → Rapport Standard 12,90€ / Premium 19,90€
-            └─ Premium inclut : 1 mois accès anticipé Plateforme
+       → Rapport Standard 9,90€ / Premium 14,90€
+            └─ Premium inclut : 1 mois offert sur la Plateforme
                  → Fin du mois : proposition d'abonnement 7,99€/mois
                       → Renouvellement mensuel automatique (Stripe Subscription)
                            → Annulation possible à tout moment
@@ -58,8 +58,8 @@ couplecheck.app (landing plateforme)
 
 | Offre | Prix | Accès |
 |-------|------|-------|
-| Standard | 12,90€ one-shot | Rapport PDF complet uniquement |
-| Premium | 19,90€ one-shot | Rapport PDF + 1 mois plateforme (accès anticipé) |
+| Standard | 9,90€ one-shot | Rapport PDF complet uniquement |
+| Premium | 14,90€ one-shot | Rapport PDF + 1 mois offert sur la plateforme |
 | Abonnement | 7,99€/mois | Plateforme complète (agent IA + checkups) |
 
 > **Positionnement prix** : "Moins cher qu'un café par semaine, disponible 24h/24."

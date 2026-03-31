@@ -308,9 +308,9 @@ Score global     = moyenne pondérée des 7 dimensions
 
 | Offre | Prix | Contenu |
 |-------|------|---------|
-| **Standard** | 12,90 € | Rapport PDF 15 pages personnalisé par IA |
-| **Premium** | 19,90 € ~~29,90 €~~ | Rapport PDF + Agent IA Coach 1 mois inclus |
-| **Abonnement** | 4,99 €/mois | Accès continu Agent IA Coach |
+| **Standard** | 9,90 € | Rapport PDF 15 pages personnalisé par IA |
+| **Premium** | 14,90 € ~~19,90 €~~ | Rapport PDF + Agent IA Coach 1 mois offert |
+| **Abonnement** | 7,99 €/mois | Accès continu Agent IA Coach |
 
 ### Éléments de conversion
 

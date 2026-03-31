@@ -1,550 +1,872 @@
 # EMAIL_SEQUENCES.md — CoupleCheck
+> Version mise à jour — Mars 2026
+> Ton : fondateur direct (Matthieu), voix personnelle, quasi-texte
+> Pricing acté : Standard 9,90€ · Premium 14,90€ · Abonnement 7,99€/mois
+
+---
 
 ## 1. Vue d'ensemble
 
 | Séquence | Trigger | Objectif |
 |----------|---------|----------|
-| Welcome | Email capturé | Délivrer résultat + premier CTA |
-| Relance | Non-achat J+0 à J+14 | Convertir en acheteur |
-| Post-achat Standard | Achat Standard | Livrer PDF + satisfaction |
-| Post-achat Premium | Achat Premium | Livrer PDF + onboarding Agent IA |
-| Abonnement | Renouvellement/Expiration | Rétention |
+| Welcome (J+0) | Email capturé après quiz | Délivrer résultat + premier CTA |
+| Relance J+2 | 48h après welcome, pas d'achat | Valeur pure, soft CTA |
+| Relance J+5 | 5j après welcome, pas d'achat | Offre -20% limitée 48h |
+| Relance J+7 | 7j après welcome, pas d'achat | Dernier rappel, sobre |
+| Relance J+14 | 14j après welcome, pas d'achat | Réengagement, zéro vente |
+| Post-achat Standard | Achat Standard complété | Livrer PDF |
+| Post-achat Premium | Achat Premium complété | Livrer PDF + onboarding plateforme |
+| Trial ending (J+25) | 25j après achat Premium | Conversion trial → abonnement |
+| Trial expired (J+30) | 30j après achat Premium, pas d'abonnement | Dernière chance + offre |
+| Checkup mensuel | 1er du mois via n8n | Déclencher le checkup |
+| Paiement échoué | webhook Stripe invoice.payment_failed | Relance paiement |
+| Abonnement confirmé | webhook Stripe subscription.created | Confirmation + bienvenue |
+| Abonnement annulé | webhook Stripe subscription.deleted | Sauvegarde churn |
 
-**Provider** : SendGrid (templates dynamiques + n8n pour séquences)
+**Provider** : SendGrid (templates dynamiques HTML) + n8n (séquences temporisées)
+**Sender** : `matthieu@couplecheck.app` — nom affiché : `Matthieu de CoupleCheck`
+**Tone** : Voix fondateur, personnel, sans emojis dans le corps, sans séparateurs ━━━
 
 ---
 
-## 2. Email Welcome (J+0 immédiat)
+## 2. Séquence Relance — Non-acheteurs
 
-### Trigger
-Lead créé (email capturé après quiz)
+### 2.1 Email Welcome (J+0 immédiat)
 
-### Objectif
-Délivrer le résultat tronqué + pousser vers l'achat
+**Trigger** : Lead créé (email capturé après quiz)
+**Fichier HTML** : `j0-welcome-fr.html` / `j0-welcome-en.html`
+**Variables SendGrid** : `SENDGRID_TEMPLATE_RESULT_FR` / `SENDGRID_TEMPLATE_RESULT_EN`
 
 ---
 
-### Version FR
+#### Version FR
 
-**Objet** : [Prénom], ton résultat CoupleCheck est prêt 📊
+**Objet** : `Matthieu de CoupleCheck — ton résultat est là`
+**Preview** : `Score {{globalScore}}/100 · ce que ça veut vraiment dire`
+**Variables dynamiques** : `firstName`, `globalScore`, `resultUrl`
 
-**Preview** : Découvre ton score et ce qui renforce (ou fragilise) ton couple
-
-**Corps** :
-
-```html
+```
 Salut {{firstName}},
 
-Merci d'avoir pris 3 minutes pour faire le test CoupleCheck.
+Je suis Matthieu, le créateur de CoupleCheck.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Je voulais que ce premier email vienne de moi directement — pas d'un robot.
 
-🎯 TON SCORE GLOBAL : {{globalScore}}/100
-{{scoreLabel}}
+Tu viens de passer 5 minutes à répondre à des questions que peu de couples
+prennent vraiment le temps de se poser. C'est déjà quelque chose.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Ton score global : {{globalScore}}/100.
 
-✅ Tes points forts identifiés :
-{{#each strengths}}
-• {{this}}
-{{/each}}
+Ce chiffre, à lui seul, ne dit pas grand-chose. Ce qui compte, c'est ce qui
+est derrière — tes points forts, et les zones qui méritent ton attention.
 
-⚠️ Zones à surveiller : {{risksCount}} alertes détectées
-→ Détails disponibles dans ton rapport complet
+→ Accède à ton résultat complet ici : {{resultUrl}}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+À tout de suite,
+Matthieu
 
-👉 VOIR MON RÉSULTAT COMPLET
-[BOUTON : Accéder à mon résultat → {{resultUrl}}]
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-🎁 OFFRE PRINTEMPS : -33% sur le rapport Premium
-Rapport complet + 1 mois d'accès au Coach IA
-19,90€ au lieu de 29,90€
-
-[BOUTON : Débloquer mon rapport]
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-À très vite,
-L'équipe CoupleCheck
-
-P.S. Tu as des questions ? Réponds simplement à cet email.
+—
+CoupleCheck · Tu peux répondre à cet email si tu as une question.
 ```
 
 ---
 
-### Version EN
+#### Version EN
 
-**Subject** : {{firstName}}, your CoupleCheck result is ready 📊
+**Subject** : `Matthieu from CoupleCheck — your result is here`
+**Preview** : `Score {{globalScore}}/100 · what it actually means`
+**Dynamic variables** : `firstName`, `globalScore`, `resultUrl`
 
-**Preview** : Discover your score and what strengthens (or weakens) your relationship
-
-**Body** :
-
-```html
+```
 Hey {{firstName}},
 
-Thanks for taking 3 minutes to complete the CoupleCheck test.
+I'm Matthieu, the person who built CoupleCheck.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+I wanted this first email to come from me — not from an automated system.
 
-🎯 YOUR GLOBAL SCORE: {{globalScore}}/100
-{{scoreLabel}}
+You just spent 5 minutes answering questions most couples never actually
+sit down to think about. That already matters.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Your overall score: {{globalScore}}/100.
 
-✅ Your identified strengths:
-{{#each strengths}}
-• {{this}}
-{{/each}}
+That number alone doesn't tell the full story. What matters is what's
+behind it — your strengths, and the areas worth paying attention to.
 
-⚠️ Areas to watch: {{risksCount}} alerts detected
-→ Details available in your full report
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-👉 VIEW MY COMPLETE RESULT
-[BUTTON: Access my result → {{resultUrl}}]
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-🎁 SPRING OFFER: 33% off the Premium report
-Full report + 1 month of AI coaching
-€19.90 instead of €29.90
-
-[BUTTON: Unlock my report]
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+→ See your full result here: {{resultUrl}}
 
 Talk soon,
-The CoupleCheck Team
+Matthieu
 
-P.S. Have questions? Just reply to this email.
+—
+CoupleCheck · Feel free to reply if you have a question.
 ```
 
 ---
 
-## 3. Séquence Relance (Non-acheteurs)
+### 2.2 Email J+2 — Valeur pure
 
-### Email J+2 — Conseil gratuit
-
-**Trigger** : 48h après email welcome, pas d'achat
-
-**Objectif** : Apporter de la valeur + soft CTA
+**Trigger** : 48h après welcome, pas d'achat
+**Fichier HTML** : `j2-valeur-fr.html` / `j2-valeur-en.html`
+**Variables SendGrid** : `SENDGRID_TEMPLATE_RELANCE_J2_FR` / `SENDGRID_TEMPLATE_RELANCE_J2_EN`
 
 ---
 
 #### Version FR
 
-**Objet** : Le conseil #1 des couples qui durent 💡
+**Objet** : `quelque chose que j'ai appris sur les couples qui durent`
+**Preview** : `5 minutes par soir, et ça change tout`
+**Variables dynamiques** : `firstName`, `globalScore`, `resultUrl`
 
-**Preview** : Un exercice simple que tu peux faire ce soir
-
-**Corps** :
-
-```html
+```
 Salut {{firstName}},
 
-Il y a 48h, tu as découvert ton score CoupleCheck : {{globalScore}}/100.
+Ça fait deux jours que tu as fait le test. Je voulais te partager quelque
+chose qui m'a frappé en construisant CoupleCheck.
 
-Aujourd'hui, je voulais te partager un conseil qui fait vraiment la différence.
+En lisant des dizaines d'études sur ce qui différencie les couples épanouis
+des autres, une habitude revenait systématiquement.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Pas des grands gestes. Pas des thérapies de couple.
 
-💡 LE CONSEIL DU JOUR
+Juste ça : chaque soir, 5 minutes. Trois questions.
 
-Les couples épanouis pratiquent ce qu'on appelle le "check-in quotidien".
+"Comment tu t'es senti·e aujourd'hui ?"
+"Est-ce qu'il y a quelque chose dont tu aimerais qu'on parle ?"
+"Comment je peux t'aider demain ?"
 
-C'est simple : chaque soir, posez-vous ces 3 questions :
+C'est ce que les chercheurs appellent le "check-in". Les couples qui le
+pratiquent règlent les petites tensions avant qu'elles deviennent de vrais
+problèmes.
 
-1. "Comment tu te sens aujourd'hui ?" (vraiment, pas juste "ça va")
-2. "Il y a quelque chose dont tu voudrais qu'on parle ?"
-3. "Comment je peux t'aider demain ?"
+Ton rapport personnalisé va plus loin — il identifie précisément les
+dimensions de ta relation qui méritent ce type d'attention.
 
-⏱️ Durée : 5 minutes
-📈 Impact : Réduction de 40% des malentendus selon les études
+→ Voir mon rapport : {{resultUrl}}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Ce conseil fait partie des 5 recommandations personnalisées 
-de ton rapport complet CoupleCheck.
-
-[BOUTON : Découvrir mes 5 recommandations → {{resultUrl}}]
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-À demain pour un autre conseil,
-L'équipe CoupleCheck
+Matthieu
 ```
 
 ---
 
-### Email J+5 — Offre spéciale
+#### Version EN
 
-**Trigger** : 5 jours après welcome, pas d'achat
+**Subject** : `something I learned about couples who last`
+**Preview** : `5 minutes a night, and it changes things`
+**Dynamic variables** : `firstName`, `globalScore`, `resultUrl`
 
-**Objectif** : Créer urgence + offre limitée
+```
+Hey {{firstName}},
+
+It's been two days since you took the quiz. I wanted to share something
+that stayed with me while building CoupleCheck.
+
+Reading through dozens of studies on what actually separates happy couples
+from struggling ones, one habit kept coming up.
+
+Not grand gestures. Not couples therapy.
+
+Just this: every evening, 5 minutes. Three questions.
+
+"How did you feel today?"
+"Is there anything you'd like us to talk about?"
+"How can I support you tomorrow?"
+
+Researchers call it a "check-in." Couples who do it consistently tend to
+resolve small tensions before they become real problems.
+
+Your personalized report goes further — it identifies exactly which parts
+of your relationship could use this kind of attention.
+
+→ See my report: {{resultUrl}}
+
+Matthieu
+```
+
+---
+
+### 2.3 Email J+5 — Offre honnête
+
+**Trigger** : 5j après welcome, pas d'achat
+**Fichier HTML** : `j5-offre-fr.html` / `j5-offre-en.html`
+**Variables SendGrid** : `SENDGRID_TEMPLATE_RELANCE_J5_FR` / `SENDGRID_TEMPLATE_RELANCE_J5_EN`
 
 ---
 
 #### Version FR
 
-**Objet** : ⏰ -20% sur ton rapport (48h seulement)
+**Objet** : `une remise pour toi, {{firstName}} — 48h`
+**Preview** : `je ne fais pas ça souvent`
+**Variables dynamiques** : `firstName`, `globalScore`, `risksCount`, `checkoutUrl`, `promoExpiry`
 
-**Preview** : Une offre qu'on ne fait pas souvent...
-
-**Corps** :
-
-```html
-Salut {{firstName}},
-
-On ne fait pas ça souvent, mais voilà :
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-🎁 OFFRE EXCLUSIVE 48H
-
--20% sur ton rapport CoupleCheck complet
-
-• Rapport Standard : 10,32€ au lieu de 12,90€
-• Rapport Premium : 15,92€ au lieu de 19,90€
-  (inclut 1 mois de coaching IA personnalisé)
-
-Code promo : COUPLE20
-⏰ Expire le {{promoExpiry}}
-
-[BOUTON : Utiliser mon code -20% → {{checkoutUrl}}?promo=COUPLE20]
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-📊 RAPPEL DE TON SCORE
-
-Score global : {{globalScore}}/100
-Zones à risque identifiées : {{risksCount}}
-
-Tu mérites de comprendre ce qui se passe vraiment 
-dans ta relation — et surtout, comment l'améliorer.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-À très vite,
-L'équipe CoupleCheck
-
-P.S. Cette offre expire automatiquement dans 48h. 
-Après ça, retour au prix normal.
 ```
-
----
-
-### Email J+7 — Dernier rappel
-
-**Trigger** : 7 jours après welcome, pas d'achat
-
-**Objectif** : Dernière chance + FOMO
-
----
-
-#### Version FR
-
-**Objet** : {{firstName}}, dernière chance pour ton rapport
-
-**Preview** : Après ça, je ne t'embête plus
-
-**Corps** :
-
-```html
 {{firstName}},
 
-C'est mon dernier email à ce sujet.
+Je vais être direct : si tu n'as pas encore accédé à ton rapport, c'est
+peut-être une question de prix.
 
-Ton score CoupleCheck ({{globalScore}}/100) et tes {{risksCount}} zones à risque 
-attendent toujours d'être analysés en détail.
+Alors voilà — pendant 48h, j'applique une remise de 20% sur les deux offres.
 
-Je ne vais pas te harceler. Mais je voulais te dire une chose :
+—
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Rapport Standard : 7,92€ au lieu de 9,90€
+→ Ton analyse complète sur 7 dimensions + plan d'action personnalisé, en PDF.
 
-Les couples qui prennent le temps de comprendre leur relation
-ont 3x plus de chances de la faire durer.
+Rapport Premium : 11,92€ au lieu de 14,90€
+→ Le même rapport — mais il devient le point de départ de quelque chose de plus.
 
-Ce n'est pas moi qui le dis, c'est la recherche.
+Avec le Premium, tu accèdes en avant-première à la plateforme CoupleCheck —
+un espace où un agent IA connaît déjà ton profil, tes scores, ce que tu as
+décrit dans le quiz. Pas un chatbot générique : quelque chose qui part de là
+où tu en es vraiment, et qui est là dans la durée.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+—
 
-Si tu veux ton rapport complet, il est toujours là :
+Code : COUPLE20
+Expire le {{promoExpiry}}.
 
-[BOUTON : Accéder à mon rapport — 12,90€ → {{checkoutUrl}}]
+→ Choisir mon offre : {{checkoutUrl}}
 
-Sinon, je te souhaite tout le meilleur pour ta relation.
+Ton score était {{globalScore}}/100. Tu as {{risksCount}} zones identifiées
+comme sensibles dans ta relation. Le rapport t'explique exactement quoi en faire.
 
-À bientôt peut-être,
-L'équipe CoupleCheck
+Matthieu
+
+P.S. Si le prix reste un frein, réponds à cet email. On trouvera quelque chose.
 ```
 
 ---
 
-### Email J+14 — Contenu valeur (pas de vente)
+#### Version EN
 
-**Trigger** : 14 jours après welcome, pas d'achat
+**Subject** : `a discount for you, {{firstName}} — 48h`
+**Preview** : `I don't do this often`
+**Dynamic variables** : `firstName`, `globalScore`, `risksCount`, `checkoutUrl`, `promoExpiry`
 
-**Objectif** : Rester top-of-mind, pas de CTA commercial
+```
+{{firstName}},
+
+I'll be straightforward: if you haven't unlocked your report yet, it might
+just be a price thing.
+
+So here it is — for 48 hours, I'm applying a 20% discount on both options.
+
+—
+
+Standard Report: €7.92 instead of €9.90
+→ Your full analysis across 7 dimensions + a personalized action plan, as a PDF.
+
+Premium Report: €11.92 instead of €14.90
+→ The same report — but it becomes the starting point for something more.
+
+With Premium, you get early access to the CoupleCheck platform — a space
+where an AI agent already knows your profile, your scores, what you described
+in the quiz. Not a generic chatbot: something that starts from where you
+actually are, and stays with you over time.
+
+—
+
+Code: COUPLE20
+Expires: {{promoExpiry}}.
+
+→ Choose my offer: {{checkoutUrl}}
+
+Your score was {{globalScore}}/100. You have {{risksCount}} areas flagged as
+sensitive in your relationship. The report tells you exactly what to do with that.
+
+Matthieu
+
+P.S. If price is still a barrier, reply to this email. We'll figure something out.
+```
+
+---
+
+### 2.4 Email J+7 — Dernier rappel sobre
+
+**Trigger** : 7j après welcome, pas d'achat
+**Fichier HTML** : `j7-rappel-fr.html` / `j7-rappel-en.html`
+**Variables SendGrid** : `SENDGRID_TEMPLATE_RELANCE_J7_FR` / `SENDGRID_TEMPLATE_RELANCE_J7_EN`
 
 ---
 
 #### Version FR
 
-**Objet** : 3 signes qu'un couple va durer (selon la science)
+**Objet** : `{{firstName}}, dernier email là-dessus`
+**Preview** : `je ne veux pas t'embêter`
+**Variables dynamiques** : `firstName`, `globalScore`, `risksCount`, `checkoutUrl`
 
-**Preview** : Le #2 va te surprendre
+```
+{{firstName}},
 
-**Corps** :
+C'est mon dernier email sur ton rapport. Promis.
 
-```html
-Salut {{firstName}},
+Je sais que tu reçois probablement beaucoup d'emails. Et je sais que les
+rappels répétés, c'est fatiguant.
 
-Pas de promo aujourd'hui. Juste un article qui pourrait t'intéresser.
+Donc juste ça : si un jour tu veux comprendre ce que ton score de
+{{globalScore}}/100 dit vraiment de ta relation — et ce que tu peux en
+faire concrètement — c'est là quand tu veux.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+→ {{checkoutUrl}}
 
-🔬 3 SIGNES QU'UN COUPLE VA DURER
-(selon 40 ans de recherche du Dr. John Gottman)
+Sinon, je te souhaite sincèrement le meilleur pour ta relation.
 
-1️⃣ Le ratio 5:1
-Pour chaque interaction négative, les couples heureux 
-ont 5 interactions positives. Pas besoin d'être parfait, 
-juste de compenser.
-
-2️⃣ La réponse aux "bids"
-Quand ton/ta partenaire te montre quelque chose 
-("regarde ce chat mignon !"), tu réponds avec intérêt 
-ou tu ignores ? Les couples qui durent répondent 86% du temps.
-
-3️⃣ Les conflits "réparables"
-Ce n'est pas l'absence de disputes qui compte, 
-c'est la capacité à réparer après. Un simple 
-"désolé, j'ai été nul(le)" change tout.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Lequel de ces 3 points est ton point fort ? 
-(Réponds à cet email si tu veux, je lis tout.)
-
-À bientôt,
-L'équipe CoupleCheck
+Matthieu
 ```
 
 ---
 
-## 4. Email Post-achat Standard
+#### Version EN
 
-**Trigger** : Achat Standard complété (webhook Stripe)
+**Subject** : `{{firstName}}, last email on this`
+**Preview** : `I don't want to be annoying about it`
+**Dynamic variables** : `firstName`, `globalScore`, `risksCount`, `checkoutUrl`
 
-**Objectif** : Livrer le rapport + satisfaction
+```
+{{firstName}},
 
----
+This is my last email about your report. Promise.
 
-### Version FR
+I know you probably get a lot of emails. And I know repeated reminders
+get old fast.
 
-**Objet** : 📊 Ton rapport CoupleCheck est prêt
+So just this: if you ever want to understand what your score of
+{{globalScore}}/100 actually says about your relationship — and what to
+do with it — it's there whenever you're ready.
 
-**Preview** : 15 pages d'analyse personnalisée t'attendent
+→ {{checkoutUrl}}
 
-**Corps** :
+Either way, I genuinely hope things are going well.
 
-```html
-Félicitations {{firstName}} ! 🎉
-
-Ton rapport CoupleCheck complet est prêt.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-📊 TON RAPPORT (15 pages)
-
-Ce que tu vas découvrir :
-✓ Analyse détaillée de tes 6 dimensions relationnelles
-✓ Tes 3 points forts à cultiver
-✓ Tes 3 zones à risque (et comment les améliorer)
-✓ Ton plan d'action personnalisé en 5 étapes
-✓ Ressources recommandées (livres, exercices)
-
-[BOUTON : Télécharger mon rapport PDF → {{pdfUrl}}]
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-💡 CONSEIL : Prends 15 minutes au calme pour lire ton rapport.
-Certaines révélations méritent d'être digérées tranquillement.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Une question sur ton rapport ? Réponds à cet email.
-
-Merci de ta confiance,
-L'équipe CoupleCheck
-
-P.S. Tu veux aller plus loin ? Passe au Premium pour accéder 
-à ton coach IA personnel (disponible 24/7).
-[Lien : Découvrir le coaching IA → {{upgradeUrl}}]
+Matthieu
 ```
 
 ---
 
-## 5. Email Post-achat Premium
+### 2.5 Email J+14 — Réengagement, zéro vente
 
-**Trigger** : Achat Premium complété (webhook Stripe)
-
-**Objectif** : Livrer rapport + onboarding Agent IA
+**Trigger** : 14j après welcome, pas d'achat
+**Fichier HTML** : `j14-reengagement-fr.html` / `j14-reengagement-en.html`
+**Variables SendGrid** : `SENDGRID_TEMPLATE_RELANCE_J14_FR` / `SENDGRID_TEMPLATE_RELANCE_J14_EN`
 
 ---
 
-### Version FR
+#### Version FR
 
-**Objet** : 📊 Ton rapport + accès Coach IA sont prêts
+**Objet** : `ce que les réponses de 1 000 personnes m'ont appris`
+**Preview** : `une chose que je ne m'attendais pas à voir`
+**Variables dynamiques** : `firstName`
 
-**Preview** : Bienvenue dans l'expérience Premium CoupleCheck
+```
+{{firstName}},
 
-**Corps** :
+Je ne t'écris pas pour te parler du rapport.
 
-```html
-Félicitations {{firstName}} ! 🎉
+Depuis le lancement de CoupleCheck, j'ai lu les réponses à la dernière
+question du quiz — "Si tu pouvais changer UNE chose dans ta relation,
+ce serait quoi ?" — et une chose m'a frappé.
 
-Tu as choisi l'expérience Premium. Excellent choix.
+La plupart des gens n'écrivent pas "moins de disputes" ou "plus de passion".
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Ils écrivent des choses comme : "que mon partenaire comprenne vraiment ce
+que je ressens" ou "qu'on arrête de se parler comme si on était devenus
+étrangers".
 
-📊 TON RAPPORT COMPLET (15 pages)
+Pas des crises. Des silences. Des petits décalages qui s'accumulent sans
+qu'on sache vraiment quand ça a commencé.
 
-[BOUTON : Télécharger mon rapport PDF → {{pdfUrl}}]
+C'est pour ça que je construis la suite de CoupleCheck — un espace pour
+travailler ça dans la durée, avec un agent IA qui connaît ton profil et
+t'accompagne mois après mois. Ce n'est pas encore ouvert à tout le monde,
+mais ça arrive.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Si tu veux être parmi les premiers à y accéder, réponds à cet email avec
+juste un mot. Je te tiens au courant en priorité.
 
-🤖 TON COACH IA PERSONNEL
+Matthieu
 
-Tu as maintenant accès à ton coach relationnel IA 
-pendant 1 mois. Il connaît déjà :
+—
+CoupleCheck
+```
 
-• Ton score global : {{globalScore}}/100
-• Tes zones à risque identifiées
-• Tes réponses au quiz
+---
 
-Tu peux lui poser toutes tes questions, 24h/24.
+#### Version EN
 
-[BOUTON : Accéder à mon Coach IA → {{agentAccessUrl}}]
+**Subject** : `what 1,000 people's answers taught me`
+**Preview** : `something I didn't expect to see`
+**Dynamic variables** : `firstName`
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+{{firstName}},
 
-🔐 CRÉATION DE TON COMPTE
+I'm not writing about the report today.
 
-Pour accéder à ton Coach IA, crée ton compte en cliquant ici :
-{{magicLinkUrl}}
+Since CoupleCheck launched, I've been reading the answers to the last quiz
+question — "If you could change ONE thing about your relationship, what
+would it be?" — and something surprised me.
+
+Most people don't write "fewer arguments" or "more passion."
+
+They write things like: "that my partner actually understood how I feel"
+or "that we stopped talking like we'd become strangers somehow."
+
+Not crises. Silences. Small drifts that build up without anyone knowing
+exactly when it started.
+
+That's why I'm building what comes next — a space to work on this over
+time, with an AI agent that knows your profile and stays with you month
+after month. It's not open to everyone yet, but it's coming.
+
+If you want to be among the first to access it, just reply to this email
+with a word. I'll reach out to you directly.
+
+Matthieu
+
+—
+CoupleCheck
+```
+
+---
+
+## 3. Emails Post-achat
+
+### 3.1 Post-achat Standard
+
+**Trigger** : Webhook Stripe `checkout.session.completed` + `offerType = standard`
+**Variables SendGrid** : `SENDGRID_TEMPLATE_REPORT_STD_FR` / `SENDGRID_TEMPLATE_REPORT_STD_EN`
+
+---
+
+#### Version FR
+
+**Objet** : `ton rapport est là, {{firstName}}`
+**Preview** : `Prends 15 minutes au calme pour le lire`
+**Variables dynamiques** : `firstName`, `pdfUrl`, `upgradeUrl`
+
+```
+{{firstName}},
+
+Ton rapport CoupleCheck est prêt.
+
+→ Télécharger mon rapport : {{pdfUrl}}
+
+—
+
+Ce que tu vas trouver dedans : ton analyse sur 7 dimensions, tes points
+forts, les zones qui méritent ton attention, et un plan d'action concret.
+
+Prends 15 minutes au calme pour le lire. Certaines choses méritent d'être
+digérées tranquillement.
+
+—
+
+Une chose que je n'ai pas encore annoncée publiquement : on prépare la
+suite de CoupleCheck — une plateforme où un agent IA part de ton rapport
+pour t'accompagner dans la durée. Si ça t'intéresse, réponds à cet email.
+
+Matthieu
+
+P.S. Une question sur ton rapport ? Réponds directement ici, je lis tout.
+```
+
+---
+
+#### Version EN
+
+**Subject** : `your report is ready, {{firstName}}`
+**Preview** : `Take 15 quiet minutes to read it`
+**Dynamic variables** : `firstName`, `pdfUrl`, `upgradeUrl`
+
+```
+{{firstName}},
+
+Your CoupleCheck report is ready.
+
+→ Download my report: {{pdfUrl}}
+
+—
+
+What you'll find inside: your analysis across 7 dimensions, your strengths,
+the areas worth your attention, and a concrete action plan.
+
+Take 15 quiet minutes to read it. Some things are worth sitting with.
+
+—
+
+Something I haven't announced publicly yet: we're building what comes
+next for CoupleCheck — a platform where an AI agent starts from your
+report and stays with you over time. If that interests you, reply to
+this email.
+
+Matthieu
+
+P.S. Questions about your report? Reply directly here, I read everything.
+```
+
+---
+
+### 3.2 Post-achat Premium
+
+**Trigger** : Webhook Stripe `checkout.session.completed` + `offerType = premium`
+**Variables SendGrid** : `SENDGRID_TEMPLATE_REPORT_PREM_FR` / `SENDGRID_TEMPLATE_REPORT_PREM_EN`
+
+---
+
+#### Version FR
+
+**Objet** : `ton rapport + ton accès plateforme sont prêts`
+**Preview** : `L'agent connaît déjà ton profil`
+**Variables dynamiques** : `firstName`, `pdfUrl`, `magicLinkUrl`, `globalScore`, `platformUrl`
+
+```
+{{firstName}},
+
+Deux choses t'attendent.
+
+—
+
+Ton rapport complet :
+→ Télécharger mon rapport : {{pdfUrl}}
+
+—
+
+Et ton accès à la plateforme CoupleCheck.
+
+C'est ce qui différencie le Premium : ton rapport ne s'arrête pas au PDF.
+Il devient le point de départ d'une expérience dans la durée. L'agent IA
+connaît déjà ton score ({{globalScore}}/100), tes dimensions, ce que tu as
+décrit dans le quiz. Tu n'as pas à tout réexpliquer.
+
+Pour accéder à ta plateforme, crée ton compte ici :
+→ {{magicLinkUrl}}
 
 (Ce lien expire dans 24h)
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+—
 
-🚀 COMMENT BIEN DÉMARRER
+Comment bien démarrer :
 
-1. Lis ton rapport (15 min)
-2. Identifie ta priorité #1
-3. Demande à ton Coach IA : "Comment améliorer [ta priorité] ?"
+1. Lis ton rapport — 15 minutes
+2. Identifie une chose sur laquelle tu veux travailler
+3. Ouvre la plateforme et pose la question à l'agent
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Ton accès est valable 1 mois. À l'issue, tu peux continuer à 7,99€/mois
+si tu le souhaites — ou t'arrêter là, sans engagement.
 
-Merci de ta confiance,
-L'équipe CoupleCheck
+Matthieu
 
-P.S. Ton accès Coach IA expire dans 30 jours. 
-Tu pourras le prolonger à 4,99€/mois si tu le souhaites.
+P.S. Une question ? Réponds à cet email.
 ```
 
 ---
 
-## 6. Configuration SendGrid
+#### Version EN
 
-### 6.1 Templates dynamiques à créer
-
-| Template | ID variable | Variables dynamiques |
-|----------|-------------|---------------------|
-| Result FR | `SENDGRID_TEMPLATE_RESULT_FR` | firstName, resultUrl, globalScore, scoreLabel, strengths[], risksCount |
-| Result EN | `SENDGRID_TEMPLATE_RESULT_EN` | firstName, resultUrl, globalScore, scoreLabel, strengths[], risksCount |
-| Report Standard FR | `SENDGRID_TEMPLATE_REPORT_STD_FR` | firstName, pdfUrl, upgradeUrl |
-| Report Premium FR | `SENDGRID_TEMPLATE_REPORT_PREM_FR` | firstName, pdfUrl, agentAccessUrl, magicLinkUrl, globalScore |
-| Relance J+2 FR | `SENDGRID_TEMPLATE_RELANCE_J2_FR` | firstName, globalScore, resultUrl |
-| Relance J+5 FR | `SENDGRID_TEMPLATE_RELANCE_J5_FR` | firstName, globalScore, risksCount, checkoutUrl, promoExpiry |
-| Relance J+7 FR | `SENDGRID_TEMPLATE_RELANCE_J7_FR` | firstName, globalScore, risksCount, checkoutUrl |
-| Relance J+14 FR | `SENDGRID_TEMPLATE_RELANCE_J14_FR` | firstName |
-
-### 6.2 Intégration n8n pour séquences
-
-Tu utilises déjà n8n + SendGrid, donc voici l'architecture recommandée :
+**Subject** : `your report + platform access are ready`
+**Preview** : `The agent already knows your profile`
+**Dynamic variables** : `firstName`, `pdfUrl`, `magicLinkUrl`, `globalScore`, `platformUrl`
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│  WORKFLOW N8N : Séquence Relance CoupleCheck                    │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  [Webhook] ← API CoupleCheck POST /api/n8n/start-sequence       │
-│      │       Payload: { leadId, email, firstName, globalScore,  │
-│      │                  risksCount, resultUrl, locale }         │
-│      │                                                          │
-│      ▼                                                          │
-│  [Wait 48h]                                                     │
-│      │                                                          │
-│      ▼                                                          │
-│  [HTTP Request] → GET {{apiUrl}}/api/leads/{{leadId}}/status    │
-│      │                                                          │
-│      ├── Si converted=true → [Stop]                             │
-│      ├── Si unsubscribed=true → [Stop]                          │
-│      │                                                          │
-│      └── Si non converti →                                      │
-│          [SendGrid Node]                                        │
-│          │  Template: RELANCE_J2                                │
-│          │  To: {{email}}                                       │
-│          │  Dynamic data: firstName, globalScore, resultUrl     │
-│          │                                                      │
-│          ▼                                                      │
-│      [Wait 72h]                                                 │
-│          │                                                      │
-│          ▼                                                      │
-│      [HTTP Request] → Check status                              │
-│          │                                                      │
-│          └── Si non converti →                                  │
-│              [Set Node] → Calculer promoExpiry (+48h)           │
-│              │                                                  │
-│              ▼                                                  │
-│              [SendGrid Node]                                    │
-│              │  Template: RELANCE_J5 (promo -20%)               │
-│              │                                                  │
-│              ▼                                                  │
-│          [Wait 48h]                                             │
-│              │                                                  │
-│              ▼                                                  │
-│          [HTTP Request] → Check status                          │
-│              │                                                  │
-│              └── Si non converti →                              │
-│                  [SendGrid Node]                                │
-│                  │  Template: RELANCE_J7 (last chance)          │
-│                  │                                              │
-│                  ▼                                              │
-│              [Wait 7 days]                                      │
-│                  │                                              │
-│                  ▼                                              │
-│              [SendGrid Node]                                    │
-│                  Template: RELANCE_J14 (valeur, no sell)        │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
+{{firstName}},
+
+Two things are waiting for you.
+
+—
+
+Your full report:
+→ Download my report: {{pdfUrl}}
+
+—
+
+And your access to the CoupleCheck platform.
+
+This is what makes Premium different: your report doesn't stop at the PDF.
+It becomes the starting point for something ongoing. The AI agent already
+knows your score ({{globalScore}}/100), your dimensions, what you described
+in the quiz. You don't have to explain everything from scratch.
+
+To access your platform, create your account here:
+→ {{magicLinkUrl}}
+
+(This link expires in 24h)
+
+—
+
+How to get started:
+
+1. Read your report — 15 minutes
+2. Identify one thing you want to work on
+3. Open the platform and ask the agent about it
+
+Your access is valid for 1 month. After that, you can continue at €7.99/month
+if you'd like — or stop there, no commitment.
+
+Matthieu
+
+P.S. Questions? Reply to this email.
 ```
 
-### 6.3 API endpoint pour déclencher la séquence
+---
+
+## 4. Emails Plateforme — Trial & Abonnement
+
+### 4.1 Trial ending (J+25 après achat Premium)
+
+**Trigger** : n8n, 25j après `purchase_completed` avec `offerType = premium`, pas d'abonnement actif
+**Variables SendGrid** : `SENDGRID_TEMPLATE_TRIAL_ENDING`
+
+#### Version FR
+
+**Objet** : `ton accès plateforme expire dans 5 jours`
+**Preview** : `7,99€/mois pour continuer`
+**Variables dynamiques** : `firstName`, `subscribeUrl`
+
+```
+{{firstName}},
+
+Ton mois d'accès à la plateforme CoupleCheck touche à sa fin dans 5 jours.
+
+Si tu veux continuer — les conversations, les checkups mensuels, l'agent
+qui connaît ton historique — c'est 7,99€/mois. Moins cher qu'un café par
+semaine.
+
+→ Continuer mon abonnement : {{subscribeUrl}}
+
+Si ce n'est pas le bon moment, pas de souci. Ton rapport reste le tien.
+
+Matthieu
+```
+
+---
+
+### 4.2 Trial expired (J+30 après achat Premium)
+
+**Trigger** : n8n, 30j après `purchase_completed` avec `offerType = premium`, pas d'abonnement actif
+**Variables SendGrid** : `SENDGRID_TEMPLATE_TRIAL_EXPIRED`
+
+#### Version FR
+
+**Objet** : `ton accès est expiré — offre de réactivation 48h`
+**Preview** : `-20% pour revenir`
+**Variables dynamiques** : `firstName`, `subscribeUrl`, `promoExpiry`
+
+```
+{{firstName}},
+
+Ton mois d'accès à la plateforme est terminé.
+
+Si tu veux reprendre — avec tout ton historique intact, l'agent qui se
+souvient de toi — voilà une offre pour les prochaines 48h :
+
+Premier mois à 6,39€ au lieu de 7,99€.
+Code : COMEBACK20
+Expire le {{promoExpiry}}.
+
+→ Réactiver mon accès : {{subscribeUrl}}
+
+Matthieu
+```
+
+---
+
+### 4.3 Abonnement confirmé
+
+**Trigger** : Webhook Stripe `customer.subscription.created`
+**Variables SendGrid** : `SENDGRID_TEMPLATE_SUBSCRIPTION_CONFIRMED`
+
+#### Version FR
+
+**Objet** : `abonnement confirmé — bienvenue`
+**Variables dynamiques** : `firstName`, `platformUrl`
+
+```
+{{firstName}},
+
+C'est confirmé — ton abonnement CoupleCheck est actif.
+
+→ Accéder à ma plateforme : {{platformUrl}}
+
+Matthieu
+```
+
+---
+
+### 4.4 Paiement échoué
+
+**Trigger** : Webhook Stripe `invoice.payment_failed`
+**Variables SendGrid** : `SENDGRID_TEMPLATE_PAYMENT_FAILED`
+
+#### Version FR
+
+**Objet** : `un problème avec ton paiement`
+**Variables dynamiques** : `firstName`, `updatePaymentUrl`
+
+```
+{{firstName}},
+
+Le renouvellement de ton abonnement n'a pas pu être traité.
+
+Pour mettre à jour ton moyen de paiement et continuer à accéder à la
+plateforme :
+
+→ Mettre à jour mon paiement : {{updatePaymentUrl}}
+
+Si tu as une question, réponds à cet email.
+
+Matthieu
+```
+
+---
+
+### 4.5 Abonnement annulé
+
+**Trigger** : Webhook Stripe `customer.subscription.deleted`
+**Variables SendGrid** : `SENDGRID_TEMPLATE_SUBSCRIPTION_CANCELED`
+
+#### Version FR
+
+**Objet** : `ton abonnement est annulé`
+**Variables dynamiques** : `firstName`, `resubscribeUrl`
+
+```
+{{firstName}},
+
+Ton abonnement CoupleCheck a bien été annulé. Aucun prélèvement à venir.
+
+Ton rapport et ton historique de conversations restent accessibles encore
+30 jours.
+
+Si tu changes d'avis, tu peux reprendre quand tu veux :
+→ {{resubscribeUrl}}
+
+Je te souhaite le meilleur.
+
+Matthieu
+```
+
+---
+
+### 4.6 Checkup mensuel
+
+**Trigger** : n8n, cron le 1er du mois pour tous les abonnés actifs
+**Variables SendGrid** : `SENDGRID_TEMPLATE_MONTHLY_CHECKUP`
+
+#### Version FR
+
+**Objet** : `{{firstName}}, comment va ton couple ce mois-ci ?`
+**Preview** : `2 minutes — 5 questions`
+**Variables dynamiques** : `firstName`, `checkupUrl`
+
+```
+{{firstName}},
+
+C'est le moment du checkup mensuel.
+
+5 questions, 2 minutes. Pour garder une trace de comment évolue ta relation
+— et donner à l'agent un contexte à jour.
+
+→ Faire mon checkup : {{checkupUrl}}
+
+Matthieu
+```
+
+---
+
+## 5. Configuration SendGrid
+
+### 5.1 Templates à créer
+
+| Template | Variable env | Locale | Variables dynamiques |
+|----------|-------------|--------|---------------------|
+| Welcome résultat | `SENDGRID_TEMPLATE_RESULT_FR` | 🇫🇷 FR | `firstName`, `globalScore`, `resultUrl` |
+| Welcome résultat | `SENDGRID_TEMPLATE_RESULT_EN` | 🇬🇧 EN | `firstName`, `globalScore`, `resultUrl` |
+| Relance J+2 | `SENDGRID_TEMPLATE_RELANCE_J2_FR` | 🇫🇷 FR | `firstName`, `globalScore`, `resultUrl` |
+| Relance J+2 | `SENDGRID_TEMPLATE_RELANCE_J2_EN` | 🇬🇧 EN | `firstName`, `globalScore`, `resultUrl` |
+| Relance J+5 | `SENDGRID_TEMPLATE_RELANCE_J5_FR` | 🇫🇷 FR | `firstName`, `globalScore`, `risksCount`, `checkoutUrl`, `promoExpiry` |
+| Relance J+5 | `SENDGRID_TEMPLATE_RELANCE_J5_EN` | 🇬🇧 EN | `firstName`, `globalScore`, `risksCount`, `checkoutUrl`, `promoExpiry` |
+| Relance J+7 | `SENDGRID_TEMPLATE_RELANCE_J7_FR` | 🇫🇷 FR | `firstName`, `globalScore`, `risksCount`, `checkoutUrl` |
+| Relance J+7 | `SENDGRID_TEMPLATE_RELANCE_J7_EN` | 🇬🇧 EN | `firstName`, `globalScore`, `risksCount`, `checkoutUrl` |
+| Relance J+14 | `SENDGRID_TEMPLATE_RELANCE_J14_FR` | 🇫🇷 FR | `firstName` |
+| Relance J+14 | `SENDGRID_TEMPLATE_RELANCE_J14_EN` | 🇬🇧 EN | `firstName` |
+| Post-achat Standard | `SENDGRID_TEMPLATE_REPORT_STD_FR` | 🇫🇷 FR | `firstName`, `pdfUrl`, `upgradeUrl` |
+| Post-achat Standard | `SENDGRID_TEMPLATE_REPORT_STD_EN` | 🇬🇧 EN | `firstName`, `pdfUrl`, `upgradeUrl` |
+| Post-achat Premium | `SENDGRID_TEMPLATE_REPORT_PREM_FR` | 🇫🇷 FR | `firstName`, `pdfUrl`, `magicLinkUrl`, `globalScore`, `platformUrl` |
+| Post-achat Premium | `SENDGRID_TEMPLATE_REPORT_PREM_EN` | 🇬🇧 EN | `firstName`, `pdfUrl`, `magicLinkUrl`, `globalScore`, `platformUrl` |
+| Trial ending | `SENDGRID_TEMPLATE_TRIAL_ENDING` | FR | `firstName`, `subscribeUrl` |
+| Trial expired | `SENDGRID_TEMPLATE_TRIAL_EXPIRED` | FR | `firstName`, `subscribeUrl`, `promoExpiry` |
+| Abonnement confirmé | `SENDGRID_TEMPLATE_SUBSCRIPTION_CONFIRMED` | FR | `firstName`, `platformUrl` |
+| Paiement échoué | `SENDGRID_TEMPLATE_PAYMENT_FAILED` | FR | `firstName`, `updatePaymentUrl` |
+| Abonnement annulé | `SENDGRID_TEMPLATE_SUBSCRIPTION_CANCELED` | FR | `firstName`, `resubscribeUrl` |
+| Checkup mensuel | `SENDGRID_TEMPLATE_MONTHLY_CHECKUP` | FR | `firstName`, `checkupUrl` |
+
+> **Note unsubscribe** : Tous les templates intègrent le module SendGrid natif `data-role="module-unsubscribe"` avec `{{{unsubscribe}}}` et `{{{unsubscribe_preferences}}}` (triple moustache, non-échappé).
+
+---
+
+### 5.2 Sender
+
+```
+From email : matthieu@couplecheck.app
+From name  : Matthieu de CoupleCheck   (FR)
+           : Matthieu from CoupleCheck  (EN)
+Reply-to   : matthieu@couplecheck.app
+```
+
+---
+
+### 5.3 Workflow n8n — Séquence relance
+
+```
+[Webhook] ← POST /api/n8n/start-sequence
+    │  Payload: { leadId, email, firstName, globalScore,
+    │             risksCount, resultUrl, locale }
+    │
+    ▼
+[Wait 48h]
+    │
+    ▼
+[HTTP GET] /api/leads/{{leadId}}/status
+    ├── converted=true  → STOP
+    ├── unsubscribed=true → STOP
+    └── non converti →
+        [SendGrid] Template RELANCE_J2 (firstName, globalScore, resultUrl)
+        │
+        ▼
+    [Wait 72h]
+        │
+        ▼
+    [HTTP GET] check status
+        └── non converti →
+            [Set] promoExpiry = now + 48h
+            [SendGrid] Template RELANCE_J5 (+ risksCount, checkoutUrl, promoExpiry)
+            │
+            ▼
+        [Wait 48h]
+            │
+            ▼
+        [HTTP GET] check status
+            └── non converti →
+                [SendGrid] Template RELANCE_J7 (+ risksCount, checkoutUrl)
+                │
+                ▼
+            [Wait 7 days]
+                │
+                ▼
+            [HTTP GET] check status
+                └── non converti →
+                    [SendGrid] Template RELANCE_J14 (firstName only)
+```
+
+---
+
+### 5.4 API endpoint déclenchement séquence
 
 ```typescript
 // app/api/n8n/start-sequence/route.ts
 
 export async function POST(req: Request) {
   const { leadId, email, firstName, globalScore, risksCount, resultUrl, locale } = await req.json();
-  
-  // Appeler le webhook n8n
+
   await fetch(process.env.N8N_WEBHOOK_SEQUENCE_URL!, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -560,18 +882,19 @@ export async function POST(req: Request) {
       apiUrl: process.env.NEXT_PUBLIC_APP_URL,
     }),
   });
-  
+
   return Response.json({ success: true });
 }
 ```
 
-### 6.4 Tracking avec custom_args SendGrid
+---
+
+### 5.5 sendEmail helper
 
 ```typescript
 // lib/sendgrid.ts
 
 import sgMail from '@sendgrid/mail';
-
 sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
 
 export async function sendEmail(params: {
@@ -588,9 +911,12 @@ export async function sendEmail(params: {
   await sgMail.send({
     to: params.to,
     from: {
-      email: process.env.SENDGRID_FROM_EMAIL!,
-      name: 'CoupleCheck',
+      email: process.env.SENDGRID_FROM_EMAIL!,         // matthieu@couplecheck.app
+      name: params.customArgs.locale === 'fr'
+        ? 'Matthieu de CoupleCheck'
+        : 'Matthieu from CoupleCheck',
     },
+    replyTo: process.env.SENDGRID_FROM_EMAIL!,
     templateId: params.templateId,
     dynamicTemplateData: params.dynamicData,
     customArgs: params.customArgs,
@@ -602,76 +928,61 @@ export async function sendEmail(params: {
 }
 ```
 
-### 6.5 Webhook SendGrid pour tracking
+---
+
+### 5.6 Webhook SendGrid tracking
 
 ```typescript
 // app/api/sendgrid/webhook/route.ts
 
 export async function POST(req: Request) {
   const events = await req.json();
-  
+
   for (const event of events) {
-    const { email, event: eventType, sg_message_id, leadId, emailType } = event;
-    
+    const { email, event: eventType, leadId, emailType } = event;
+
     switch (eventType) {
       case 'delivered':
         await supabase.from('email_events').insert({
-          lead_id: leadId,
-          email_type: emailType,
-          event: 'delivered',
-          timestamp: new Date(),
+          lead_id: leadId, email_type: emailType,
+          event: 'delivered', timestamp: new Date(),
         });
         break;
-        
       case 'open':
-        await supabase.from('leads').update({
-          last_email_opened_at: new Date(),
-        }).eq('id', leadId);
-        
-        // Track dans PostHog
-        posthog.capture({
-          distinctId: email,
-          event: 'email_opened',
-          properties: { emailType, leadId },
-        });
+        await supabase.from('leads')
+          .update({ last_email_opened_at: new Date() })
+          .eq('id', leadId);
+        posthog.capture({ distinctId: email, event: 'email_opened',
+          properties: { emailType, leadId } });
         break;
-        
       case 'click':
-        posthog.capture({
-          distinctId: email,
-          event: 'email_clicked',
-          properties: { emailType, leadId, url: event.url },
-        });
+        posthog.capture({ distinctId: email, event: 'email_clicked',
+          properties: { emailType, leadId, url: event.url } });
         break;
-        
       case 'unsubscribe':
-        await supabase.from('leads').update({
-          unsubscribed: true,
-        }).eq('id', leadId);
+        await supabase.from('leads')
+          .update({ unsubscribed: true }).eq('id', leadId);
         break;
-        
       case 'bounce':
-        await supabase.from('leads').update({
-          email_invalid: true,
-        }).eq('email', email);
+        await supabase.from('leads')
+          .update({ email_invalid: true }).eq('email', email);
         break;
     }
   }
-  
+
   return Response.json({ received: true });
 }
 ```
 
 ---
 
-## 7. Gestion des codes promo
+## 6. Gestion des codes promo
 
-### 7.1 Création dans Stripe
+### 6.1 Coupon Stripe
 
 ```typescript
-// Script one-time ou via Stripe Dashboard
+// Script one-time (ou via Stripe Dashboard)
 
-// Promo -20% pour séquence J+5
 const coupon = await stripe.coupons.create({
   percent_off: 20,
   duration: 'once',
@@ -680,48 +991,87 @@ const coupon = await stripe.coupons.create({
   redeem_by: Math.floor(Date.now() / 1000) + 90 * 24 * 60 * 60, // 90 jours
 });
 
-// Promo Printemps -33% (affichée sur le site)
-// → Pas besoin de coupon, c'est le prix affiché par défaut
-// Le "29,90€ barré" est juste du marketing, le vrai prix est 19,90€
+// Coupon réactivation trial expiré
+const comebackCoupon = await stripe.coupons.create({
+  percent_off: 20,
+  duration: 'once',
+  id: 'COMEBACK20',
+  max_redemptions: 500,
+});
 ```
 
-### 7.2 Application du code dans Checkout
+### 6.2 Application dans Checkout
 
 ```typescript
 // app/api/stripe/checkout/route.ts
 
 export async function POST(req: Request) {
   const { sessionId, leadId, offerType, promoCode, locale } = await req.json();
-  
+
   const lineItems = [{
-    price: offerType === 'premium' 
-      ? process.env.STRIPE_PRICE_PREMIUM 
-      : process.env.STRIPE_PRICE_STANDARD,
+    price: offerType === 'premium'
+      ? process.env.STRIPE_PRICE_PREMIUM       // 14,90€
+      : process.env.STRIPE_PRICE_STANDARD,     // 9,90€
     quantity: 1,
   }];
-  
+
   const sessionParams: Stripe.Checkout.SessionCreateParams = {
     mode: 'payment',
     line_items: lineItems,
     success_url: `${process.env.NEXT_PUBLIC_APP_URL}/${locale}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/${locale}/result/${sessionId}`,
-    metadata: {
-      sessionId,
-      leadId,
-      offerType,
-    },
-    allow_promotion_codes: true, // Permet d'entrer un code promo
+    metadata: { sessionId, leadId, offerType },
+    allow_promotion_codes: true,
   };
-  
-  // Si code promo passé en param, l'appliquer automatiquement
+
   if (promoCode) {
     sessionParams.discounts = [{ coupon: promoCode }];
   }
-  
+
   const checkoutSession = await stripe.checkout.sessions.create(sessionParams);
-  
   return Response.json({ checkoutUrl: checkoutSession.url });
 }
+```
+
+---
+
+## 7. Variables d'environnement email
+
+```bash
+# SendGrid
+SENDGRID_API_KEY=SG.xxx
+SENDGRID_FROM_EMAIL=matthieu@couplecheck.app
+
+# Templates relance
+SENDGRID_TEMPLATE_RESULT_FR=d-xxx
+SENDGRID_TEMPLATE_RESULT_EN=d-xxx
+SENDGRID_TEMPLATE_RELANCE_J2_FR=d-xxx
+SENDGRID_TEMPLATE_RELANCE_J2_EN=d-xxx
+SENDGRID_TEMPLATE_RELANCE_J5_FR=d-xxx
+SENDGRID_TEMPLATE_RELANCE_J5_EN=d-xxx
+SENDGRID_TEMPLATE_RELANCE_J7_FR=d-xxx
+SENDGRID_TEMPLATE_RELANCE_J7_EN=d-xxx
+SENDGRID_TEMPLATE_RELANCE_J14_FR=d-xxx
+SENDGRID_TEMPLATE_RELANCE_J14_EN=d-xxx
+
+# Templates post-achat
+SENDGRID_TEMPLATE_REPORT_STD_FR=d-xxx
+SENDGRID_TEMPLATE_REPORT_STD_EN=d-xxx
+SENDGRID_TEMPLATE_REPORT_PREM_FR=d-xxx
+SENDGRID_TEMPLATE_REPORT_PREM_EN=d-xxx
+
+# Templates plateforme
+SENDGRID_TEMPLATE_TRIAL_ENDING=d-xxx
+SENDGRID_TEMPLATE_TRIAL_EXPIRED=d-xxx
+SENDGRID_TEMPLATE_SUBSCRIPTION_CONFIRMED=d-xxx
+SENDGRID_TEMPLATE_PAYMENT_FAILED=d-xxx
+SENDGRID_TEMPLATE_SUBSCRIPTION_CANCELED=d-xxx
+SENDGRID_TEMPLATE_MONTHLY_CHECKUP=d-xxx
+
+# n8n
+N8N_WEBHOOK_SEQUENCE_URL=https://...
+N8N_WEBHOOK_TRIAL_ENDING=https://...
+N8N_WEBHOOK_CHECKUP_TRIGGER=https://...
 ```
 
 ---
@@ -735,21 +1085,20 @@ export async function POST(req: Request) {
 | Taux d'ouverture J+2 | > 40% | < 25% |
 | Taux de clic J+5 (promo) | > 10% | < 5% |
 | Taux conversion via email | > 3% | < 1% |
+| Taux conversion trial → abonnement | > 30% | < 15% |
 | Taux de désinscription | < 1% | > 2% |
 | Taux de bounce | < 2% | > 5% |
 
-### Dashboard PostHog recommandé
+### Funnel PostHog
 
 ```
-Funnel Email → Conversion :
-1. email_captured
-2. email_opened (Welcome)
-3. email_clicked (Welcome)
-4. checkout_initiated
-5. purchase_completed
-
-Breakdown par :
-- emailType (welcome, j2, j5, j7)
-- locale (fr, en)
-- offerType (standard, premium)
+email_captured
+→ email_opened (welcome)
+→ email_clicked (welcome)
+→ checkout_initiated
+→ purchase_completed (standard | premium)
+→ platform_accessed (premium only)
+→ checkup_completed
+→ subscription_started
+→ subscription_churned
 ```

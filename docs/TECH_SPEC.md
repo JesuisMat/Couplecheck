@@ -448,16 +448,16 @@ interface ChatResponse {
 // config/stripe.ts
 export const STRIPE_PRODUCTS = {
   standard: {
-    priceId: process.env.STRIPE_PRICE_STANDARD!, // 12.90€
-    amount: 1290,
+    priceId: process.env.STRIPE_PRICE_STANDARD!, // 9.90€
+    amount: 990,
   },
   premium: {
-    priceId: process.env.STRIPE_PRICE_PREMIUM!, // 19.90€
-    amount: 1990,
+    priceId: process.env.STRIPE_PRICE_PREMIUM!, // 14.90€
+    amount: 1490,
   },
   subscription: {
-    priceId: process.env.STRIPE_PRICE_SUBSCRIPTION!, // 4.99€/mois
-    amount: 499,
+    priceId: process.env.STRIPE_PRICE_SUBSCRIPTION!, // 7.99€/mois
+    amount: 799,
   },
 };
 ```

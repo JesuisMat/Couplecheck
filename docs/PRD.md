@@ -107,9 +107,9 @@ CoupleCheck est une application web permettant aux personnes en couple (ou en si
 │  ACHAT                   │    │  NON-ACHAT → Séquence email      │
 │  - Stripe Checkout       │    │  - J+0 : Rappel résultat         │
 │  - Options :             │    │  - J+2 : Conseil gratuit #1      │
-│    • Standard 12,90€     │    │  - J+5 : Offre -20%              │
-│    • Premium 19,90€      │    │  - J+7 : Dernier rappel urgence  │
-│      (barré 29,90€)      │    │  - J+14 : Contenu valeur         │
+│    • Standard 9,90€     │    │  - J+5 : Offre -20%              │
+│    • Premium 14,90€      │    │  - J+7 : Dernier rappel urgence  │
+│      (barré 19,90€)      │    │  - J+14 : Contenu valeur         │
 └──────────────────────────┘    └──────────────────────────────────┘
               │
               ▼
@@ -204,8 +204,8 @@ CoupleCheck est une application web permettant aux personnes en couple (ou en si
 - Tone : Empathique, non-jugeant, actionnable
 
 #### Accès
-- Inclus 1 mois avec offre Premium (19,90€)
-- Puis abonnement 4,99€/mois
+- Inclus 1 mois offert avec offre Premium (14,90€)
+- Puis abonnement 7,99€/mois
 - Authentification par magic link email
 
 ---
@@ -224,7 +224,7 @@ CoupleCheck est une application web permettant aux personnes en couple (ou en si
 │    Rapport complet               Rapport complet            │
 │    PDF 15 pages                  + Agent IA Coach 1 mois    │
 │                                                             │
-│    12,90€                        19,90€ (au lieu de 29,90€) │
+│    9,90€                         14,90€ (au lieu de 19,90€) │
 │                                  ───────                    │
 │    [Choisir]                     [Choisir]                  │
 │                                                             │

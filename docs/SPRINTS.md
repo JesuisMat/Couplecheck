@@ -134,7 +134,7 @@ app/api/leads/capture/route.ts
   - Indices personnalisés basés sur les réponses Q5-Q19
   - Hooks émotionnels pour engager vers l'achat
   - Composant TeaserCard + TeasersSection
-- [x] Composant PricingCards (Standard 12,90€ vs Premium 19,90€)
+- [x] Composant PricingCards (Standard 9,90€ vs Premium 14,90€)
 - [x] Composant UnlockCountdown (timer offre limitée)
 - [x] Composant PredictionCard
 - [x] Page result/[sessionId]/page.tsx + /unlock
@@ -183,7 +183,7 @@ Paiement Stripe + Génération rapport PDF + Envoi email automatique.
 ### Ce qui a été réalisé
 
 #### 2.1 Intégration Stripe ✅
-- [x] Produits Stripe créés : Standard 12,90€ / Premium 19,90€
+- [x] Produits Stripe créés : Standard 9,90€ / Premium 14,90€
 - [x] API route POST /api/stripe/checkout
 - [x] Redirect vers Stripe Checkout (EUR)
 - [x] Page success /checkout/success
@@ -204,7 +204,7 @@ app/[locale]/checkout/success/page.tsx
 - [x] Composant PricingCards (Standard vs Premium)
 - [x] Badge "POPULAIRE" sur Premium
 - [x] Compteur countdown "Offre expire dans..."
-- [x] Prix Standard 12,90€ / Premium 19,90€
+- [x] Prix Standard 9,90€ / Premium 14,90€
 - [x] Éléments de réassurance (garantie, sécurité)
 
 #### 2.3 Génération rapport PDF ✅
@@ -277,7 +277,7 @@ chat_messages     — (prévu V2 - Agent IA) Historique conversations
 ```
 
 ### Livrables Sprint 2
-- ✅ Paiement Stripe fonctionnel (Standard 12,90€ / Premium 19,90€)
+- ✅ Paiement Stripe fonctionnel (Standard 9,90€ / Premium 14,90€)
 - ✅ Rapport PDF généré côté serveur avec personnalisation IA (OpenRouter/Claude)
 - ✅ Email envoyé automatiquement via SendGrid
 - ✅ Parcours complet : quiz → email → achat → rapport → livraison
@@ -326,7 +326,7 @@ Automatiser la séquence emails de relance, optimiser le funnel de conversion, f
 #### 3.3 A/B Testing PostHog (4h)
 - [ ] Créer les feature flags dans PostHog :
   - `headline_variant` (landing page)
-  - `pricing_variant` (12,90€ vs 9,90€ vs 14,90€)
+  - `pricing_variant` (control=9,90€/14,90€, low=7,90€/11,90€, high=12,90€/19,90€)
 - [ ] Implémenter la lecture des flags dans les composants Hero et PricingCards
 - [ ] Associer les conversions aux variants (event `purchase_completed` + propriété variant)
 - [ ] Configurer le funnel de conversion dans PostHog
