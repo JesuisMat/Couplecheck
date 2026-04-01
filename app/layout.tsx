@@ -34,6 +34,20 @@ export const metadata: Metadata = {
   },
 };
 
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "CoupleCheck",
+  url: "https://couplecheck.app",
+  logo: "https://couplecheck.app/favicon-96x96.png",
+  contactPoint: {
+    "@type": "ContactPoint",
+    email: "hello@couplecheck.app",
+    contactType: "customer support",
+  },
+  sameAs: [],
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -42,6 +56,10 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning>
       <body suppressHydrationWarning className={`${fraunces.variable} ${dmSans.variable}`}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
         {children}
       </body>
     </html>
