@@ -58,6 +58,11 @@ export function PricingCards({ sessionId, leadId }: PricingCardsProps) {
   const resolvedPricingVariant =
     typeof pricingVariant === "string" ? pricingVariant : "control";
 
+  // A/B test: headline_variant — read here only to attach to checkout_initiated event
+  const headlineVariant = useFeatureFlag("headline_variant");
+  const resolvedHeadlineVariant =
+    typeof headlineVariant === "string" ? headlineVariant : "control";
+
   const PRICING: Record<string, { standard: string; premium: string; originalPremium: string }> = {
     control: { standard: "12,90€", premium: "19,90€", originalPremium: "29,90€" },
     low:     { standard: "9,90€",  premium: "15,90€", originalPremium: "24,90€" },
@@ -71,6 +76,7 @@ export function PricingCards({ sessionId, leadId }: PricingCardsProps) {
       offer_type: offerType,
       session_id: sessionId,
       pricing_variant: resolvedPricingVariant,
+      headline_variant: resolvedHeadlineVariant,
     });
 
     try {
