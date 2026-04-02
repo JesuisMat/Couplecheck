@@ -109,7 +109,7 @@ export default async function CheckoutSuccessPage({ params, searchParams }: Prop
       <div className="flex items-center gap-4 mt-4">
         <span className="text-[12px] text-[#9B9896]">✓ {l.guarantee}</span>
         <span className="text-[#E0DDD6]">·</span>
-        <a href={`mailto:hello@couplecheck.app`} className="text-[12px] text-[#9B9896] underline">
+        <a href={`mailto:matthieu@couplecheck.app`} className="text-[12px] text-[#9B9896] underline">
           {l.support}
         </a>
       </div>

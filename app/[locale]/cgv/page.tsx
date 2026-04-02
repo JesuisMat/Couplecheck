@@ -15,7 +15,7 @@ const content = {
         </div>
 
         <h2>1. Vendeur</h2>
-        <p><strong>CoupleCheck</strong>, entreprise individuelle.<br />Contact : <a href="mailto:hello@couplecheck.fr">hello@couplecheck.fr</a></p>
+        <p><strong>CoupleCheck</strong>, entreprise individuelle.<br />Contact : <a href="mailto:matthieu@couplecheck.app">matthieu@couplecheck.app</a></p>
 
         <h2>2. Produits proposés</h2>
         <p>CoupleCheck propose des rapports numériques personnalisés sur la santé relationnelle :</p>
@@ -36,7 +36,7 @@ const content = {
 
         <h2>6. Droit de rétractation</h2>
         <p>Conformément à l'article L221-28 du Code de la consommation, le droit de rétractation ne s'applique pas aux contenus numériques dont l'exécution a commencé avec l'accord du consommateur. En acceptant l'accès immédiat au rapport, vous renoncez expressément à ce droit.</p>
-        <p>Toutefois, si vous n'êtes pas satisfait, contactez-nous dans les 7 jours : <a href="mailto:hello@couplecheck.fr">hello@couplecheck.fr</a>. Nous examinerons chaque demande au cas par cas.</p>
+        <p>Toutefois, si vous n'êtes pas satisfait, contactez-nous dans les 7 jours : <a href="mailto:matthieu@couplecheck.app">matthieu@couplecheck.app</a>. Nous examinerons chaque demande au cas par cas.</p>
 
         <h2>7. Propriété intellectuelle</h2>
         <p>Les rapports générés sont destinés à un usage personnel exclusivement. Toute reproduction, revente ou diffusion est interdite.</p>
@@ -59,7 +59,7 @@ const content = {
         </div>
 
         <h2>1. Seller</h2>
-        <p><strong>CoupleCheck</strong>, sole proprietorship registered in France.<br />Contact: <a href="mailto:hello@couplecheck.fr">hello@couplecheck.fr</a></p>
+        <p><strong>CoupleCheck</strong>, sole proprietorship registered in France.<br />Contact: <a href="mailto:matthieu@couplecheck.app">matthieu@couplecheck.app</a></p>
 
         <h2>2. Products</h2>
         <p>CoupleCheck offers personalized digital reports on relationship health:</p>
@@ -80,7 +80,7 @@ const content = {
 
         <h2>6. Right of Withdrawal</h2>
         <p>By accepting immediate access to your report, you expressly waive your right of withdrawal for digital content, in accordance with applicable consumer protection law.</p>
-        <p>If you are unsatisfied, contact us within 7 days: <a href="mailto:hello@couplecheck.fr">hello@couplecheck.fr</a>. We review each case individually.</p>
+        <p>If you are unsatisfied, contact us within 7 days: <a href="mailto:matthieu@couplecheck.app">matthieu@couplecheck.app</a>. We review each case individually.</p>
 
         <h2>7. Intellectual Property</h2>
         <p>Generated reports are for personal use only. Any reproduction, resale, or distribution is prohibited.</p>

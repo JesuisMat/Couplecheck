@@ -15,7 +15,7 @@ const content = {
         </div>
 
         <h2>1. Responsable du traitement</h2>
-        <p><strong>CoupleCheck</strong>, entreprise individuelle immatriculée en France.<br />Contact : <a href="mailto:privacy@couplecheck.fr">privacy@couplecheck.fr</a></p>
+        <p><strong>CoupleCheck</strong>, entreprise individuelle immatriculée en France.<br />Contact : <a href="mailto:matthieu@couplecheck.app">matthieu@couplecheck.app</a></p>
 
         <h2>2. Données collectées</h2>
         <h3>2.1 Données du quiz</h3>
@@ -52,7 +52,7 @@ const content = {
         </ul>
 
         <h2>6. Vos droits (RGPD)</h2>
-        <p>Vous disposez d'un droit d'accès, de rectification, d'effacement, de portabilité et d'opposition. Exercez ces droits en écrivant à <a href="mailto:privacy@couplecheck.fr">privacy@couplecheck.fr</a>. En cas de litige, vous pouvez saisir la <a href="https://www.cnil.fr" target="_blank" rel="noopener">CNIL</a>.</p>
+        <p>Vous disposez d'un droit d'accès, de rectification, d'effacement, de portabilité et d'opposition. Exercez ces droits en écrivant à <a href="mailto:matthieu@couplecheck.app">matthieu@couplecheck.app</a>. En cas de litige, vous pouvez saisir la <a href="https://www.cnil.fr" target="_blank" rel="noopener">CNIL</a>.</p>
 
         <h2>7. Cookies</h2>
         <p>Nous utilisons uniquement des cookies strictement nécessaires au fonctionnement du service. Aucun cookie publicitaire ou tracker tiers.</p>
@@ -72,7 +72,7 @@ const content = {
         </div>
 
         <h2>1. Data Controller</h2>
-        <p><strong>CoupleCheck</strong>, sole proprietorship registered in France.<br />Contact: <a href="mailto:privacy@couplecheck.fr">privacy@couplecheck.fr</a></p>
+        <p><strong>CoupleCheck</strong>, sole proprietorship registered in France.<br />Contact: <a href="mailto:matthieu@couplecheck.app">matthieu@couplecheck.app</a></p>
 
         <h2>2. Data We Collect</h2>
         <h3>2.1 Quiz Data</h3>
@@ -109,7 +109,7 @@ const content = {
         </ul>
 
         <h2>6. Your Rights (GDPR)</h2>
-        <p>You have the right to access, rectify, erase, port, and object to your data. Exercise these rights by writing to <a href="mailto:privacy@couplecheck.fr">privacy@couplecheck.fr</a>. For complaints, you may contact your local data protection authority.</p>
+        <p>You have the right to access, rectify, erase, port, and object to your data. Exercise these rights by writing to <a href="mailto:matthieu@couplecheck.app">matthieu@couplecheck.app</a>. For complaints, you may contact your local data protection authority.</p>
 
         <h2>7. Cookies</h2>
         <p>We only use cookies strictly necessary for the service to function. No advertising cookies or third-party trackers.</p>

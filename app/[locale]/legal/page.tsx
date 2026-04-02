@@ -15,7 +15,7 @@ const content = {
           <strong>CoupleCheck</strong><br />
           Entreprise individuelle<br />
           France<br />
-          E-mail : <a href="mailto:hello@couplecheck.fr">hello@couplecheck.fr</a>
+          E-mail : <a href="mailto:matthieu@couplecheck.app">matthieu@couplecheck.fr</a>
         </p>
 
         <h2>Directeur de la publication</h2>
@@ -59,7 +59,7 @@ const content = {
         <p>
           <strong>CoupleCheck</strong><br />
           Sole proprietorship registered in France<br />
-          Email: <a href="mailto:hello@couplecheck.fr">hello@couplecheck.fr</a>
+          Email: <a href="mailto:matthieu@couplecheck.app">matthieu@couplecheck.fr</a>
         </p>
 
         <h2>Publication Director</h2>

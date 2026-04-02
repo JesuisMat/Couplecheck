@@ -296,8 +296,8 @@ Automatiser la séquence emails de relance, optimiser le funnel de conversion, f
 ### Tâches
 
 #### 3.1 Finalisation SendGrid ⚠️ PRIORITÉ HAUTE
-- [ ] Créer les templates dynamiques dans le dashboard SendGrid
-- [ ] Renseigner les template IDs dans .env :
+- [✅ ] Créer les templates dynamiques dans le dashboard SendGrid
+- [✅ ] Renseigner les template IDs dans .env :
   - `SENDGRID_TEMPLATE_WELCOME`
   - `SENDGRID_TEMPLATE_REPORT_STANDARD`
   - `SENDGRID_TEMPLATE_REPORT_PREMIUM`
@@ -305,18 +305,18 @@ Automatiser la séquence emails de relance, optimiser le funnel de conversion, f
   - `SENDGRID_TEMPLATE_OFFER_J5`
   - `SENDGRID_TEMPLATE_LAST_CHANCE_J7`
 - [ ] Tester la délivrabilité (SPF, DKIM, DMARC)
-- [ ] Valider le domaine expéditeur dans SendGrid
+- [ ✅] Valider le domaine expéditeur dans SendGrid
 
 #### 3.2 Séquence emails relance via n8n (6h)
-- [ ] Configurer l'instance n8n
-- [ ] Renseigner `N8N_WEBHOOK_SEQUENCE_URL` dans .env
-- [ ] Créer le workflow n8n (voir docs/EMAIL.md) :
+- [ ✅] Configurer l'instance n8n
+- [ ✅] Renseigner `N8N_WEBHOOK_SEQUENCE_URL` dans .env
+- [✅ ] Créer le workflow n8n (voir docs/EMAIL.md) :
   - J+0 : Email bienvenue / rappel résultat (déjà envoyé via webhook)
   - J+2 : Conseil gratuit (template FreeTip)
   - J+5 : Code promo -20% (template SpecialOffer)
   - J+7 : Dernier rappel (template LastChance)
   - J+14 : Contenu valeur sans vente
-- [ ] Logique de suppression de la séquence si achat effectué (`converted = true`)
+- [✅ ] Logique de suppression de la séquence si achat effectué (`converted = true`)
 - [ ] Tracking ouvertures/clics (webhook SendGrid → Supabase)
 - [ ] API route POST /api/n8n/start-sequence
 - [ ] API route POST /api/sendgrid/webhook (events tracking)
