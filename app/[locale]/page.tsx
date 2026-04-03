@@ -1,33 +1,20 @@
-import { Header } from "@/components/landing/Header";
-import { Hero } from "@/components/landing/Hero";
-import { HowItWorks } from "@/components/landing/HowItWorks";
-import { Dimensions } from "@/components/landing/Dimensions";
-import { FAQ } from "@/components/landing/FAQ";
-import { BottomCTA } from "@/components/landing/BottomCTA";
-import { Footer } from "@/components/landing/Footer";
-import { JsonLd } from "@/components/seo/JsonLd";
 import type { Metadata } from "next";
+import Link from "next/link";
 
 const BASE_URL =
   process.env.NEXT_PUBLIC_APP_URL?.replace("http://localhost:3000", "https://couplecheck.app") ||
   "https://couplecheck.app";
 
-const META: Record<string, { title: string; description: string; ogTitle: string; ogDescription: string }> = {
+const META: Record<string, { title: string; description: string }> = {
   fr: {
-    title: "CoupleCheck — Évalue la santé de ton couple en 3 minutes",
+    title: "CoupleCheck — Plateforme de coaching relationnel par IA",
     description:
-      "Quiz relationnel gratuit. Reçois un rapport personnalisé avec tes forces, zones à risque et un plan d'action concret. 12 347 couples analysés.",
-    ogTitle: "Ton couple est-il vraiment florissant ? — CoupleCheck",
-    ogDescription:
-      "Fais le test en 3 minutes. Rapport personnalisé généré par IA : forces, zones à risque, plan d'action.",
+      "Un espace privé pour parler de ton couple avec un agent IA qui te connaît vraiment. Quiz gratuit + rapport personnalisé + plateforme abonnement.",
   },
   en: {
-    title: "CoupleCheck — Assess your relationship health in 3 minutes",
+    title: "CoupleCheck — AI-powered relationship coaching platform",
     description:
-      "Free relationship quiz. Get a personalized report with your strengths, risk areas, and a concrete action plan. 12,347 couples analyzed.",
-    ogTitle: "Is your relationship truly flourishing? — CoupleCheck",
-    ogDescription:
-      "Take the test in 3 minutes. AI-generated personalized report: strengths, risk areas, action plan.",
+      "A private space to talk about your relationship with an AI that truly knows you. Free quiz + personalized report + subscription platform.",
   },
 };
 
@@ -47,131 +34,47 @@ export async function generateMetadata({
       languages: { fr: `${BASE_URL}/fr`, en: `${BASE_URL}/en` },
     },
     openGraph: {
-      title: m.ogTitle,
-      description: m.ogDescription,
+      title: m.title,
+      description: m.description,
       url: `${BASE_URL}/${locale}`,
       siteName: "CoupleCheck",
       locale: locale === "en" ? "en_US" : "fr_FR",
       type: "website",
     },
-    twitter: {
-      card: "summary_large_image",
-      title: m.ogTitle,
-      description: m.ogDescription,
-    },
   };
 }
 
-const FAQ_ITEMS: Record<string, Array<{ question: string; answer: string }>> = {
-  fr: [
-    {
-      question: "Est-ce que c'est vraiment gratuit ?",
-      answer:
-        "Oui, le quiz et ton score sont 100% gratuits. Le rapport PDF complet avec analyse approfondie et plan d'action est payant (à partir de 3,99€).",
-    },
-    {
-      question: "Mes données sont-elles confidentielles ?",
-      answer:
-        "Absolument. Tes réponses sont anonymisées et ne sont jamais partagées. Nous respectons le RGPD et tes données sont stockées en Europe.",
-    },
-    {
-      question: "Faut-il que mon/ma partenaire fasse le test aussi ?",
-      answer:
-        "Non, tu peux faire le test seul(e). Le quiz évalue ta perception de la relation. Pour une analyse encore plus complète, vous pouvez le faire chacun de votre côté et comparer.",
-    },
-    {
-      question: "Que contient le rapport complet ?",
-      answer:
-        "Le rapport PDF (15 pages) inclut : analyse détaillée des 7 dimensions, points forts de ta relation, zones à risque, comparaison avec d'autres couples, et un plan d'action personnalisé généré par IA.",
-    },
-    {
-      question: "Y a-t-il une garantie ?",
-      answer: "Oui, satisfait ou remboursé sous 7 jours, sans condition.",
-    },
-  ],
-  en: [
-    {
-      question: "Is it really free?",
-      answer:
-        "Yes, the quiz and your score are 100% free. The complete PDF report with in-depth analysis and action plan is paid (from €3.99).",
-    },
-    {
-      question: "Is my data confidential?",
-      answer:
-        "Absolutely. Your answers are anonymized and never shared. We comply with GDPR and your data is stored in Europe.",
-    },
-    {
-      question: "Does my partner need to take the test too?",
-      answer:
-        "No, you can take the test alone. The quiz evaluates your perception of the relationship. For an even more complete analysis, you can each take it and compare results.",
-    },
-    {
-      question: "What does the full report include?",
-      answer:
-        "The PDF report (15 pages) includes: detailed analysis of 7 dimensions, relationship strengths, risk areas, comparison with other couples, and a personalized action plan generated by AI.",
-    },
-    {
-      question: "Is there a guarantee?",
-      answer: "Yes, 7-day money-back guarantee, no questions asked.",
-    },
-  ],
-};
-
-export default async function LandingPage({
+// Placeholder — contenu complet implémenté en tâche 4.5
+export default async function PlatformLandingPage({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const appUrl =
-    process.env.NEXT_PUBLIC_APP_URL?.replace("http://localhost:3000", "https://couplecheck.app") ||
-    "https://couplecheck.app";
-
-  const faqItems = FAQ_ITEMS[locale] ?? FAQ_ITEMS.fr;
-
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqItems.map((item) => ({
-      "@type": "Question",
-      name: item.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: item.answer,
-      },
-    })),
-  };
-
-  const appSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: "CoupleCheck",
-    url: `${appUrl}/${locale}`,
-    applicationCategory: "HealthApplication",
-    operatingSystem: "Web",
-    offers: {
-      "@type": "AggregateOffer",
-      priceCurrency: "EUR",
-      lowPrice: "3.99",
-      highPrice: "22.90",
-    },
-    description:
-      locale === "fr"
-        ? "Quiz relationnel gratuit. Rapport personnalisé par IA sur 7 dimensions du couple."
-        : "Free relationship quiz. AI-personalized report across 7 relationship dimensions.",
-  };
 
   return (
-    <main className="min-h-screen bg-[#F5F2EC]">
-      <JsonLd data={faqSchema} />
-      <JsonLd data={appSchema} />
-      <Header />
-      <Hero />
-      <HowItWorks />
-      <Dimensions />
-      <FAQ />
-      <BottomCTA />
-      <Footer />
+    <main className="min-h-screen bg-[#F5F2EC] flex flex-col items-center justify-center px-5">
+      <div className="text-center max-w-lg">
+        <p className="font-display font-normal italic text-[28px] text-[#1A1916] mb-6">
+          CoupleCheck
+        </p>
+        <h1 className="font-display font-normal text-[36px] md:text-[46px] leading-[1.1] tracking-[-0.02em] text-[#1A1916] mb-4">
+          {locale === "fr"
+            ? <>Un espace pour parler de ton couple</>
+            : <>A space to talk about your relationship</>}
+        </h1>
+        <p className="text-[16px] text-[#5A5854] leading-[1.65] mb-8">
+          {locale === "fr"
+            ? "La plateforme arrive bientôt. En attendant, découvre ton diagnostic gratuit."
+            : "The platform is coming soon. In the meantime, get your free diagnosis."}
+        </p>
+        <Link
+          href={`/${locale}/quiz`}
+          className="inline-flex items-center gap-2 bg-[#AA2C32] hover:bg-[#922226] text-white font-semibold text-[15px] py-3.5 px-7 rounded-full transition-colors duration-150"
+        >
+          {locale === "fr" ? "Faire le quiz gratuit" : "Take the free quiz"}
+        </Link>
+      </div>
     </main>
   );
 }

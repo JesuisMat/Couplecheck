@@ -56,7 +56,11 @@ const HEADLINES: Record<string, { fr: React.ReactNode; en: React.ReactNode }> = 
   },
 };
 
-export function Hero() {
+interface HeroProps {
+  onStart?: () => void;
+}
+
+export function Hero({ onStart }: HeroProps) {
   const locale = useLocale();
   const t = useTranslations("landing.hero");
   const headlineVariant = useFeatureFlag("headline_variant");
@@ -90,14 +94,24 @@ export function Hero() {
 
           {/* CTA */}
           <div className="flex flex-col md:flex-row items-center md:items-start gap-4">
-            <Link
-              href={`/${locale}/quiz`}
-              onClick={() => trackEvent(EVENTS.QUIZ_STARTED)}
-              className="inline-flex items-center gap-3 bg-[#AA2C32] hover:bg-[#922226] text-white font-semibold text-[15px] py-3.5 px-7 rounded-[10px] transition-colors duration-150"
-            >
-              {t("cta")}
-              <ArrowRight size={16} strokeWidth={2} />
-            </Link>
+            {onStart ? (
+              <button
+                onClick={() => { trackEvent(EVENTS.QUIZ_STARTED); onStart(); }}
+                className="inline-flex items-center gap-3 bg-[#AA2C32] hover:bg-[#922226] text-white font-semibold text-[15px] py-3.5 px-7 rounded-[10px] transition-colors duration-150"
+              >
+                {t("cta")}
+                <ArrowRight size={16} strokeWidth={2} />
+              </button>
+            ) : (
+              <Link
+                href={`/${locale}/quiz`}
+                onClick={() => trackEvent(EVENTS.QUIZ_STARTED)}
+                className="inline-flex items-center gap-3 bg-[#AA2C32] hover:bg-[#922226] text-white font-semibold text-[15px] py-3.5 px-7 rounded-[10px] transition-colors duration-150"
+              >
+                {t("cta")}
+                <ArrowRight size={16} strokeWidth={2} />
+              </Link>
+            )}
             <p className="text-[12px] text-[#A8A6A2]">{t("ctaSub")}</p>
           </div>
 

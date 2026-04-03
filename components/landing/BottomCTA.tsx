@@ -6,7 +6,11 @@ import { ArrowRight } from "lucide-react";
 import { trackEvent, EVENTS } from "@/lib/posthog";
 import { Reveal } from "@/components/ui/Reveal";
 
-export function BottomCTA() {
+interface BottomCTAProps {
+  onStart?: () => void;
+}
+
+export function BottomCTA({ onStart }: BottomCTAProps) {
   const locale = useLocale();
   const t = useTranslations("landing.hero");
 
@@ -31,14 +35,24 @@ export function BottomCTA() {
               : "Join 12,000+ couples. 3 minutes, instant result."}
           </p>
 
-          <Link
-            href={`/${locale}/quiz`}
-            onClick={() => trackEvent(EVENTS.QUIZ_STARTED)}
-            className="inline-flex items-center gap-3 bg-white hover:bg-[#F5F2EC] text-[#1A1916] font-semibold text-[15px] py-3.5 px-8 rounded-[10px] transition-colors duration-150"
-          >
-            {t("cta")}
-            <ArrowRight size={16} strokeWidth={2} />
-          </Link>
+          {onStart ? (
+            <button
+              onClick={() => { trackEvent(EVENTS.QUIZ_STARTED); onStart(); }}
+              className="inline-flex items-center gap-3 bg-white hover:bg-[#F5F2EC] text-[#1A1916] font-semibold text-[15px] py-3.5 px-8 rounded-[10px] transition-colors duration-150"
+            >
+              {t("cta")}
+              <ArrowRight size={16} strokeWidth={2} />
+            </button>
+          ) : (
+            <Link
+              href={`/${locale}/quiz`}
+              onClick={() => trackEvent(EVENTS.QUIZ_STARTED)}
+              className="inline-flex items-center gap-3 bg-white hover:bg-[#F5F2EC] text-[#1A1916] font-semibold text-[15px] py-3.5 px-8 rounded-[10px] transition-colors duration-150"
+            >
+              {t("cta")}
+              <ArrowRight size={16} strokeWidth={2} />
+            </Link>
+          )}
 
           <p className="mt-4 text-[12px] text-[#3E3B37]">
             {locale === "fr" ? "Gratuit · Anonyme · 3 minutes" : "Free · Anonymous · 3 minutes"}
