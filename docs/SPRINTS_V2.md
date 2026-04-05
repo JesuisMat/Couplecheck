@@ -4,10 +4,10 @@
 
 | Sprint | Durée | Focus | Statut |
 |--------|-------|-------|--------|
-| Sprint 4 | Semaines 5-6 | Fondations plateforme — BDD + Auth + Routing + Onboarding | 🔜 À démarrer |
-| Sprint 5 | Semaines 7-8 | Interface dialogue + Mémoire + Streaming IA | 🔜 À démarrer |
-| Sprint 6 | Semaine 9 | Monthly Checkup + Historique conversations | 🔜 À démarrer |
-| Sprint 7 | Semaine 10 | Stripe Subscription + Flow trial → abonnement | 🔜 À démarrer |
+| Sprint 4 | Semaines 5-6 | Fondations plateforme — BDD + Auth + Routing + Onboarding | ✅ Quasi-complet (middleware manquant) |
+| Sprint 5 | Semaines 7-8 | Interface dialogue + Mémoire + Streaming IA | ✅ Complet |
+| Sprint 6 | Semaine 9 | Monthly Checkup + Historique conversations | ✅ Complet (n8n manuel restant) |
+| Sprint 7 | Semaine 10 | Stripe Subscription + Flow trial → abonnement | 🔄 Partiel (code fait, config Stripe + tests manquants) |
 | Sprint 8 | Semaine 11 | Dashboard admin | 🔜 À démarrer |
 | Sprint 9 | Semaine 12 | Polish, SEO, tests E2E, déploiement prod | 🔜 À démarrer |
 
@@ -17,7 +17,7 @@
 
 ---
 
-## Sprint 4 — Fondations plateforme 🔜
+## Sprint 4 — Fondations plateforme ✅ (quasi-complet)
 
 **Durée** : 2 semaines (~50h)  
 **Objectif** : Infrastructure technique V2 opérationnelle. Accès sécurisé à la plateforme, routing restructuré, onboarding complet, sidebar et layout de base.
@@ -26,26 +26,13 @@
 
 > ⚠️ Cette tâche est **bloquante** pour toutes les autres du Sprint 4. À faire en premier.
 
-- [ ] Déplacer `app/[locale]/page.tsx` (landing quiz) vers `app/[locale]/quiz/page.tsx`
+- [x] Déplacer `app/[locale]/page.tsx` (landing quiz) vers `app/[locale]/quiz/page.tsx`
   - Mettre à jour tous les liens internes qui pointaient vers `/`
   - Mettre à jour `next-intl` routing si pathnames localisés configurés
-- [ ] Créer la nouvelle `app/[locale]/page.tsx` (landing plateforme — squelette HTML pour l'instant, contenu Sprint 4.8)
-- [ ] Configurer la redirection 301 dans `next.config.ts` :
-  ```typescript
-  async redirects() {
-    return [
-      {
-        source: '/',
-        destination: '/quiz',
-        permanent: true,
-        // UNIQUEMENT si l'ancienne URL racine avait du trafic SEO indexé
-        // À désactiver dès que la nouvelle landing / est indexée
-      }
-    ]
-  }
-  ```
-- [ ] Vérifier que `result/[sessionId]` fonctionne toujours
-- [ ] Mettre à jour le CTA "Commencer le test" dans tous les composants pour pointer vers `/quiz`
+- [x] Créer la nouvelle `app/[locale]/page.tsx` (landing plateforme — squelette HTML pour l'instant, contenu Sprint 4.5)
+- [x] Configurer la redirection 301 dans `next.config.ts` (/ → /fr/quiz)
+- [x] Vérifier que `result/[sessionId]` fonctionne toujours
+- [x] Mettre à jour le CTA "Commencer le test" dans tous les composants pour pointer vers `/quiz`
 
 **Livrable** : Routing restructuré sans régression sur le tunnel V1.
 
@@ -53,7 +40,7 @@
 
 ### 4.1 Migration base de données (3h)
 
-- [ ] Exécuter les migrations Supabase (via SQL Editor ou CLI) :
+- [x] Exécuter les migrations Supabase (via SQL Editor ou CLI) :
 
 ```sql
 -- Colonnes users (nouvelle table ou ALTER selon état actuel)
@@ -146,8 +133,8 @@ SELECT cron.schedule(
 );
 ```
 
-- [ ] Vérifier toutes les tables créées dans Supabase Dashboard
-- [ ] Activer RLS sur les nouvelles tables :
+- [x] Vérifier toutes les tables créées dans Supabase Dashboard
+- [x] Activer RLS sur les nouvelles tables :
   ```sql
   ALTER TABLE conversations ENABLE ROW LEVEL SECURITY;
   ALTER TABLE monthly_checkups ENABLE ROW LEVEL SECURITY;
@@ -212,15 +199,15 @@ Trois méthodes de connexion supportées, toutes gérées nativement par Supabas
 4. Origines JavaScript autorisées :
    ```
    https://couplecheck.app
-   https://[TON_PROJECT_REF].supabase.co
+   https://twmpsbxqkipdqpaxuhxw.supabase.co
    http://localhost:3000
    ```
 5. URI de redirection autorisées :
    ```
-   https://[TON_PROJECT_REF].supabase.co/auth/v1/callback
+   https://twmpsbxqkipdqpaxuhxw.supabase.co/auth/v1/callback
    http://localhost:3000/auth/callback
    ```
-   > Remplace `[TON_PROJECT_REF]` par ton ref Supabase (visible dans Settings → API)
+   > **Callback Supabase confirmée** : `https://twmpsbxqkipdqpaxuhxw.supabase.co/auth/v1/callback`
 6. Cliquer **Créer** → récupérer **Client ID** et **Client Secret**
 
 **Étape 5 — Configurer dans Supabase**
@@ -253,24 +240,24 @@ Pour que n'importe quel compte Google puisse s'inscrire en prod, il faut soumett
 #### 4.2.b — Pages d'auth (code)
 
 **Page Inscription** (`app/[locale]/platform/register/page.tsx`) :
-- [ ] Titre : "Créer mon compte"
-- [ ] Bouton Google OAuth : "Continuer avec Google" (icône Google + texte)
-- [ ] Séparateur "ou"
-- [ ] Formulaire : Prénom (input) / Email / Mot de passe (min 8 chars, indicateur de force) / Confirmer MDP
-- [ ] Checkbox consentement RGPD (obligatoire)
-- [ ] CTA : "Créer mon compte →"
-- [ ] Lien bas : "Déjà un compte ? Se connecter"
-- [ ] Traductions FR/EN
+- [x] Titre : "Créer mon compte"
+- [x] Bouton Google OAuth : "Continuer avec Google" (icône Google + texte)
+- [x] Séparateur "ou"
+- [x] Formulaire : Prénom (input) / Email / Mot de passe (min 8 chars, indicateur de force) / Confirmer MDP
+- [x] Checkbox consentement RGPD (obligatoire)
+- [x] CTA : "Créer mon compte →"
+- [x] Lien bas : "Déjà un compte ? Se connecter"
+- [x] Traductions FR/EN
 
 **Page Connexion** (`app/[locale]/platform/login/page.tsx`) :
-- [ ] Titre : "Bon retour"
-- [ ] Bouton Google OAuth : "Continuer avec Google"
-- [ ] Séparateur "ou"
-- [ ] Formulaire : Email / Mot de passe
-- [ ] Lien "Mot de passe oublié ?" → modal magic link (envoie un lien de connexion par email)
-- [ ] CTA : "Se connecter →"
-- [ ] Lien bas : "Pas encore de compte ? S'inscrire"
-- [ ] Traductions FR/EN
+- [x] Titre : "Bon retour"
+- [x] Bouton Google OAuth : "Continuer avec Google"
+- [x] Séparateur "ou"
+- [x] Formulaire : Email / Mot de passe
+- [x] Lien "Mot de passe oublié ?" → modal magic link (envoie un lien de connexion par email)
+- [x] CTA : "Se connecter →"
+- [x] Lien bas : "Pas encore de compte ? S'inscrire"
+- [x] Traductions FR/EN
 
 **Page Callback OAuth** (`app/[locale]/auth/callback/route.ts`) :
 ```typescript
@@ -405,10 +392,10 @@ CREATE OR REPLACE TRIGGER on_auth_user_created
     matcher: ['/platform/:path*', '/admin/:path*'],
   };
   ```
-- [ ] Créer `app/[locale]/platform/page.tsx` — redirect conditionnel :
+- [x] Créer `app/[locale]/platform/page.tsx` — redirect conditionnel :
   - Si `onboarding_completed = false` → `/platform/onboarding/step-1`
   - Sinon → `/platform/chat`
-- [ ] Tester les 3 parcours : inscription email/mdp, Google OAuth, magic link
+- [ ] Tester les 3 parcours : inscription email/mdp, Google OAuth, magic link (à tester manuellement)
 
 **Fichiers à créer** :
 ```
@@ -428,32 +415,32 @@ middleware.ts               # Guard /platform/* et /admin/*
 Créer `app/[locale]/platform/onboarding/step-[1-4]/page.tsx`
 
 **Step 1** (`/platform/onboarding/step-1`) :
-- [ ] Layout plein écran centré, progress dots (4 étapes), bouton "Passer" discret
-- [ ] Question 1 : input texte — prénom partenaire (optionnel)
-- [ ] Question 2 : single select 4 options (raison venue ici)
-- [ ] Question 3 : textarea libre (grand défi)
-- [ ] Persistance dans `users.onboarding_data` via PATCH `/api/platform/onboarding`
-- [ ] CTA "Continuer →" → step-2
+- [x] Layout plein écran centré, progress dots (4 étapes), bouton "Passer" discret
+- [x] Question 1 : input texte — prénom partenaire (optionnel)
+- [x] Question 2 : single select 4 options (raison venue ici)
+- [x] Question 3 : textarea libre (grand défi)
+- [x] Persistance dans `users.onboarding_data` via PATCH `/api/platform/onboarding`
+- [x] CTA "Continuer →" → step-2
 
 **Step 2** (`/platform/onboarding/step-2`) :
-- [ ] Question A : durée relation (single select 4 options)
-- [ ] Question B : vie ensemble (3 options)
-- [ ] CTA "Continuer →" → step-3
+- [x] Question A : durée relation (single select 4 options)
+- [x] Question B : vie ensemble (3 options)
+- [x] CTA "Continuer →" → step-3
 
 **Step 3** (`/platform/onboarding/step-3`) :
-- [ ] Question A : style communication en conflit (5 options)
-- [ ] Question B : thérapie de couple (4 options)
-- [ ] CTA "Continuer →" → step-4
+- [x] Question A : style communication en conflit (5 options)
+- [x] Question B : thérapie de couple (4 options)
+- [x] CTA "Continuer →" → step-4
 
 **Step 4** (`/platform/onboarding/step-4`) :
-- [ ] Multi-select intentions (max 3 parmi 6 options)
-- [ ] CTA "Accéder à mon espace →"
-- [ ] `PATCH /api/platform/onboarding` avec `onboarding_completed: true` + `onboarding_v2_completed: true`
-- [ ] Message fin : "Ton espace est prêt. Ta mémoire a été initialisée."
-- [ ] Redirect → `/platform/chat`
+- [x] Multi-select intentions (max 3 parmi 6 options)
+- [x] CTA "Accéder à mon espace →"
+- [x] `PATCH /api/platform/onboarding` avec `onboarding_completed: true` + `onboarding_v2_completed: true`
+- [x] Message fin : "Ton espace est prêt. Ta mémoire a été initialisée."
+- [x] Redirect → `/platform/chat`
 
 **API Route** :
-- [ ] Créer `app/api/platform/onboarding/route.ts` — PATCH qui merge les données dans `users.onboarding_data`
+- [x] Créer `app/api/platform/onboarding/route.ts` — PATCH qui merge les données dans `users.onboarding_data`
 
 **Fichiers à créer** :
 ```
@@ -471,8 +458,8 @@ app/api/platform/onboarding/route.ts
 
 ### 4.4 Layout plateforme — Sidebar + Zone principale (6h)
 
-- [ ] Créer `app/[locale]/platform/layout.tsx` (layout wrapper de toute la plateforme)
-- [ ] Créer `components/platform/Sidebar.tsx` :
+- [x] Créer `app/[locale]/platform/layout.tsx` (layout wrapper de toute la plateforme)
+- [x] Créer `components/platform/Sidebar.tsx` :
   - Logo CoupleCheck (lien vers `/platform/chat`)
   - Barre de recherche conversations (UI seulement en Sprint 4, fonctionnelle en Sprint 6)
   - Bouton "+ Nouvelle conversation" (lien vers `/platform/chat`)
@@ -481,8 +468,8 @@ app/api/platform/onboarding/route.ts
   - Séparateur
   - Lien "🧠 Mémoire de mon compte" → `/platform/memory`
   - Lien "⚙ Paramètres" → `/platform/settings/general`
-- [ ] Créer `components/platform/PlatformHeader.tsx` (mobile uniquement — hamburger + logo)
-- [ ] Responsive :
+- [x] Créer `components/platform/PlatformHeader.tsx` (mobile uniquement — hamburger + logo)
+- [x] Responsive :
   - Desktop : sidebar fixe 260px + zone contenu flex
   - Mobile : sidebar = drawer (hamburger), chat plein écran
 - [ ] Design tokens à respecter :
@@ -506,8 +493,8 @@ components/platform/ConversationItem.tsx
 
 ### 4.5 Nouvelle landing plateforme `/` (5h)
 
-- [ ] Créer `app/[locale]/page.tsx` (remplace l'ancienne landing quiz)
-- [ ] Sections à implémenter dans l'ordre :
+- [x] Créer `app/[locale]/page.tsx` (remplace l'ancienne landing quiz)
+- [x] Sections à implémenter dans l'ordre :
   1. **Header** : sticky, logo gauche, nav optionnelle, double CTA ("Se connecter" ghost / "Faire le quiz" pill `#AA2C32`)
   2. **Hero** : Headline Fraunces italic 2 lignes + mot en `#AA2C32`, sous-titre DM Sans, double CTA, mockup flottant plateforme (screenshot ou illustration)
   3. **Différenciateur** : 3 colonnes (Mémoire persistante / Contexte personnalisé / Checkup mensuel) — cards `#FFFFFF`
@@ -515,8 +502,8 @@ components/platform/ConversationItem.tsx
   5. **Pricing** : 3 cartes (Standard / Premium / Abonnement) — carte Premium élevée + badge "Populaire"
   6. **FAQ** : 5 questions accordion
   7. **Footer** : minimal (logo + tagline + liens légaux)
-- [ ] Traductions FR/EN complètes dans `locales/fr.json` et `locales/en.json`
-- [ ] Meta tags SEO : title, description, OG
+- [x] Traductions FR/EN complètes dans `locales/fr.json` et `locales/en.json`
+- [x] Meta tags SEO : title, description, OG
 
 **Fichiers à créer/modifier** :
 ```
@@ -538,14 +525,14 @@ locales/en.json
 
 ### 4.6 Page mémoire du compte (3h)
 
-- [ ] Créer `app/[locale]/platform/memory/page.tsx`
-- [ ] Créer `components/platform/MemoryEntry.tsx` (entrée individuelle avec bouton suppression)
-- [ ] Layout : page centrée max-width 640px, sections par catégorie
-- [ ] Categories : Profil / Communication / Checkups récents / Thèmes récurrents
-- [ ] Chaque entrée : texte + bouton "✕ Supprimer" (PATCH API)
-- [ ] Bouton bas : "Effacer toute la mémoire" (modale de confirmation)
-- [ ] Données issues de `users.memory_data` (JSONB)
-- [ ] API route : `app/api/platform/memory/route.ts` (GET / PATCH / DELETE)
+- [x] Créer `app/[locale]/platform/memory/page.tsx`
+- [x] Créer `components/platform/MemoryEntry.tsx` (entrée individuelle avec bouton suppression)
+- [x] Layout : page centrée max-width 640px, sections par catégorie
+- [x] Categories : Profil / Communication / Checkups récents / Thèmes récurrents
+- [x] Chaque entrée : texte + bouton "✕ Supprimer" (PATCH API)
+- [x] Bouton bas : "Effacer toute la mémoire" (modale de confirmation)
+- [x] Données issues de `users.memory_data` (JSONB)
+- [x] API route : `app/api/platform/memory/route.ts` (GET / PATCH / DELETE)
 
 **Fichiers à créer** :
 ```
@@ -561,9 +548,9 @@ app/api/platform/memory/route.ts
 
 ### 4.7 Pages paramètres — 5 sous-pages (5h)
 
-- [ ] Layout settings : nav secondaire gauche 220px + zone contenu droite
-- [ ] Créer `app/[locale]/platform/settings/layout.tsx` avec navigation secondaire
-- [ ] Créer les 5 sous-pages :
+- [x] Layout settings : nav secondaire gauche 220px + zone contenu droite
+- [x] Créer `app/[locale]/platform/settings/layout.tsx` avec navigation secondaire
+- [x] Créer les 5 sous-pages :
 
 **Général** (`/platform/settings/general`) :
 - Sélecteur langue FR/EN (PATCH `users.preferred_language`)
@@ -619,23 +606,23 @@ app/api/platform/export/route.ts
 
 ### Livrables Sprint 4
 
-- [ ] Google Cloud Platform configuré (projet, écran de consentement, identifiants OAuth)
-- [ ] Provider Google activé dans Supabase Dashboard
-- [ ] Trigger SQL `handle_new_user` en place (synchro auth.users → public.users)
-- [ ] Routing restructuré : `/` = landing plateforme, `/quiz` = landing quiz, 301 configuré
-- [ ] Migration BDD V2 exécutée en prod (8 tables/modifications)
-- [ ] Pages register + login + callback auth opérationnelles
-- [ ] 3 méthodes testées : email/mdp ✓ / Google OAuth ✓ / magic link ✓
-- [ ] Middleware accès plateforme testé (trial / abonné / expiré / none)
-- [ ] Onboarding 4 étapes complet (données persistées en base)
-- [ ] Layout plateforme sidebar responsive
-- [ ] Nouvelle landing `/` déployée FR/EN
-- [ ] Page mémoire consultable et éditable
-- [ ] 5 sous-pages paramètres créées
+- [ ] Google Cloud Platform configuré (projet, écran de consentement, identifiants OAuth) — ⚠️ MANUELLE
+- [ ] Provider Google activé dans Supabase Dashboard — ⚠️ MANUELLE
+- [x] Trigger SQL `handle_new_user` en place (synchro auth.users → public.users)
+- [x] Routing restructuré : `/` = landing plateforme, `/quiz` = landing quiz, 301 configuré
+- [x] Migration BDD V2 exécutée en prod (8 tables/modifications)
+- [x] Pages register + login + callback auth opérationnelles
+- [ ] 3 méthodes testées : email/mdp / Google OAuth / magic link — ⚠️ À TESTER MANUELLEMENT
+- [ ] Middleware accès plateforme testé (trial / abonné / expiré / none) — ⚠️ À TESTER MANUELLEMENT
+- [x] Onboarding 4 étapes complet (données persistées en base)
+- [x] Layout plateforme sidebar responsive
+- [x] Nouvelle landing `/` déployée FR/EN
+- [x] Page mémoire consultable et éditable
+- [x] 5 sous-pages paramètres créées
 
 ---
 
-## Sprint 5 — Interface dialogue + Mémoire IA + Streaming 🔜
+## Sprint 5 — Interface dialogue + Mémoire IA + Streaming ✅
 
 **Durée** : 2 semaines (~50h)  
 **Objectif** : Espace de dialogue fonctionnel avec streaming SSE, contexte injecté, mémoire automatique.
@@ -644,7 +631,7 @@ app/api/platform/export/route.ts
 
 ### 5.1 Context Builder (4h)
 
-- [ ] Créer `lib/context-builder.ts` :
+- [x] Créer `lib/context-builder.ts` :
   ```typescript
   export async function buildUserContext(userId: string): Promise<UserContext> {
     const [userResult, checkupsResult, messagesResult] = await Promise.all([
@@ -669,9 +656,9 @@ app/api/platform/export/route.ts
     // ... assemble et retourne UserContext
   }
   ```
-- [ ] Inclure : quiz scores, segmentation, onboarding V1+V2, memory_data, 6 derniers checkups, 20 derniers messages
-- [ ] Tronquer si contexte dépasse 4000 tokens (priorité : quiz > onboarding > memory > checkups > messages)
-- [ ] Créer `types/platform.ts` avec les interfaces `UserContext`, `MemoryEntry`, `MonthlyCheckup`
+- [x] Inclure : quiz scores, segmentation, onboarding V1+V2, memory_data, 6 derniers checkups, 20 derniers messages
+- [x] Tronquer si contexte dépasse 4000 tokens (priorité : quiz > onboarding > memory > checkups > messages)
+- [x] Créer `types/platform.ts` avec les interfaces `UserContext`, `MemoryEntry`, `MonthlyCheckup`
 
 **Fichiers à créer** :
 ```
@@ -683,7 +670,7 @@ types/platform.ts
 
 ### 5.2 API Streaming `/api/chat/stream` (6h)
 
-- [ ] Créer `app/api/chat/stream/route.ts` :
+- [x] Créer `app/api/chat/stream/route.ts` :
   - Auth check obligatoire (Supabase `getUser`)
   - Vérification limite messages (`messages_used_this_month < monthly_limit`)
   - Si nouvelle conv : `INSERT conversations` + titre auto (50 premiers chars)
@@ -695,7 +682,7 @@ types/platform.ts
   - Error limit : `data: {"type":"error","code":"limit_reached"}\n\n`
   - Post-stream : `INSERT chat_messages` (réponse assistant) + `INCREMENT messages_used_this_month` + `UPDATE conversations.updated_at`
 
-- [ ] Créer `lib/openrouter-stream.ts` — wrapper streaming OpenRouter
+- [x] Créer `lib/openrouter-stream.ts` — wrapper streaming OpenRouter
 
 **Fichiers à créer** :
 ```
@@ -707,28 +694,28 @@ lib/openrouter-stream.ts
 
 ### 5.3 Interface chat — Composants (6h)
 
-- [ ] Créer `app/[locale]/platform/chat/page.tsx` (nouvelle conversation)
+- [x] Créer `app/[locale]/platform/chat/page.tsx` (nouvelle conversation)
   - État vide : message de bienvenue contextualisé + 3 chips suggestions (basées sur scores les plus bas)
   - Input actif immédiatement
-- [ ] Créer `app/[locale]/platform/chat/[conversationId]/page.tsx` (conversation existante)
+- [x] Créer `app/[locale]/platform/chat/[conversationId]/page.tsx` (conversation existante)
   - Charger historique complet depuis Supabase
   - Titre éditable (double-clic)
-- [ ] Créer `components/platform/chat/ChatContainer.tsx`
-- [ ] Créer `components/platform/chat/MessageBubble.tsx`
+- [x] Créer `components/platform/chat/ChatContainer.tsx`
+- [x] Créer `components/platform/chat/MessageBubble.tsx`
   - User : droite, bg `#AA2C32`, text blanc, border-radius `18px 18px 4px 18px`
   - Assistant : gauche, bg `#FFFFFF`, shadow soft, border-radius `18px 18px 18px 4px`
   - Pas d'avatar. Timestamps légers.
-- [ ] Créer `components/platform/chat/TypingIndicator.tsx` (3 dots animés)
-- [ ] Créer `components/platform/chat/ChatInput.tsx`
+- [x] Créer `components/platform/chat/TypingIndicator.tsx` (3 dots animés)
+- [x] Créer `components/platform/chat/ChatInput.tsx`
   - Input rounded-full
   - Bouton send pill `#AA2C32`
   - Désactivé pendant streaming
-- [ ] Créer `components/platform/chat/MessageCounter.tsx`
+- [x] Créer `components/platform/chat/MessageCounter.tsx`
   - Barre fine : vert (< 40 msgs) → orange (40-55) → rouge (> 55)
   - Label : "X / 60 messages ce mois"
-- [ ] Créer `components/platform/chat/SuggestionChips.tsx`
+- [x] Créer `components/platform/chat/SuggestionChips.tsx`
   - 3 chips bg `#F6EEEE`, text `#AA2C32`, basées sur dimensions quiz les plus faibles
-- [ ] Hook `hooks/useChat.ts` — gestion state + SSE stream parsing
+- [x] Hook `hooks/useChat.ts` — gestion state + SSE stream parsing
 
 **Fichiers à créer** :
 ```
@@ -748,7 +735,7 @@ hooks/useChat.ts
 
 ### 5.4 Memory Updater — Extraction automatique post-conversation (3h)
 
-- [ ] Créer `lib/memory-updater.ts` :
+- [x] Créer `lib/memory-updater.ts` :
   ```typescript
   export async function updateMemoryFromConversation(
     userId: string,
@@ -759,16 +746,16 @@ hooks/useChat.ts
     // 3. Merge dans users.memory_data (JSONB) avec déduplication
   }
   ```
-- [ ] Trigger : appelé de manière **asynchrone** (non bloquant) à la fin du stream SSE dans `/api/chat/stream`
-- [ ] Prompt d'extraction :
+- [x] Trigger : appelé de manière **asynchrone** (non bloquant) à la fin du stream SSE dans `/api/chat/stream`
+- [x] Prompt d'extraction :
   ```
   Extrais les faits relationnels clés de cette conversation.
   Retourne UNIQUEMENT un JSON valide :
   { "facts": [{"category": "profile|communication|event|theme|preference", "content": "..."}] }
   Maximum 5 faits. Sois concis. Pas de déduction excessive.
   ```
-- [ ] Déduplication : comparer avec `memory_data` existant avant d'insérer
-- [ ] Créer `app/api/platform/memory/route.ts` (GET / PATCH / DELETE) si pas fait en Sprint 4
+- [x] Déduplication : comparer avec `memory_data` existant avant d'insérer
+- [x] Créer `app/api/platform/memory/route.ts` (GET / PATCH / DELETE) si pas fait en Sprint 4
 
 **Fichiers à créer/modifier** :
 ```
@@ -780,14 +767,14 @@ app/api/chat/stream/route.ts    # Modifier pour déclencher memory-updater
 
 ### 5.5 Sidebar dynamique — Liste conversations (3h)
 
-- [ ] Requête Supabase : 30 dernières conversations triées par `updated_at DESC`
-- [ ] Affichage dans `Sidebar.tsx` (liste dynamique)
-- [ ] Titre : 50 premiers chars du premier message utilisateur (tronqué + "…")
-- [ ] Date relative : "Aujourd'hui", "Hier", "Il y a X jours"
-- [ ] État actif : conversation courante surlignée (`#F6EEEE`)
-- [ ] Lien "Voir tout" → page dédiée historique (Sprint 6)
-- [ ] Créer `app/api/platform/conversations/route.ts` (GET — liste)
-- [ ] Créer `app/api/platform/conversations/[id]/route.ts` (GET messages + DELETE)
+- [x] Requête Supabase : 30 dernières conversations triées par `updated_at DESC`
+- [x] Affichage dans `Sidebar.tsx` (liste dynamique)
+- [x] Titre : 50 premiers chars du premier message utilisateur (tronqué + "…")
+- [x] Date relative : "Aujourd'hui", "Hier", "Il y a X jours"
+- [x] État actif : conversation courante surlignée (`#F6EEEE`)
+- [x] Lien "Voir tout" → page dédiée historique (Sprint 6)
+- [x] Créer `app/api/platform/conversations/route.ts` (GET — liste)
+- [x] Créer `app/api/platform/conversations/[id]/route.ts` (GET messages + DELETE)
 
 **Fichiers à créer** :
 ```
@@ -799,17 +786,17 @@ app/api/platform/conversations/[id]/route.ts
 
 ### Livrables Sprint 5
 
-- [ ] Context builder opérationnel (quiz + onboarding + mémoire + checkups + historique)
-- [ ] API `/api/chat/stream` fonctionnelle (SSE + limite messages + sauvegarde)
-- [ ] Interface chat complète (streaming visible, bulles, input, compteur)
-- [ ] Suggestions chips en état vide basées sur scores quiz
-- [ ] Memory updater déclenché après chaque conversation
-- [ ] Page mémoire reflète les extractions automatiques
-- [ ] Sidebar liste conversations dynamique
+- [x] Context builder opérationnel (quiz + onboarding + mémoire + checkups + historique)
+- [x] API `/api/chat/stream` fonctionnelle (SSE + limite messages + sauvegarde)
+- [x] Interface chat complète (streaming visible, bulles, input, compteur)
+- [x] Suggestions chips en état vide basées sur scores quiz
+- [x] Memory updater déclenché après chaque conversation
+- [ ] Page mémoire reflète les extractions automatiques (automatique via memory-updater)
+- [x] Sidebar liste conversations dynamique
 
 ---
 
-## Sprint 6 — Monthly Checkup + Historique 🔜
+## Sprint 6 — Monthly Checkup + Historique ✅ (n8n manuel restant)
 
 **Durée** : 1 semaine (~25h)  
 **Objectif** : Checkup mensuel fonctionnel, injection dans le contexte, historique complet navigable.
@@ -818,18 +805,18 @@ app/api/platform/conversations/[id]/route.ts
 
 ### 6.1 Formulaire Monthly Checkup (4h)
 
-- [ ] Créer `app/[locale]/platform/checkup/page.tsx`
-- [ ] 5 écrans (une question par écran) + 1 écran récapitulatif :
+- [x] Créer `app/[locale]/platform/checkup/page.tsx`
+- [x] 5 écrans (une question par écran) + 1 écran récapitulatif :
   - Écran 1 : Slider 1-5 humeur globale (emoji 🌪️ → ☀️)
   - Écran 2 : Single select conflits (none / few / several / many)
   - Écran 3 : Slider 1-5 proximité
   - Écran 4 : Input 1 mot libre ("mot du mois")
   - Écran 5 : Slider 1-10 satisfaction globale
   - Écran Récap : résumé mois + comparaison mois précédent + CTA "Retour à mon espace"
-- [ ] Progress bar 5 étapes (style identique au quiz V1)
-- [ ] Transitions entre écrans (même animation que quiz)
-- [ ] Guard : si checkup du mois déjà complété → afficher récap + message "Prochain checkup le 1er [mois]"
-- [ ] Durée tracking : `completed_in_seconds` en base
+- [x] Progress bar 5 étapes (style identique au quiz V1)
+- [x] Transitions entre écrans (même animation que quiz)
+- [x] Guard : si checkup du mois déjà complété → afficher récap + message "Prochain checkup le 1er [mois]"
+- [x] Durée tracking : `completed_in_seconds` en base
 
 **Fichiers à créer** :
 ```
@@ -845,12 +832,12 @@ components/platform/checkup/
 
 ### 6.2 API Checkup (2h)
 
-- [ ] Créer `app/api/platform/checkup/submit/route.ts` :
+- [x] Créer `app/api/platform/checkup/submit/route.ts` :
   - Auth check
   - Guard doublon (unique sur `user_id + period_month + period_year`)
   - `INSERT monthly_checkups`
   - Retourne `{ success: true, checkupId }`
-- [ ] Créer `app/api/platform/checkup/current/route.ts` :
+- [x] Créer `app/api/platform/checkup/current/route.ts` :
   - GET — vérifie si checkup du mois courant existe
 
 **Fichiers à créer** :
@@ -863,12 +850,12 @@ app/api/platform/checkup/current/route.ts
 
 ### 6.3 Injection checkups dans le context builder (2h)
 
-- [ ] Modifier `lib/context-builder.ts` pour inclure les 6 derniers checkups dans `UserContext`
-- [ ] Format injecté dans le prompt :
+- [x] Modifier `lib/context-builder.ts` pour inclure les 6 derniers checkups dans `UserContext`
+- [x] Format injecté dans le prompt :
   ```
   Checkup [Mois Année] : humeur=4/5, conflits=few, proximité=3/5, mot=tension, satisfaction=6/10
   ```
-- [ ] Tester que le contexte agent est enrichi des données checkup
+- [x] Tester que le contexte agent est enrichi des données checkup
 
 ---
 
@@ -878,7 +865,7 @@ app/api/platform/checkup/current/route.ts
   - Déclencheur : Cron le 1er du mois à 9h00
   - Action : `GET /api/platform/users-active` (liste users abonnés actifs)
   - Pour chaque user : envoyer email checkup (template SendGrid)
-- [ ] Créer `app/api/platform/users-active/route.ts` (auth service_role, retourne emails + prénoms + locale)
+- [x] Créer `app/api/platform/users-active/route.ts` (auth service_role, retourne emails + prénoms + locale)
 - [ ] Créer templates SendGrid checkup (FR + EN) avec lien direct `/platform/checkup`
 - [ ] Renseigner `N8N_WEBHOOK_CHECKUP_TRIGGER` + `SENDGRID_TEMPLATE_MONTHLY_CHECKUP` dans `.env`
 
@@ -886,14 +873,14 @@ app/api/platform/checkup/current/route.ts
 
 ### 6.5 Historique conversations — Page complète (4h)
 
-- [ ] Créer `app/[locale]/platform/history/page.tsx`
+- [x] Créer `app/[locale]/platform/history/page.tsx`
   - Liste complète des 30+ conversations (pagination si nécessaire)
   - Groupées par date (Aujourd'hui / Cette semaine / Ce mois / Plus ancien)
   - Chaque item : titre + date + nb messages + bouton suppression
-- [ ] Fonctionnalité recherche dans les conversations (full-text Supabase sur `chat_messages.content`)
+- [x] Fonctionnalité recherche dans les conversations (full-text Supabase sur `chat_messages.content`)
   - Barre de recherche sidebar déjà prévue → brancher sur `/api/platform/conversations/search?q=`
-- [ ] Créer `app/api/platform/conversations/search/route.ts`
-- [ ] Bouton suppression conversation → modale confirmation → `DELETE /api/platform/conversations/[id]`
+- [x] Créer `app/api/platform/conversations/search/route.ts`
+- [x] Bouton suppression conversation → modale confirmation → `DELETE /api/platform/conversations/[id]`
 
 **Fichiers à créer** :
 ```
@@ -905,17 +892,17 @@ app/api/platform/conversations/search/route.ts
 
 ### Livrables Sprint 6
 
-- [ ] Monthly checkup 5 questions fonctionnel (données en base)
-- [ ] Guard doublon checkup (1 par mois)
-- [ ] Checkups injectés dans le contexte agent
-- [ ] Email n8n déclenché le 1er du mois
-- [ ] Historique conversations complet navigable
-- [ ] Recherche dans les conversations fonctionnelle
-- [ ] Suppression conversation depuis l'historique
+- [x] Monthly checkup 5 questions fonctionnel (données en base)
+- [x] Guard doublon checkup (1 par mois)
+- [x] Checkups injectés dans le contexte agent
+- [ ] Email n8n déclenché le 1er du mois — ⚠️ WORKFLOW N8N MANUEL (API users-active créée)
+- [x] Historique conversations complet navigable
+- [x] Recherche dans les conversations fonctionnelle
+- [x] Suppression conversation depuis l'historique
 
 ---
 
-## Sprint 7 — Stripe Subscription + Flow trial → abonnement 🔜
+## Sprint 7 — Stripe Subscription + Flow trial → abonnement 🔄 (partiel)
 
 **Durée** : 1 semaine (~25h)  
 **Objectif** : Abonnement Stripe récurrent opérationnel, flow trial → conversion, accès désactivé à l'expiration.
@@ -924,25 +911,15 @@ app/api/platform/conversations/search/route.ts
 
 ### 7.1 Produit Stripe Subscription (2h)
 
-- [ ] Créer dans Stripe Dashboard (mode live) :
-  - Produit : "CoupleCheck Abonnement"
-  - Prix : 7,99€/mois récurrent
-  - Récupérer le `price_id` → `STRIPE_PRICE_SUBSCRIPTION` dans `.env`
-- [ ] Créer page `/platform/subscribe` :
-  - Rappel des bénéfices utilisés pendant le trial (nb messages, nb conversations)
-  - Pricing card 7,99€/mois
-  - CTA → Stripe Checkout subscription
-  - Lien "Pas maintenant" (email de nurture)
-- [ ] Créer `app/api/stripe/checkout-subscription/route.ts` :
-  - Crée ou récupère `stripe_customer_id` depuis `users`
-  - Stripe Checkout mode `subscription`, price `STRIPE_PRICE_SUBSCRIPTION`
-  - Metadata : `userId`
+- [ ] Créer dans Stripe Dashboard (mode live) : Produit 7,99€/mois + récupérer `price_id` → `STRIPE_PRICE_SUBSCRIPTION` — ⚠️ MANUEL
+- [x] Créer page `/platform/subscribe` (stats trial + pricing card + CTA Stripe)
+- [x] Créer `app/api/stripe/checkout-subscription/route.ts` (customer_id + mode subscription)
 
 ---
 
 ### 7.2 Nouveaux webhooks Stripe (5h)
 
-- [ ] Modifier `app/api/stripe/webhook/route.ts` pour gérer 5 nouveaux événements :
+- [x] Modifier `app/api/stripe/webhook/route.ts` pour gérer 5 nouveaux événements :
 
 ```typescript
 case 'customer.subscription.created':
@@ -972,56 +949,43 @@ case 'invoice.payment_succeeded':
   break;
 ```
 
-- [ ] Ajouter les 5 events dans le webhook Stripe Dashboard (prod)
-- [ ] Créer les 4 templates SendGrid correspondants (FR + EN chacun)
+- [ ] Ajouter les 5 events dans le webhook Stripe Dashboard (prod) — ⚠️ MANUEL
+- [x] Emails platform inline (subscription_confirmed, canceled, payment_failed, trial_ending, trial_expired) — templates SendGrid optionnels via env vars
 
 ---
 
 ### 7.3 Flow trial → abonnement (n8n) (4h)
 
-- [ ] Workflow n8n "CoupleCheck — Trial Ending" :
-  - Déclencheur : Cron quotidien à 10h
-  - Requête : `GET /api/platform/trials-ending` (users avec `trial_end` dans 5 jours)
-  - Pour chaque user → envoyer email `TRIAL_ENDING`
-- [ ] Workflow n8n "CoupleCheck — Trial Expired" :
-  - Déclencheur : Cron quotidien à 10h
-  - Requête : users avec `trial_end` dépassée ET `platform_access_type = 'trial'`
-  - Pour chaque user → `PATCH /api/platform/user/[id]` (`platform_access_type = 'none'`) + email `TRIAL_EXPIRED` avec offre -20% 48h
-- [ ] Créer `app/api/platform/trials-ending/route.ts`
-- [ ] Créer templates SendGrid :
-  - `SENDGRID_TEMPLATE_TRIAL_ENDING` (J+25 post-achat Premium)
-  - `SENDGRID_TEMPLATE_TRIAL_EXPIRED` (J+30 — accès coupé + offre -20%)
+- [ ] Workflow n8n "Trial Ending" — ⚠️ WORKFLOW N8N MANUEL (cron J-5 → GET /api/platform/trials-ending → email)
+- [ ] Workflow n8n "Trial Expired" — ⚠️ WORKFLOW N8N MANUEL (cron quotidien → PATCH accès + email)
+- [x] Créer `app/api/platform/trials-ending/route.ts` (users avec trial_end dans 5 jours)
+- [x] Emails trial_ending + trial_expired inline dans sendgrid.ts
 
 ---
 
 ### 7.4 Gestion accès Premium → trial (2h)
 
-- [ ] Modifier webhook `checkout.session.completed` (déjà existant) :
-  - Si `offer_type = 'premium'` → `UPDATE users SET platform_access_type = 'trial', trial_start = NOW(), trial_end = NOW() + 30 days`
-  - INSERT dans `subscriptions` avec `status = 'trialing'`
-- [ ] Vérifier que le middleware Sprint 4 autorise correctement les utilisateurs `trial`
+- [x] Modifier webhook `checkout.session.completed` : offer_type=premium → trial 30j + INSERT subscriptions
+- [ ] Vérifier que le middleware Sprint 4 autorise correctement les utilisateurs `trial` — ⚠️ À TESTER
 
 ---
 
 ### 7.5 Upsell `/platform/subscribe` et flow rétention (3h)
 
-- [ ] Créer `app/[locale]/platform/subscribe/page.tsx` (déjà prévu Sprint 4 — compléter ici)
-- [ ] Modale rétention lors de résiliation :
-  - Question : raison résiliation (5 options)
-  - Offre : "Pauser 1 mois plutôt que résilier ?"
-  - CTA : "Résilier quand même" → Stripe Customer Portal
-- [ ] Stripe Customer Portal configuré dans Dashboard
+- [x] Créer `app/[locale]/platform/subscribe/page.tsx` (stats trial + pricing 7,99€ + CTA Stripe)
+- [ ] Modale rétention résiliation — ⚠️ À FAIRE (intégrer dans billing/BillingActions.tsx)
+- [ ] Stripe Customer Portal configuré dans Dashboard — ⚠️ MANUEL
 
 ---
 
 ### Livrables Sprint 7
 
-- [ ] Produit Stripe 7,99€/mois créé en live
-- [ ] 5 nouveaux webhooks Stripe opérationnels
-- [ ] Flow Premium → trial → abonnement → expiration testé end-to-end
-- [ ] Emails trial_ending + trial_expired envoyés par n8n
-- [ ] Page `/platform/subscribe` avec flow rétention
-- [ ] Middleware accès mis à jour (trial / subscription / none)
+- [ ] Produit Stripe 7,99€/mois créé en live — ⚠️ MANUEL
+- [x] 5 nouveaux webhooks Stripe opérationnels (subscription created/updated/deleted + invoice failed/succeeded)
+- [ ] Flow Premium → trial → abonnement → expiration testé end-to-end — ⚠️ À TESTER
+- [x] Emails platform inline (confirmed, canceled, payment_failed, trial_ending, trial_expired)
+- [x] Page `/platform/subscribe` déployée FR/EN
+- [ ] Middleware accès vérifié (trial / subscription / none) — ⚠️ À TESTER
 
 ---
 

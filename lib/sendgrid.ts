@@ -361,3 +361,206 @@ export async function sendReportEmail(params: SendReportEmailParams): Promise<vo
 
   await sgMail.send(msg);
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Platform subscription emails
+// ─────────────────────────────────────────────────────────────────────────────
+
+interface PlatformEmailParams {
+  to: string;
+  firstName?: string;
+  locale: "fr" | "en";
+}
+
+function buildPlatformEmail(
+  locale: "fr" | "en",
+  subject: string,
+  bodyHtml: string
+): string {
+  return `<!DOCTYPE html>
+<html lang="${locale}">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${subject}</title>
+</head>
+<body style="margin:0;padding:0;background-color:#F5F2EC;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#F5F2EC;padding:40px 20px;">
+    <tr>
+      <td align="center">
+        <table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;">
+          <tr>
+            <td style="background-color:#1A1916;padding:20px 32px;border-radius:12px 12px 0 0;">
+              <span style="color:#AA2C32;font-size:16px;font-weight:700;letter-spacing:2px;">COUPLECHECK</span>
+            </td>
+          </tr>
+          <tr>
+            <td style="background-color:#FFFFFF;padding:36px 32px;border-radius:0 0 12px 12px;">
+              ${bodyHtml}
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:16px 32px;text-align:center;">
+              <span style="font-size:11px;color:#BCBAB6;">© 2026 CoupleCheck</span>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+}
+
+export async function sendSubscriptionConfirmedEmail(
+  params: PlatformEmailParams
+): Promise<void> {
+  const { to, firstName, locale } = params;
+  const name = firstName ?? (locale === "fr" ? "toi" : "you");
+  const isFr = locale === "fr";
+
+  const subject = isFr
+    ? `Bienvenue dans CoupleCheck ${name} 🎉`
+    : `Welcome to CoupleCheck ${name} 🎉`;
+
+  const body = isFr
+    ? `<p style="font-size:15px;color:#1A1916;margin:0 0 16px;">Ton abonnement CoupleCheck est actif.</p>
+       <p style="font-size:14px;color:#5B5C59;line-height:1.7;margin:0 0 24px;">Tu as accès à 60 messages IA par mois, les checkups mensuels, et la mémoire relationnelle persistante.</p>
+       <div style="text-align:center;margin:0 0 24px;"><a href="${process.env.NEXT_PUBLIC_APP_URL}/fr/platform/chat" style="display:inline-block;background-color:#AA2C32;color:#FFF;font-size:14px;font-weight:600;text-decoration:none;padding:12px 28px;border-radius:100px;">Accéder à mon espace →</a></div>
+       <p style="font-size:13px;color:#8A8880;margin:0;">Des questions ? Réponds à cet email.</p>`
+    : `<p style="font-size:15px;color:#1A1916;margin:0 0 16px;">Your CoupleCheck subscription is now active.</p>
+       <p style="font-size:14px;color:#5B5C59;line-height:1.7;margin:0 0 24px;">You have access to 60 AI messages per month, monthly checkups, and persistent relational memory.</p>
+       <div style="text-align:center;margin:0 0 24px;"><a href="${process.env.NEXT_PUBLIC_APP_URL}/en/platform/chat" style="display:inline-block;background-color:#AA2C32;color:#FFF;font-size:14px;font-weight:600;text-decoration:none;padding:12px 28px;border-radius:100px;">Access my space →</a></div>
+       <p style="font-size:13px;color:#8A8880;margin:0;">Any questions? Reply to this email.</p>`;
+
+  const templateId = isFr
+    ? process.env.SENDGRID_TEMPLATE_SUBSCRIPTION_CONFIRMED_FR
+    : process.env.SENDGRID_TEMPLATE_SUBSCRIPTION_CONFIRMED_EN;
+
+  if (templateId) {
+    await sgMail.send({
+      to,
+      from: FROM,
+      templateId,
+      dynamicTemplateData: { firstName },
+    } as sgMail.MailDataRequired);
+    return;
+  }
+
+  await sgMail.send({
+    to,
+    from: FROM,
+    subject,
+    html: buildPlatformEmail(locale, subject, body),
+  } as sgMail.MailDataRequired);
+}
+
+export async function sendSubscriptionCanceledEmail(
+  params: PlatformEmailParams
+): Promise<void> {
+  const { to, firstName, locale } = params;
+  const isFr = locale === "fr";
+  const subject = isFr
+    ? "Ton abonnement CoupleCheck est résilié"
+    : "Your CoupleCheck subscription has been canceled";
+
+  const body = isFr
+    ? `<p style="font-size:15px;color:#1A1916;margin:0 0 16px;">Ton abonnement a bien été résilié.</p>
+       <p style="font-size:14px;color:#5B5C59;line-height:1.7;margin:0 0 24px;">Tu gardes accès à ton espace jusqu'à la fin de la période en cours. Tes données restent disponibles.</p>
+       <p style="font-size:13px;color:#8A8880;margin:0;">Tu peux te réabonner à tout moment depuis ton espace.</p>`
+    : `<p style="font-size:15px;color:#1A1916;margin:0 0 16px;">Your subscription has been canceled.</p>
+       <p style="font-size:14px;color:#5B5C59;line-height:1.7;margin:0 0 24px;">You retain access until the end of the current period. Your data stays available.</p>
+       <p style="font-size:13px;color:#8A8880;margin:0;">You can resubscribe anytime from your space.</p>`;
+
+  void firstName;
+  await sgMail.send({
+    to,
+    from: FROM,
+    subject,
+    html: buildPlatformEmail(locale, subject, body),
+  } as sgMail.MailDataRequired);
+}
+
+export async function sendPaymentFailedEmail(
+  params: PlatformEmailParams
+): Promise<void> {
+  const { to, firstName, locale } = params;
+  const isFr = locale === "fr";
+  const subject = isFr
+    ? "⚠️ Problème de paiement sur ton abonnement"
+    : "⚠️ Payment issue on your subscription";
+
+  const body = isFr
+    ? `<p style="font-size:15px;color:#1A1916;margin:0 0 16px;">Le prélèvement de ton abonnement CoupleCheck a échoué.</p>
+       <p style="font-size:14px;color:#5B5C59;line-height:1.7;margin:0 0 24px;">Merci de mettre à jour ton moyen de paiement pour éviter toute interruption d'accès.</p>
+       <div style="text-align:center;margin:0 0 24px;"><a href="${process.env.NEXT_PUBLIC_APP_URL}/fr/platform/settings/billing" style="display:inline-block;background-color:#AA2C32;color:#FFF;font-size:14px;font-weight:600;text-decoration:none;padding:12px 28px;border-radius:100px;">Mettre à jour le paiement →</a></div>`
+    : `<p style="font-size:15px;color:#1A1916;margin:0 0 16px;">The payment for your CoupleCheck subscription failed.</p>
+       <p style="font-size:14px;color:#5B5C59;line-height:1.7;margin:0 0 24px;">Please update your payment method to avoid interruption of access.</p>
+       <div style="text-align:center;margin:0 0 24px;"><a href="${process.env.NEXT_PUBLIC_APP_URL}/en/platform/settings/billing" style="display:inline-block;background-color:#AA2C32;color:#FFF;font-size:14px;font-weight:600;text-decoration:none;padding:12px 28px;border-radius:100px;">Update payment →</a></div>`;
+
+  void firstName;
+  await sgMail.send({
+    to,
+    from: FROM,
+    subject,
+    html: buildPlatformEmail(locale, subject, body),
+  } as sgMail.MailDataRequired);
+}
+
+export async function sendTrialEndingEmail(
+  params: PlatformEmailParams & { trialEnd: string }
+): Promise<void> {
+  const { to, firstName, locale, trialEnd } = params;
+  const isFr = locale === "fr";
+  const endDate = new Date(trialEnd).toLocaleDateString(
+    isFr ? "fr-FR" : "en-US",
+    { day: "numeric", month: "long" }
+  );
+  const subject = isFr
+    ? `Ton accès CoupleCheck expire dans 5 jours`
+    : `Your CoupleCheck access expires in 5 days`;
+
+  const body = isFr
+    ? `<p style="font-size:15px;color:#1A1916;margin:0 0 16px;">Salut${firstName ? ` ${firstName}` : ""} 👋</p>
+       <p style="font-size:14px;color:#5B5C59;line-height:1.7;margin:0 0 24px;">Ton accès trial expire le <strong>${endDate}</strong>. Continue à avancer sur ta relation en t'abonnant à 7,99€/mois.</p>
+       <div style="text-align:center;margin:0 0 24px;"><a href="${process.env.NEXT_PUBLIC_APP_URL}/fr/platform/subscribe" style="display:inline-block;background-color:#AA2C32;color:#FFF;font-size:14px;font-weight:600;text-decoration:none;padding:12px 28px;border-radius:100px;">S'abonner maintenant →</a></div>
+       <p style="font-size:13px;color:#8A8880;margin:0;">Sans engagement. Résiliable à tout moment.</p>`
+    : `<p style="font-size:15px;color:#1A1916;margin:0 0 16px;">Hey${firstName ? ` ${firstName}` : ""} 👋</p>
+       <p style="font-size:14px;color:#5B5C59;line-height:1.7;margin:0 0 24px;">Your trial access expires on <strong>${endDate}</strong>. Keep working on your relationship by subscribing at €7.99/month.</p>
+       <div style="text-align:center;margin:0 0 24px;"><a href="${process.env.NEXT_PUBLIC_APP_URL}/en/platform/subscribe" style="display:inline-block;background-color:#AA2C32;color:#FFF;font-size:14px;font-weight:600;text-decoration:none;padding:12px 28px;border-radius:100px;">Subscribe now →</a></div>
+       <p style="font-size:13px;color:#8A8880;margin:0;">No commitment. Cancel anytime.</p>`;
+
+  await sgMail.send({
+    to,
+    from: FROM,
+    subject,
+    html: buildPlatformEmail(locale, subject, body),
+  } as sgMail.MailDataRequired);
+}
+
+export async function sendTrialExpiredEmail(
+  params: PlatformEmailParams
+): Promise<void> {
+  const { to, firstName, locale } = params;
+  const isFr = locale === "fr";
+  const subject = isFr
+    ? "Ton accès CoupleCheck a expiré"
+    : "Your CoupleCheck access has expired";
+
+  const body = isFr
+    ? `<p style="font-size:15px;color:#1A1916;margin:0 0 16px;">Salut${firstName ? ` ${firstName}` : ""},</p>
+       <p style="font-size:14px;color:#5B5C59;line-height:1.7;margin:0 0 16px;">Ton accès trial CoupleCheck a expiré. Tes conversations et ta mémoire sont conservées.</p>
+       <p style="font-size:14px;color:#5B5C59;line-height:1.7;margin:0 0 24px;">Pour reprendre là où tu t'es arrêté·e : <strong>-20% pendant 48h</strong> avec le code <strong>RETOUR20</strong>.</p>
+       <div style="text-align:center;margin:0 0 24px;"><a href="${process.env.NEXT_PUBLIC_APP_URL}/fr/platform/subscribe" style="display:inline-block;background-color:#AA2C32;color:#FFF;font-size:14px;font-weight:600;text-decoration:none;padding:12px 28px;border-radius:100px;">Reprendre à -20% →</a></div>`
+    : `<p style="font-size:15px;color:#1A1916;margin:0 0 16px;">Hey${firstName ? ` ${firstName}` : ""},</p>
+       <p style="font-size:14px;color:#5B5C59;line-height:1.7;margin:0 0 16px;">Your CoupleCheck trial has expired. Your conversations and memory are preserved.</p>
+       <p style="font-size:14px;color:#5B5C59;line-height:1.7;margin:0 0 24px;">To pick up where you left off: <strong>-20% for 48h</strong> with code <strong>BACK20</strong>.</p>
+       <div style="text-align:center;margin:0 0 24px;"><a href="${process.env.NEXT_PUBLIC_APP_URL}/en/platform/subscribe" style="display:inline-block;background-color:#AA2C32;color:#FFF;font-size:14px;font-weight:600;text-decoration:none;padding:12px 28px;border-radius:100px;">Resume at -20% →</a></div>`;
+
+  await sgMail.send({
+    to,
+    from: FROM,
+    subject,
+    html: buildPlatformEmail(locale, subject, body),
+  } as sgMail.MailDataRequired);
+}

@@ -138,6 +138,437 @@
       "firstNameRequired": "Le prénom est requis"
     }
   },
+  "landingV2": {
+    "nav": {
+      "login": "Se connecter",
+      "quiz": "Faire le quiz"
+    },
+    "hero": {
+      "headline1": "Un espace pour parler",
+      "headline2": "de ton couple.",
+      "highlight": "vraiment.",
+      "sub": "Un agent IA qui te connaît vraiment. Quiz gratuit, rapport personnalisé, plateforme de dialogue continue.",
+      "ctaPrimary": "Faire le quiz gratuit",
+      "ctaSecondary": "Se connecter",
+      "trust": "12 847 couples accompagnés · Données confidentielles"
+    },
+    "differentiator": {
+      "title": "Pas un chatbot de plus.",
+      "sub": "Un espace qui te connaît et évolue avec toi.",
+      "items": [
+        {
+          "icon": "🧠",
+          "title": "Mémoire persistante",
+          "desc": "Ton agent se souvient de vos échanges, de ton quiz, de tes checkups. Chaque conversation repart là où vous en étiez."
+        },
+        {
+          "icon": "🎯",
+          "title": "Contexte personnalisé",
+          "desc": "Profil de ta relation, style de communication, défis identifiés — tout est injecté pour des conseils vraiment adaptés."
+        },
+        {
+          "icon": "📅",
+          "title": "Checkup mensuel",
+          "desc": "Un bilan rapide chaque mois pour suivre l'évolution de ta relation et ajuster les conseils dans le temps."
+        }
+      ]
+    },
+    "howItWorks": {
+      "title": "Comment ça marche ?",
+      "steps": [
+        {
+          "num": "01",
+          "title": "Fais le quiz gratuit",
+          "desc": "20 questions, 5 minutes. On analyse 7 dimensions de ta relation."
+        },
+        {
+          "num": "02",
+          "title": "Reçois ton rapport",
+          "desc": "Un rapport PDF personnalisé avec tes forces, zones à risque et plan d'action."
+        },
+        {
+          "num": "03",
+          "title": "Accède à ton espace",
+          "desc": "Dialogue en continu avec ton agent IA. Il connaît ton profil et évolue avec toi."
+        }
+      ]
+    },
+    "pricing": {
+      "title": "Choisis ton rapport",
+      "badge": "Populaire",
+      "plans": [
+        {
+          "name": "Standard",
+          "price": "9,90€",
+          "period": "one-shot",
+          "desc": "Pour explorer ton diagnostic.",
+          "features": [
+            "Rapport PDF complet",
+            "Analyse des 7 dimensions",
+            "Plan d'action personnalisé"
+          ],
+          "cta": "Obtenir mon rapport",
+          "highlight": false
+        },
+        {
+          "name": "Premium",
+          "price": "14,90€",
+          "period": "one-shot + 1 mois offert",
+          "desc": "Pour aller plus loin ensemble.",
+          "features": [
+            "Rapport PDF complet",
+            "Analyse des 7 dimensions",
+            "Plan d'action personnalisé",
+            "1 mois de plateforme offert",
+            "Agent IA contextualisé"
+          ],
+          "cta": "Obtenir mon rapport Premium",
+          "highlight": true
+        },
+        {
+          "name": "Abonnement",
+          "price": "7,99€",
+          "period": "par mois",
+          "desc": "Pour un accompagnement continu.",
+          "features": [
+            "Agent IA en continu",
+            "Mémoire persistante",
+            "Checkup mensuel",
+            "Historique complet",
+            "60 messages/mois"
+          ],
+          "cta": "S'abonner",
+          "highlight": false
+        }
+      ]
+    },
+    "faq": {
+      "title": "Questions fréquentes",
+      "items": [
+        {
+          "q": "La plateforme est-elle différente du quiz ?",
+          "a": "Oui. Le quiz + rapport est un diagnostic one-shot. La plateforme est un espace de dialogue continu avec un agent IA qui te connaît et évolue avec ta relation."
+        },
+        {
+          "q": "Mes données sont-elles confidentielles ?",
+          "a": "Absolument. Tes données sont chiffrées, stockées en Europe et ne sont jamais partagées ni vendues. Tu peux les supprimer à tout moment."
+        },
+        {
+          "q": "Faut-il faire le quiz avant d'accéder à la plateforme ?",
+          "a": "Le quiz est recommandé — il donne au contexte initial à ton agent. Mais tu peux accéder à la plateforme sans quiz via l'onboarding."
+        },
+        {
+          "q": "Y a-t-il une période d'essai ?",
+          "a": "Oui. Le rapport Premium inclut 1 mois de plateforme offert. Tu peux aussi tester 7 jours gratuitement sans engagement."
+        },
+        {
+          "q": "Comment annuler mon abonnement ?",
+          "a": "En un clic depuis tes paramètres. Aucune condition, aucune pénalité. Tu gardes l'accès jusqu'à la fin de la période payée."
+        }
+      ]
+    },
+    "footer": {
+      "tagline": "Un espace privé pour parler de ton couple.",
+      "links": {
+        "privacy": "Confidentialité",
+        "cgv": "CGV",
+        "legal": "Mentions légales",
+        "contact": "Contact"
+      },
+      "copyright": "© 2026 CoupleCheck"
+    }
+  },
+  "checkup": {
+    "title": "Checkup du mois",
+    "skip": "Passer",
+    "next": "Continuer →",
+    "finish": "Voir mon bilan →",
+    "alreadyDone": "Checkup déjà complété ce mois",
+    "nextCheckup": "Prochain checkup le 1er",
+    "step1": {
+      "label": "Comment se porte ta relation ce mois-ci ?",
+      "emojis": [
+        "🌪️",
+        "😔",
+        "😐",
+        "😊",
+        "☀️"
+      ]
+    },
+    "step2": {
+      "label": "Combien de conflits avez-vous eus ?",
+      "options": [
+        {
+          "value": "none",
+          "label": "Aucun"
+        },
+        {
+          "value": "few",
+          "label": "1-2 fois"
+        },
+        {
+          "value": "several",
+          "label": "Plusieurs fois"
+        },
+        {
+          "value": "many",
+          "label": "Souvent"
+        }
+      ]
+    },
+    "step3": {
+      "label": "À quel point vous vous sentez proches ?",
+      "emojis": [
+        "😶",
+        "🤔",
+        "🤝",
+        "💛",
+        "💞"
+      ]
+    },
+    "step4": {
+      "label": "Un mot pour décrire ce mois dans ta relation",
+      "placeholder": "Ex : serein, tension, reconnexion..."
+    },
+    "step5": {
+      "label": "Ta satisfaction globale ce mois (1-10)"
+    },
+    "summary": {
+      "title": "Bilan du mois",
+      "mood": "Humeur",
+      "conflicts": "Conflits",
+      "closeness": "Proximité",
+      "word": "Mot du mois",
+      "satisfaction": "Satisfaction",
+      "cta": "Retour à mon espace"
+    }
+  },
+  "settings": {
+    "nav": {
+      "general": "Général",
+      "account": "Compte",
+      "privacy": "Confidentialité",
+      "usage": "Utilisation",
+      "billing": "Facturation"
+    },
+    "general": {
+      "title": "Général",
+      "languageLabel": "Langue",
+      "languageOptions": {
+        "fr": "Français",
+        "en": "English"
+      },
+      "notificationsTitle": "Notifications email",
+      "notificationsDesc": "Reçois des conseils et rappels par email",
+      "save": "Enregistrer",
+      "saved": "Enregistré !"
+    },
+    "account": {
+      "title": "Compte",
+      "emailLabel": "Email",
+      "providerLabel": "Connexion via",
+      "changePassword": "Changer mon mot de passe",
+      "changePasswordDesc": "Un email de réinitialisation te sera envoyé.",
+      "sendMagicLink": "Envoyer un lien de connexion rapide",
+      "memberSince": "Membre depuis",
+      "deleteAccount": "Supprimer mon compte",
+      "deleteAccountConfirm": "Cette action est irréversible. Toutes tes données seront supprimées.",
+      "deleteAccountCta": "Oui, supprimer définitivement",
+      "cancel": "Annuler",
+      "passwordResetSent": "Email envoyé ! Vérifie ta boîte mail."
+    },
+    "privacy": {
+      "title": "Confidentialité",
+      "memoryLink": "Gérer ma mémoire",
+      "clearMemory": "Effacer toute la mémoire",
+      "exportData": "Télécharger mes données",
+      "deleteHistory": "Supprimer tout l'historique de conversations",
+      "privacyPolicy": "Politique de confidentialité",
+      "exportDesc": "Export RGPD au format JSON",
+      "deleteHistoryConfirm": "Supprimer tout l'historique ?"
+    },
+    "usage": {
+      "title": "Utilisation",
+      "messagesTitle": "Messages ce mois",
+      "resetDate": "Réinitialisation le",
+      "statsTitle": "Statistiques",
+      "conversations": "Conversations",
+      "checkups": "Checkups",
+      "memberSince": "Membre depuis",
+      "activityTitle": "Activité (6 derniers mois)"
+    },
+    "billing": {
+      "title": "Facturation",
+      "currentPlan": "Offre actuelle",
+      "nextRenewal": "Prochain renouvellement",
+      "invoices": "Historique factures",
+      "invoicesPortal": "Voir sur Stripe",
+      "cancelSubscription": "Résilier mon abonnement",
+      "cancelConfirmTitle": "Tu veux vraiment résilier ?",
+      "cancelConfirmDesc": "Tu garderas l'accès jusqu'à la fin de la période payée.",
+      "cancelCta": "Résilier quand même",
+      "cancelPause": "Faire une pause 1 mois",
+      "cancel": "Annuler",
+      "status": {
+        "trial": "Période d'essai",
+        "subscription": "Abonné",
+        "early_adopter": "Early adopter",
+        "none": "Aucun accès"
+      }
+    }
+  },
+  "memory": {
+    "title": "Mémoire de mon compte",
+    "subtitle": "Ce que ton agent sait de toi et de ta relation.",
+    "empty": "Aucune information mémorisée pour l'instant. Elle se remplira au fil de tes conversations.",
+    "deleteEntry": "Supprimer",
+    "clearAll": "Effacer toute la mémoire",
+    "clearAllConfirmTitle": "Effacer toute la mémoire ?",
+    "clearAllConfirmDesc": "Cette action est irréversible. Ton agent repartira sans contexte.",
+    "clearAllConfirmCta": "Oui, tout effacer",
+    "cancel": "Annuler",
+    "categories": {
+      "profile": "Profil",
+      "communication": "Communication",
+      "checkups": "Checkups récents",
+      "themes": "Thèmes récurrents"
+    }
+  },
+  "platform": {
+    "sidebar": {
+      "newConversation": "Nouvelle conversation",
+      "searchPlaceholder": "Rechercher...",
+      "recentConversations": "Conversations récentes",
+      "viewAll": "Voir tout l'historique",
+      "memory": "Mémoire de mon compte",
+      "settings": "Paramètres",
+      "logout": "Se déconnecter"
+    },
+    "header": {
+      "menu": "Menu"
+    }
+  },
+  "onboarding": {
+    "skip": "Passer",
+    "continue": "Continuer →",
+    "finish": "Accéder à mon espace →",
+    "step1": {
+      "partnerNameLabel": "Prénom de ton/ta partenaire (optionnel)",
+      "partnerNamePlaceholder": "Ex : Sarah",
+      "reasonLabel": "Pourquoi es-tu là aujourd'hui ?",
+      "reasons": [
+        "Améliorer notre communication",
+        "Traverser une période difficile",
+        "Approfondir notre connexion",
+        "Comprendre nos dynamiques"
+      ],
+      "challengeLabel": "Quel est ton plus grand défi en ce moment dans ta relation ?",
+      "challengePlaceholder": "Décris librement..."
+    },
+    "step2": {
+      "durationLabel": "Depuis combien de temps êtes-vous ensemble ?",
+      "durations": [
+        "Moins d'un an",
+        "1 à 3 ans",
+        "3 à 7 ans",
+        "Plus de 7 ans"
+      ],
+      "livingLabel": "Vous vivez...",
+      "living": [
+        "Ensemble",
+        "Chacun chez soi",
+        "En transition (emménagement prévu)"
+      ]
+    },
+    "step3": {
+      "conflictStyleLabel": "Comment réagis-tu généralement en cas de conflit ?",
+      "conflictStyles": [
+        "Je me ferme et j'évite",
+        "J'exprime directement ce que je ressens",
+        "Je cherche un compromis rapide",
+        "Je rumine et j'accumule",
+        "J'essaie de comprendre l'autre d'abord"
+      ],
+      "therapyLabel": "As-tu déjà fait une thérapie de couple ?",
+      "therapy": [
+        "Jamais",
+        "Oui, par le passé",
+        "En cours actuellement",
+        "J'y pense sérieusement"
+      ]
+    },
+    "step4": {
+      "intentionsLabel": "Qu'espères-tu trouver ici ? (3 max)",
+      "intentions": [
+        "Mieux communiquer",
+        "Gérer les conflits différemment",
+        "Reconnecter avec mon/ma partenaire",
+        "Prendre du recul sur ma relation",
+        "Des conseils concrets",
+        "Un espace pour exprimer ce que je ressens"
+      ],
+      "maxHint": "Sélectionne jusqu'à 3 intentions",
+      "readyMessage": "Ton espace est prêt. Ta mémoire a été initialisée."
+    }
+  },
+  "auth": {
+    "register": {
+      "title": "Créer mon compte",
+      "googleBtn": "Continuer avec Google",
+      "or": "ou",
+      "firstNameLabel": "Prénom",
+      "firstNamePlaceholder": "Ton prénom",
+      "emailLabel": "Email",
+      "emailPlaceholder": "ton@email.com",
+      "passwordLabel": "Mot de passe",
+      "passwordPlaceholder": "8 caractères minimum",
+      "confirmPasswordLabel": "Confirmer le mot de passe",
+      "confirmPasswordPlaceholder": "Répète ton mot de passe",
+      "rgpdLabel": "J'accepte la politique de confidentialité et les CGU",
+      "cta": "Créer mon compte →",
+      "loginLink": "Déjà un compte ?",
+      "loginLinkAnchor": "Se connecter",
+      "errors": {
+        "firstNameRequired": "Le prénom est requis",
+        "emailRequired": "L'email est requis",
+        "emailInvalid": "Email invalide",
+        "passwordMin": "8 caractères minimum",
+        "passwordMismatch": "Les mots de passe ne correspondent pas",
+        "rgpdRequired": "Tu dois accepter pour continuer",
+        "generic": "Une erreur est survenue. Réessaie."
+      },
+      "success": "Vérifie ta boîte mail pour confirmer ton compte.",
+      "passwordStrength": {
+        "weak": "Faible",
+        "medium": "Moyen",
+        "strong": "Fort"
+      }
+    },
+    "login": {
+      "title": "Bon retour",
+      "googleBtn": "Continuer avec Google",
+      "or": "ou",
+      "emailLabel": "Email",
+      "emailPlaceholder": "ton@email.com",
+      "passwordLabel": "Mot de passe",
+      "passwordPlaceholder": "Ton mot de passe",
+      "forgotPassword": "Mot de passe oublié ?",
+      "cta": "Se connecter →",
+      "registerLink": "Pas encore de compte ?",
+      "registerLinkAnchor": "S'inscrire",
+      "magicLinkTitle": "Connexion par lien magique",
+      "magicLinkDesc": "Entre ton email, on t'envoie un lien de connexion instantané.",
+      "magicLinkCta": "Envoyer le lien →",
+      "magicLinkSuccess": "Lien envoyé ! Vérifie ta boîte mail.",
+      "errors": {
+        "emailRequired": "L'email est requis",
+        "emailInvalid": "Email invalide",
+        "passwordRequired": "Le mot de passe est requis",
+        "invalidCredentials": "Email ou mot de passe incorrect",
+        "generic": "Une erreur est survenue. Réessaie."
+      }
+    }
+  },
   "result": {
     "scoreLabel": "Score global",
     "strengths": "Tes points forts",

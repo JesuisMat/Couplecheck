@@ -138,6 +138,437 @@
       "firstNameRequired": "First name is required"
     }
   },
+  "landingV2": {
+    "nav": {
+      "login": "Sign in",
+      "quiz": "Take the quiz"
+    },
+    "hero": {
+      "headline1": "A space to talk",
+      "headline2": "about your relationship.",
+      "highlight": "truly.",
+      "sub": "An AI agent that truly knows you. Free quiz, personalized report, continuous dialogue platform.",
+      "ctaPrimary": "Take the free quiz",
+      "ctaSecondary": "Sign in",
+      "trust": "12,847 couples supported · Confidential data"
+    },
+    "differentiator": {
+      "title": "Not just another chatbot.",
+      "sub": "A space that knows you and grows with you.",
+      "items": [
+        {
+          "icon": "🧠",
+          "title": "Persistent memory",
+          "desc": "Your agent remembers your conversations, quiz results, and checkups. Every session picks up where you left off."
+        },
+        {
+          "icon": "🎯",
+          "title": "Personalized context",
+          "desc": "Your relationship profile, communication style, identified challenges — all injected for truly tailored advice."
+        },
+        {
+          "icon": "📅",
+          "title": "Monthly checkup",
+          "desc": "A quick monthly review to track your relationship's evolution and adjust advice over time."
+        }
+      ]
+    },
+    "howItWorks": {
+      "title": "How does it work?",
+      "steps": [
+        {
+          "num": "01",
+          "title": "Take the free quiz",
+          "desc": "20 questions, 5 minutes. We analyze 7 dimensions of your relationship."
+        },
+        {
+          "num": "02",
+          "title": "Receive your report",
+          "desc": "A personalized PDF report with your strengths, risk areas, and action plan."
+        },
+        {
+          "num": "03",
+          "title": "Access your space",
+          "desc": "Continuous dialogue with your AI agent. It knows your profile and grows with you."
+        }
+      ]
+    },
+    "pricing": {
+      "title": "Choose your report",
+      "badge": "Popular",
+      "plans": [
+        {
+          "name": "Standard",
+          "price": "€9.90",
+          "period": "one-time",
+          "desc": "To explore your diagnosis.",
+          "features": [
+            "Complete PDF report",
+            "7-dimension analysis",
+            "Personalized action plan"
+          ],
+          "cta": "Get my report",
+          "highlight": false
+        },
+        {
+          "name": "Premium",
+          "price": "€14.90",
+          "period": "one-time + 1 month free",
+          "desc": "To go further together.",
+          "features": [
+            "Complete PDF report",
+            "7-dimension analysis",
+            "Personalized action plan",
+            "1 month platform free",
+            "Contextualized AI agent"
+          ],
+          "cta": "Get my Premium report",
+          "highlight": true
+        },
+        {
+          "name": "Subscription",
+          "price": "€7.99",
+          "period": "per month",
+          "desc": "For continuous support.",
+          "features": [
+            "Continuous AI agent",
+            "Persistent memory",
+            "Monthly checkup",
+            "Full history",
+            "60 messages/month"
+          ],
+          "cta": "Subscribe",
+          "highlight": false
+        }
+      ]
+    },
+    "faq": {
+      "title": "Frequently asked questions",
+      "items": [
+        {
+          "q": "Is the platform different from the quiz?",
+          "a": "Yes. The quiz + report is a one-shot diagnosis. The platform is a continuous dialogue space with an AI agent that knows you and evolves with your relationship."
+        },
+        {
+          "q": "Is my data confidential?",
+          "a": "Absolutely. Your data is encrypted, stored in Europe, and never shared or sold. You can delete it at any time."
+        },
+        {
+          "q": "Do I need to take the quiz before accessing the platform?",
+          "a": "The quiz is recommended — it gives your agent initial context. But you can access the platform without the quiz via onboarding."
+        },
+        {
+          "q": "Is there a trial period?",
+          "a": "Yes. The Premium report includes 1 free month of platform access. You can also try 7 days free with no commitment."
+        },
+        {
+          "q": "How do I cancel my subscription?",
+          "a": "One click from your settings. No conditions, no penalties. You keep access until the end of the paid period."
+        }
+      ]
+    },
+    "footer": {
+      "tagline": "A private space to talk about your relationship.",
+      "links": {
+        "privacy": "Privacy",
+        "cgv": "Terms",
+        "legal": "Legal",
+        "contact": "Contact"
+      },
+      "copyright": "© 2026 CoupleCheck"
+    }
+  },
+  "checkup": {
+    "title": "Monthly checkup",
+    "skip": "Skip",
+    "next": "Continue →",
+    "finish": "See my summary →",
+    "alreadyDone": "Checkup already completed this month",
+    "nextCheckup": "Next checkup on the 1st",
+    "step1": {
+      "label": "How is your relationship this month?",
+      "emojis": [
+        "🌪️",
+        "😔",
+        "😐",
+        "😊",
+        "☀️"
+      ]
+    },
+    "step2": {
+      "label": "How many conflicts have you had?",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "few",
+          "label": "1-2 times"
+        },
+        {
+          "value": "several",
+          "label": "Several times"
+        },
+        {
+          "value": "many",
+          "label": "Often"
+        }
+      ]
+    },
+    "step3": {
+      "label": "How close do you feel to each other?",
+      "emojis": [
+        "😶",
+        "🤔",
+        "🤝",
+        "💛",
+        "💞"
+      ]
+    },
+    "step4": {
+      "label": "One word to describe this month in your relationship",
+      "placeholder": "e.g. serene, tension, reconnection..."
+    },
+    "step5": {
+      "label": "Your overall satisfaction this month (1-10)"
+    },
+    "summary": {
+      "title": "Monthly summary",
+      "mood": "Mood",
+      "conflicts": "Conflicts",
+      "closeness": "Closeness",
+      "word": "Word of the month",
+      "satisfaction": "Satisfaction",
+      "cta": "Back to my space"
+    }
+  },
+  "settings": {
+    "nav": {
+      "general": "General",
+      "account": "Account",
+      "privacy": "Privacy",
+      "usage": "Usage",
+      "billing": "Billing"
+    },
+    "general": {
+      "title": "General",
+      "languageLabel": "Language",
+      "languageOptions": {
+        "fr": "Français",
+        "en": "English"
+      },
+      "notificationsTitle": "Email notifications",
+      "notificationsDesc": "Receive tips and reminders by email",
+      "save": "Save",
+      "saved": "Saved!"
+    },
+    "account": {
+      "title": "Account",
+      "emailLabel": "Email",
+      "providerLabel": "Sign in via",
+      "changePassword": "Change my password",
+      "changePasswordDesc": "A reset email will be sent to you.",
+      "sendMagicLink": "Send a quick sign-in link",
+      "memberSince": "Member since",
+      "deleteAccount": "Delete my account",
+      "deleteAccountConfirm": "This action is irreversible. All your data will be deleted.",
+      "deleteAccountCta": "Yes, permanently delete",
+      "cancel": "Cancel",
+      "passwordResetSent": "Email sent! Check your inbox."
+    },
+    "privacy": {
+      "title": "Privacy",
+      "memoryLink": "Manage my memory",
+      "clearMemory": "Clear all memory",
+      "exportData": "Download my data",
+      "deleteHistory": "Delete all conversation history",
+      "privacyPolicy": "Privacy policy",
+      "exportDesc": "GDPR export in JSON format",
+      "deleteHistoryConfirm": "Delete all history?"
+    },
+    "usage": {
+      "title": "Usage",
+      "messagesTitle": "Messages this month",
+      "resetDate": "Reset on",
+      "statsTitle": "Statistics",
+      "conversations": "Conversations",
+      "checkups": "Checkups",
+      "memberSince": "Member since",
+      "activityTitle": "Activity (last 6 months)"
+    },
+    "billing": {
+      "title": "Billing",
+      "currentPlan": "Current plan",
+      "nextRenewal": "Next renewal",
+      "invoices": "Invoice history",
+      "invoicesPortal": "View on Stripe",
+      "cancelSubscription": "Cancel my subscription",
+      "cancelConfirmTitle": "Are you sure you want to cancel?",
+      "cancelConfirmDesc": "You'll keep access until the end of your paid period.",
+      "cancelCta": "Cancel anyway",
+      "cancelPause": "Pause for 1 month",
+      "cancel": "Go back",
+      "status": {
+        "trial": "Trial period",
+        "subscription": "Subscriber",
+        "early_adopter": "Early adopter",
+        "none": "No access"
+      }
+    }
+  },
+  "memory": {
+    "title": "Account memory",
+    "subtitle": "What your agent knows about you and your relationship.",
+    "empty": "No information memorized yet. It will fill up as you have conversations.",
+    "deleteEntry": "Delete",
+    "clearAll": "Clear all memory",
+    "clearAllConfirmTitle": "Clear all memory?",
+    "clearAllConfirmDesc": "This action is irreversible. Your agent will start without any context.",
+    "clearAllConfirmCta": "Yes, clear all",
+    "cancel": "Cancel",
+    "categories": {
+      "profile": "Profile",
+      "communication": "Communication",
+      "checkups": "Recent checkups",
+      "themes": "Recurring themes"
+    }
+  },
+  "platform": {
+    "sidebar": {
+      "newConversation": "New conversation",
+      "searchPlaceholder": "Search...",
+      "recentConversations": "Recent conversations",
+      "viewAll": "View all history",
+      "memory": "Account memory",
+      "settings": "Settings",
+      "logout": "Log out"
+    },
+    "header": {
+      "menu": "Menu"
+    }
+  },
+  "onboarding": {
+    "skip": "Skip",
+    "continue": "Continue →",
+    "finish": "Access my space →",
+    "step1": {
+      "partnerNameLabel": "Your partner's name (optional)",
+      "partnerNamePlaceholder": "e.g. Sarah",
+      "reasonLabel": "Why are you here today?",
+      "reasons": [
+        "Improve our communication",
+        "Navigate a difficult period",
+        "Deepen our connection",
+        "Understand our dynamics"
+      ],
+      "challengeLabel": "What's your biggest relationship challenge right now?",
+      "challengePlaceholder": "Describe freely..."
+    },
+    "step2": {
+      "durationLabel": "How long have you been together?",
+      "durations": [
+        "Less than a year",
+        "1 to 3 years",
+        "3 to 7 years",
+        "More than 7 years"
+      ],
+      "livingLabel": "You live...",
+      "living": [
+        "Together",
+        "Separately",
+        "In transition (moving in planned)"
+      ]
+    },
+    "step3": {
+      "conflictStyleLabel": "How do you usually react during a conflict?",
+      "conflictStyles": [
+        "I shut down and avoid",
+        "I express directly how I feel",
+        "I look for a quick compromise",
+        "I ruminate and bottle things up",
+        "I try to understand the other person first"
+      ],
+      "therapyLabel": "Have you ever done couples therapy?",
+      "therapy": [
+        "Never",
+        "Yes, in the past",
+        "Currently in therapy",
+        "Seriously considering it"
+      ]
+    },
+    "step4": {
+      "intentionsLabel": "What do you hope to find here? (max 3)",
+      "intentions": [
+        "Communicate better",
+        "Handle conflicts differently",
+        "Reconnect with my partner",
+        "Gain perspective on my relationship",
+        "Get concrete advice",
+        "A space to express how I feel"
+      ],
+      "maxHint": "Select up to 3 intentions",
+      "readyMessage": "Your space is ready. Your memory has been initialized."
+    }
+  },
+  "auth": {
+    "register": {
+      "title": "Create my account",
+      "googleBtn": "Continue with Google",
+      "or": "or",
+      "firstNameLabel": "First name",
+      "firstNamePlaceholder": "Your first name",
+      "emailLabel": "Email",
+      "emailPlaceholder": "your@email.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Minimum 8 characters",
+      "confirmPasswordLabel": "Confirm password",
+      "confirmPasswordPlaceholder": "Repeat your password",
+      "rgpdLabel": "I accept the privacy policy and terms of service",
+      "cta": "Create my account →",
+      "loginLink": "Already have an account?",
+      "loginLinkAnchor": "Sign in",
+      "errors": {
+        "firstNameRequired": "First name is required",
+        "emailRequired": "Email is required",
+        "emailInvalid": "Invalid email",
+        "passwordMin": "Minimum 8 characters",
+        "passwordMismatch": "Passwords do not match",
+        "rgpdRequired": "You must accept to continue",
+        "generic": "Something went wrong. Please try again."
+      },
+      "success": "Check your inbox to confirm your account.",
+      "passwordStrength": {
+        "weak": "Weak",
+        "medium": "Medium",
+        "strong": "Strong"
+      }
+    },
+    "login": {
+      "title": "Welcome back",
+      "googleBtn": "Continue with Google",
+      "or": "or",
+      "emailLabel": "Email",
+      "emailPlaceholder": "your@email.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Your password",
+      "forgotPassword": "Forgot password?",
+      "cta": "Sign in →",
+      "registerLink": "Don't have an account?",
+      "registerLinkAnchor": "Sign up",
+      "magicLinkTitle": "Sign in with magic link",
+      "magicLinkDesc": "Enter your email, we'll send you an instant sign-in link.",
+      "magicLinkCta": "Send link →",
+      "magicLinkSuccess": "Link sent! Check your inbox.",
+      "errors": {
+        "emailRequired": "Email is required",
+        "emailInvalid": "Invalid email",
+        "passwordRequired": "Password is required",
+        "invalidCredentials": "Invalid email or password",
+        "generic": "Something went wrong. Please try again."
+      }
+    }
+  },
   "result": {
     "scoreLabel": "Overall score",
     "strengths": "Your strengths",

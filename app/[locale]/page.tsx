@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { HeaderV2 } from "@/components/landing-v2/HeaderV2";
+import { HeroV2 } from "@/components/landing-v2/HeroV2";
+import { Differentiator } from "@/components/landing-v2/Differentiator";
+import { HowItWorksV2 } from "@/components/landing-v2/HowItWorksV2";
+import { PricingSection } from "@/components/landing-v2/PricingSection";
+import { FAQPlatform } from "@/components/landing-v2/FAQPlatform";
+import { FooterV2 } from "@/components/landing-v2/FooterV2";
 
 const BASE_URL =
   process.env.NEXT_PUBLIC_APP_URL?.replace("http://localhost:3000", "https://couplecheck.app") ||
@@ -44,37 +50,23 @@ export async function generateMetadata({
   };
 }
 
-// Placeholder — contenu complet implémenté en tâche 4.5
 export default async function PlatformLandingPage({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+  // locale consumed so Next.js doesn't complain about unused params
+  await params;
 
   return (
-    <main className="min-h-screen bg-[#F5F2EC] flex flex-col items-center justify-center px-5">
-      <div className="text-center max-w-lg">
-        <p className="font-display font-normal italic text-[28px] text-[#1A1916] mb-6">
-          CoupleCheck
-        </p>
-        <h1 className="font-display font-normal text-[36px] md:text-[46px] leading-[1.1] tracking-[-0.02em] text-[#1A1916] mb-4">
-          {locale === "fr"
-            ? <>Un espace pour parler de ton couple</>
-            : <>A space to talk about your relationship</>}
-        </h1>
-        <p className="text-[16px] text-[#5A5854] leading-[1.65] mb-8">
-          {locale === "fr"
-            ? "La plateforme arrive bientôt. En attendant, découvre ton diagnostic gratuit."
-            : "The platform is coming soon. In the meantime, get your free diagnosis."}
-        </p>
-        <Link
-          href={`/${locale}/quiz`}
-          className="inline-flex items-center gap-2 bg-[#AA2C32] hover:bg-[#922226] text-white font-semibold text-[15px] py-3.5 px-7 rounded-full transition-colors duration-150"
-        >
-          {locale === "fr" ? "Faire le quiz gratuit" : "Take the free quiz"}
-        </Link>
-      </div>
-    </main>
+    <div className="bg-[var(--background)]">
+      <HeaderV2 />
+      <HeroV2 />
+      <Differentiator />
+      <HowItWorksV2 />
+      <PricingSection />
+      <FAQPlatform />
+      <FooterV2 />
+    </div>
   );
 }
